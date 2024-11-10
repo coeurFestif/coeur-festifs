@@ -19,7 +19,6 @@ const CustomNavBar = styled.nav`
   top: 0;
   z-index: 1000;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
   @media (max-width: 768px) {
     padding: 20px;
   }
@@ -41,26 +40,22 @@ const LinksContainer = styled.div<LinksContainerProps>`
   width: 600px;
   gap: 30px;
   align-items: center;
-
   @media (max-width: 768px) {
     flex-direction: column;
     position: fixed;
     top: 70px;
     left: 0;
-    width: 100px;
-    width: calc(100% - 70px);
+    width: 100%;
+    height: calc(100% - 70px);
     background-color: white;
     transform: ${({ isOpen }) =>
       isOpen ? "translateX(0)" : "translateX(-100%)"};
     transition: transform 0.3s ease-in-out;
     padding-top: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    @media (max-height: 500px) {
-      height: calc(100% - 50px);
-      width: 100px;
-    }
   }
 `;
+
 // Styled link with active state
 const StyledLink = styled.button`
   background: none;
@@ -101,6 +96,7 @@ const ToggleButton = styled.button`
   cursor: pointer;
   color: #333;
   width: 20%;
+  padding-right: 50px;
   @media (max-width: 768px) {
     display: block;
   }
