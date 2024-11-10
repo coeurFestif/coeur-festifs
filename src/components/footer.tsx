@@ -90,7 +90,7 @@ export const Footer = () => {
         <FooterTitle>
           {t("footer.contact")}
         </FooterTitle>
-        <FooterText>Cœurs.festifs@gmail.com</FooterText>
+        <FooterText>cœurs.festifs@gmail.com</FooterText>
       </FooterSection>
     </CustomFooter>
   );
