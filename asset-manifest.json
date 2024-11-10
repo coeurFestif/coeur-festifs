@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/coeur-festifs/static/css/main.58a7dc3e.css",
-    "main.js": "/coeur-festifs/static/js/main.11f06989.js",
+    "main.js": "/coeur-festifs/static/js/main.85e44005.js",
     "static/js/453.2565e158.chunk.js": "/coeur-festifs/static/js/453.2565e158.chunk.js",
     "static/media/backgroundVideo.mp4": "/coeur-festifs/static/media/backgroundVideo.117b95d5f5f9bead3f59.mp4",
     "static/media/logo.png": "/coeur-festifs/static/media/logo.5f67cad964a523d4532a.png",
@@ -12,11 +12,11 @@
     "static/media/slick.woff": "/coeur-festifs/static/media/slick.295183786cd8a1389865.woff",
     "index.html": "/coeur-festifs/index.html",
     "main.58a7dc3e.css.map": "/coeur-festifs/static/css/main.58a7dc3e.css.map",
-    "main.11f06989.js.map": "/coeur-festifs/static/js/main.11f06989.js.map",
+    "main.85e44005.js.map": "/coeur-festifs/static/js/main.85e44005.js.map",
     "453.2565e158.chunk.js.map": "/coeur-festifs/static/js/453.2565e158.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.58a7dc3e.css",
-    "static/js/main.11f06989.js"
+    "static/js/main.85e44005.js"
   ]
 }
