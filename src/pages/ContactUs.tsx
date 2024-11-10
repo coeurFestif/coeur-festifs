@@ -14,12 +14,12 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
   background-image: url(${backgroundImage});
   background-size: cover;
   background-position: center;
   position: relative;
   overflow: hidden;
+  height: 800px;
 
   &:before {
     content: "";
@@ -103,7 +103,7 @@ const InputField = styled.input`
 `;
 
 const TextArea = styled.textarea`
- width: 100%;
+  width: 100%;
   padding: 14px;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -119,7 +119,7 @@ const TextArea = styled.textarea`
 `;
 
 const SubmitButton = styled.button`
-width: 100%;
+  width: 100%;
   padding: 14px;
   background-color: #f65555;
   color: white;

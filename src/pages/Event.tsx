@@ -3,9 +3,13 @@ import styled, { keyframes } from "styled-components";
 import { useEventData } from "../data/events";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { FaCalendarAlt, FaMapMarkerAlt, FaInstagram, FaEnvelope } from "react-icons/fa";
+import {
+  FaCalendarAlt,
+  FaMapMarkerAlt,
+  FaInstagram,
+  FaEnvelope,
+} from "react-icons/fa";
 import logo from "../assets/logo.png";
-
 
 // Fade-in animation
 const fadeIn = keyframes`
@@ -221,7 +225,7 @@ export const Events = () => {
   const events = useEventData();
 
   // Filter out unavailable events
-  const availableEvents = events.filter(event => event.isAvailable);
+  const availableEvents = events.filter((event) => event.isAvailable);
 
   const handleCardClick = (eventId: string | number) => {
     navigate(`/event/${eventId}`);
@@ -231,12 +235,14 @@ export const Events = () => {
     <>
       <EventsContainer>
         <Title>{t("events.title")}</Title>
-        <Subtitle>{t("events.subtitle")}</Subtitle>
-
         {availableEvents.length > 0 ? (
           <ScrollContainer>
             {availableEvents.map((event, index) => (
-              <Card key={event.id} index={index} onClick={() => handleCardClick(event.id)}>
+              <Card
+                key={event.id}
+                index={index}
+                onClick={() => handleCardClick(event.id)}
+              >
                 <img src={logo} alt={event.title} />
                 <div className="info">
                   <h2>{event.title}</h2>
@@ -259,7 +265,11 @@ export const Events = () => {
       <FooterContainer>
         <FooterText>{t("events.Footer.desc")}</FooterText>
         <SocialIcons>
-          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://instagram.com"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <FaInstagram />
           </a>
           <a href="mailto:Cœurs.festifs@gmail.com">

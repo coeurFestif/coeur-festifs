@@ -15,11 +15,12 @@ const VideoBackground = styled.video`
   object-fit: cover;
   z-index: -2;
   opacity: 0.85;
+  pointer-events: none; /* Ensures it doesn't block interactions */
 `;
 
 // Light overlay for text readability
 const Overlay = styled.div`
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -27,104 +28,101 @@ const Overlay = styled.div`
   background: linear-gradient(
     180deg,
     rgba(255, 255, 255, 0.7) 0%,
-    rgba(255, 255, 255, 0.2) 100%
+    rgba(255, 255, 255, 0.3) 100%
   );
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(5px);
   z-index: -1;
 `;
 
-// Main container for content
+// Main container for content with section delimitations
 const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  background-size: cover;
+  background-position: center;
   position: relative;
-  padding: 0 20px;
-  color: #333;
-  text-align: center;
-  height: 100vh;
+  overflow: hidden;
+  height: 800px;
 `;
 
 // Hero section content
 const HeroContent = styled.div`
-  max-width: 800px;
+  max-width: 900px;
+  width: 100%;
   padding: 20px;
+  height: 100%;
   z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-
+  justify-content: center;
+  backdrop-filter: blur(10px);
   @media (max-width: 768px) {
-    padding: 0 10px;
+    padding: 0 20px;
   }
 `;
 
-// Logo styling with larger size, glow effect, and animation
+// Logo styling with larger size and soft shadow
 const Logo = styled.img`
-  width: 50%;
-  height: 50%;
-  margin-bottom: 25px;
-  margin-top: 50px;
+  width: 180px;
+  height: 180px;
+  margin-bottom: 20px;
+  position: relative;
   border-radius: 50%;
-  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.5);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
   @media (min-width: 768px) {
-    width: 300px;
+    width: 250px;
+    height: 250px;
   }
 `;
 
-// Title styling with modern shadow
+// Title with responsive design
 const Title = styled.h1`
-  font-size: 2.6rem;
+  font-size: 2.8rem;
   font-weight: bold;
   margin: 15px 0;
   color: #ff6347;
-  text-shadow: 1px 2px 3px rgba(255, 165, 122, 0.4);
+  text-shadow: 2px 4px 6px rgba(0, 0, 0, 0.2);
 
   @media (min-width: 768px) {
-    font-size: 3.4rem;
+    font-size: 3.5rem;
   }
 `;
 
-// Subtitle with clean, professional spacing
-const Subtitle = styled.p`
-  font-size: 1.2rem;
-  max-width: 600px;
-  margin-bottom: 20px;
-  line-height: 1.6;
-  color: #555;
-
-  @media (min-width: 768px) {
-    font-size: 1.4rem;
-  }
-`;
-
-// Button with sleeker style and soft shadow
+// Button with improved styling
 const Button = styled.button`
-  padding: 12px 28px;
-  background: linear-gradient(90deg, #ff9a9e, #fad0c4);
+  padding: 15px 30px;
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
   color: #fff;
   border: none;
-  border-radius: 25px;
+  border-radius: 30px;
   font-size: 1.2rem;
   font-weight: bold;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 4px 10px rgba(255, 145, 145, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 8px 15px rgba(255, 145, 145, 0.3);
 
   &:hover {
-    transform: scale(1.03);
-    box-shadow: 0 6px 15px rgba(255, 145, 145, 0.4);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 20px rgba(255, 145, 145, 0.4);
   }
 
   &:focus {
     outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 165, 165, 0.4);
+  }
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
   }
 `;
 
+// HomePage Component
 export const HomePage = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
+
   return (
     <Container>
       {/* Background video */}
@@ -137,10 +135,11 @@ export const HomePage = () => {
 
       {/* Hero content */}
       <HeroContent>
-        <Logo src={logo} alt="event logo" />
+        <Logo src={logo} alt="Event Logo" />
         <Title>{t("homepage.title")}</Title>
-        <Subtitle>{t("homepage.subtitle")}</Subtitle>
-        <Button onClick={() => navigate("/events")}>Explore</Button>
+        <Button onClick={() => navigate("/events")}>
+          {t("homepage.explore")}
+        </Button>
       </HeroContent>
     </Container>
   );

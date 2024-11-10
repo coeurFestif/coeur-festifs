@@ -13,6 +13,7 @@ const resources = {
       homepage: {
         title: "Discover upcoming events",
         subtitle: "Discover the latest news and events on our site",
+        explore: "Explore",
       },
 
       footer: {
@@ -109,6 +110,7 @@ const resources = {
         title: "Découvrez les événements à venir",
         subtitle:
           "Découvrez les dernières actualités et événements sur notre site",
+        explore: "Explorer",
       },
 
       aboutUs: {

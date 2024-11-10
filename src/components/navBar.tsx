@@ -38,7 +38,7 @@ interface LinksContainerProps {
 
 const LinksContainer = styled.div<LinksContainerProps>`
   display: flex;
-  width: 40%;
+  width: 600px;
   gap: 30px;
   align-items: center;
 
@@ -47,14 +47,18 @@ const LinksContainer = styled.div<LinksContainerProps>`
     position: fixed;
     top: 70px;
     left: 0;
-    width: 100%;
-    height: calc(100% - 70px);
+    width: 100px;
+    width: calc(100% - 70px);
     background-color: white;
     transform: ${({ isOpen }) =>
       isOpen ? "translateX(0)" : "translateX(-100%)"};
     transition: transform 0.3s ease-in-out;
     padding-top: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    @media (max-height: 500px) {
+      height: calc(100% - 50px);
+      width: 100px;
+    }
   }
 `;
 // Styled link with active state
@@ -147,7 +151,9 @@ export const NavBar = () => {
 
   return (
     <CustomNavBar>
-      <Logo onClick={() => handleNavigation("/coeur-festifs")}>Coeurs Festifs</Logo>
+      <Logo onClick={() => handleNavigation("/coeur-festifs")}>
+        Coeurs Festifs
+      </Logo>
       <ToggleButton onClick={() => setIsOpen(!isOpen)}>
         {isOpen ? <FaTimes /> : <FaBars />}
       </ToggleButton>
