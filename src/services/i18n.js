@@ -25,20 +25,26 @@ const resources = {
         title: "About us",
         presidentsTitle: "Our Presidents",
         missionTitle: "Our Mission",
-        missionText: "Our mission is to bring joy and smiles to children through engaging events. We aim to make a positive impact on their lives.",
+        missionText:
+          "Our mission is to bring joy and smiles to children through engaging events. We aim to make a positive impact on their lives.",
         valuesTitle: "Our Values",
-        valuesText: "We believe in compassion, community, and making the world a better place through charitable actions.",
+        valuesText:
+          "We believe in compassion, community, and making the world a better place through charitable actions.",
         desc: "Coeur Festifs is a charitable group led by medical students, dedicated to bringing joy and smiles to children in need in Montreal. We organize festive and fun events to create unforgettable moments, filled with fun and magic.",
       },
 
       contactUs: {
         title: "Contact us",
         subtitle: "For any questions, feel free to contact us here.",
+        invalidEmail: "Invalid email address",
+        successMessage: "Your message has been sent successfully!",
+        errorMessage: "An error occurred. Please try again.",
         form: {
           name: "Name",
           email: "Email",
           message: "Message",
           submit: "Submit",
+          sending: "Sending...",
         },
       },
 
@@ -109,9 +115,11 @@ const resources = {
         title: "À propos de nous",
         presidentsTitle: "Nos Présidents",
         missionTitle: "Notre Mission",
-        missionText: "Notre mission est d'apporter joie et sourire aux enfants à travers des événements engageants. Nous visons à avoir un impact positif sur leur vie.",
+        missionText:
+          "Notre mission est d'apporter joie et sourire aux enfants à travers des événements engageants. Nous visons à avoir un impact positif sur leur vie.",
         valuesTitle: "Nos Valeurs",
-        valuesText: "Nous croyons en la compassion, la communauté et à rendre le monde meilleur à travers des actions caritatives.",
+        valuesText:
+          "Nous croyons en la compassion, la communauté et à rendre le monde meilleur à travers des actions caritatives.",
         desc: " Cœurs Festifs est un groupe caritatif dirigé par des étudiantes en médecine, dédié à apporter joie et sourire aux enfants dans le besoin à Montréal. Nous organisons des événements festifs et ludiques pour créer des moments inoubliables, remplis d’amusement et de magie.",
       },
 
@@ -124,11 +132,15 @@ const resources = {
       contactUs: {
         title: "Contactez-nous",
         subtitle: "Pour toute question, n'hésitez pas à nous contacter ici.",
+        invalidEmail: "Adresse courriel invalide",
+        successMessage: "Votre message a été envoyé avec succès !",
+        errorMessage: "Une erreur s'est produite. Veuillez réessayer.",
         form: {
           name: "Nom",
           email: "Courriel",
           message: "Message",
           submit: "Soumettre",
+          sending: "Envoi en cours...",
         },
       },
 

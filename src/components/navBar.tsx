@@ -22,17 +22,16 @@ const CustomNavBar = styled.nav`
 
   @media (max-width: 768px) {
     padding: 20px;
-  }`
-;
-
+  }
+`;
 // Logo styling
 const Logo = styled.h1`
   font-size: 1.5rem;
   font-weight: bold;
   color: #000;
   cursor: pointer;
-  margin: 0;`
-;
+  margin: 0;
+`;
 interface LinksContainerProps {
   isOpen: boolean;
 }
@@ -56,8 +55,8 @@ const LinksContainer = styled.div<LinksContainerProps>`
     transition: transform 0.3s ease-in-out;
     padding-top: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  }`
-;
+  }
+`;
 // Styled link with active state
 const StyledLink = styled.button`
   background: none;
@@ -87,9 +86,8 @@ const StyledLink = styled.button`
     width: 100%;
     height: 2px;
     background-color: #e63946;
-  }`
-;
-
+  }
+`;
 // Toggle button for mobile
 const ToggleButton = styled.button`
   display: none;
@@ -101,9 +99,8 @@ const ToggleButton = styled.button`
   width: 20%;
   @media (max-width: 768px) {
     display: block;
-  }`
-;
-
+  }
+`;
 // Language Toggle Button styling
 const LanguageToggle = styled.div`
   display: flex;
@@ -113,9 +110,8 @@ const LanguageToggle = styled.div`
   background-color: #f3f3f3;
   border-radius: 20px;
   padding: 5px 10px;
-  cursor: pointer;`
-;
-
+  cursor: pointer;
+`;
 const LanguageButton = styled.button<{ isActive: boolean }>`
   background: ${({ isActive }) => (isActive ? "#e63946" : "transparent")};
   border: none;
@@ -128,9 +124,8 @@ const LanguageButton = styled.button<{ isActive: boolean }>`
   &:hover {
     background-color: #e63946;
     color: #fff;
-  }`
-;
-
+  }
+`;
 // NavBar Component
 export const NavBar = () => {
   const navigate = useNavigate();
@@ -149,17 +144,17 @@ export const NavBar = () => {
   const toggleLanguage = (lang: string) => {
     i18n.changeLanguage(lang);
   };
-  
+
   return (
     <CustomNavBar>
-      <Logo onClick={() => handleNavigation("/")}>Coeurs Festifs</Logo>
+      <Logo onClick={() => handleNavigation("/coeur-festifs")}>Coeurs Festifs</Logo>
       <ToggleButton onClick={() => setIsOpen(!isOpen)}>
         {isOpen ? <FaTimes /> : <FaBars />}
       </ToggleButton>
       <LinksContainer isOpen={isOpen}>
         <StyledLink
-          className={isActive("/") ? "active" : ""}
-          onClick={() => handleNavigation("/")}
+          className={isActive("/coeur-festifs") ? "active" : ""}
+          onClick={() => handleNavigation("/coeur-festifs")}
         >
           {t("navBar.home")}
         </StyledLink>

@@ -43,6 +43,7 @@ const Container = styled.div`
   padding: 0 20px;
   color: #333;
   text-align: center;
+  height: 100vh;
 `;
 
 // Hero section content
@@ -58,7 +59,6 @@ const HeroContent = styled.div`
     padding: 0 10px;
   }
 `;
-
 
 // Logo styling with larger size, glow effect, and animation
 const Logo = styled.img`
@@ -138,12 +138,8 @@ export const HomePage = () => {
       {/* Hero content */}
       <HeroContent>
         <Logo src={logo} alt="event logo" />
-        <Title>
-        {t("homepage.title")}
-        </Title>
-        <Subtitle>
-          {t("homepage.subtitle")}
-        </Subtitle>
+        <Title>{t("homepage.title")}</Title>
+        <Subtitle>{t("homepage.subtitle")}</Subtitle>
         <Button onClick={() => navigate("/events")}>Explore</Button>
       </HeroContent>
     </Container>

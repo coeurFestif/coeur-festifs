@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
 import backgroundImage from "../assets/contactPicture.jpg";
 import emailjs from "@emailjs/browser";
@@ -6,17 +6,10 @@ import { useTranslation } from "react-i18next";
 
 // Fade-in animation for the content
 const fadeIn = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 `;
 
-// Main container with background image and overlay
 const Container = styled.div`
   display: flex;
   justify-content: center;
@@ -35,7 +28,7 @@ const Container = styled.div`
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(0, 0, 0, 0.3);
     z-index: 1;
   }
 `;
@@ -46,7 +39,7 @@ const ContentWrapper = styled.div`
   max-width: 600px;
   width: 90%;
   padding: 40px;
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.7);
   border-radius: 15px;
   backdrop-filter: blur(10px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
@@ -101,9 +94,7 @@ const InputField = styled.input`
   border: 1px solid #ddd;
   border-radius: 8px;
   font-size: 1rem;
-  outline: none;
-  background-color: rgba(255, 255, 255, 0.8);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  background-color: rgba(255, 255, 255, 0.9);
   transition: border-color 0.3s ease;
 
   &:focus {
@@ -112,14 +103,12 @@ const InputField = styled.input`
 `;
 
 const TextArea = styled.textarea`
-  width: 100%;
+ width: 100%;
   padding: 14px;
   border: 1px solid #ddd;
   border-radius: 8px;
   font-size: 1rem;
-  outline: none;
-  background-color: rgba(255, 255, 255, 0.8);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  background-color: rgba(255, 255, 255, 0.9);
   resize: vertical;
   min-height: 120px;
   transition: border-color 0.3s ease;
@@ -130,72 +119,98 @@ const TextArea = styled.textarea`
 `;
 
 const SubmitButton = styled.button`
-  width: 100%;
+width: 100%;
   padding: 14px;
   background-color: #f65555;
   color: white;
-  border: 2px solid transparent;
+  border: none;
   border-radius: 8px;
   font-size: 1.1rem;
-  font-weight: bold;
   cursor: pointer;
   transition: all 0.3s ease;
 
   &:hover {
-    background-color: white;
-    color: #f65555;
-    border-color: #f65555;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    transform: scale(1.03);
+    background-color: #ff6666;
   }
 
   &:focus {
     outline: none;
-    box-shadow: 0 0 0 3px rgba(246, 85, 85, 0.4);
   }
+`;
+
+const FeedbackMessage = styled.div<{ success: boolean }>`
+  margin-top: 20px;
+  padding: 14px;
+  border-radius: 8px;
+  color: ${(props) => (props.success ? "#4caf50" : "#f44336")};
+  background-color: ${(props) => (props.success ? "#e8f5e9" : "#ffebee")};
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 `;
 
 export const ContactUs: React.FC = () => {
   const form = useRef<HTMLFormElement>(null);
   const { t } = useTranslation();
+  const [feedback, setFeedback] = useState<{
+    message: string;
+    success: boolean;
+  } | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const sendEmail = (e: React.FormEvent) => {
+  const validateEmail = (email: string) =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+  const sendEmail = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (form.current) {
-      emailjs
-        .sendForm(
-          "service_essbee7",
+      const formData = new FormData(form.current);
+      const email = formData.get("from_email")?.toString() || "";
+
+      if (!validateEmail(email)) {
+        setFeedback({ message: t("contactUs.invalidEmail"), success: false });
+        return;
+      }
+
+      setIsLoading(true);
+
+      try {
+        await emailjs.sendForm(
+          "service_p4pz1wk",
           "template_fgkhm0x",
           form.current,
           "-k6vrk17y-fe5vp8v"
-        )
-        .then(
-          () => {
-            alert("Message sent successfully!");
-          },
-          (error: any) => {
-            console.error("Failed to send message:", error.text);
-          }
         );
+        setFeedback({ message: t("contactUs.successMessage"), success: true });
+        form.current.reset();
+      } catch (error) {
+        setFeedback({ message: t("contactUs.errorMessage"), success: false });
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
+
+  // Automatically dismiss feedback messages after 5 seconds
+  useEffect(() => {
+    if (feedback) {
+      const timer = setTimeout(() => setFeedback(null), 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [feedback]);
 
   return (
     <Container>
       <ContentWrapper>
-        <Title>
-          {t("contactUs.title")}
-        </Title>
-        <Subtitle>
-          {t("contactUs.subtitle")}
-        </Subtitle>
+        <Title>{t("contactUs.title")}</Title>
+        <Subtitle>{t("contactUs.subtitle")}</Subtitle>
         <form ref={form} onSubmit={sendEmail}>
           <InputWrapper>
             <InputField type="text" name="from_name" placeholder=" " required />
-            <FloatingLabel>
-              {t("contactUs.form.name")}
-            </FloatingLabel>
+            <FloatingLabel>{t("contactUs.form.name")}</FloatingLabel>
           </InputWrapper>
           <InputWrapper>
             <InputField
@@ -204,20 +219,23 @@ export const ContactUs: React.FC = () => {
               placeholder=" "
               required
             />
-            <FloatingLabel>
-              {t("contactUs.form.email")}
-            </FloatingLabel>
+            <FloatingLabel>{t("contactUs.form.email")}</FloatingLabel>
           </InputWrapper>
           <InputWrapper>
             <TextArea name="message" placeholder=" " required />
-            <FloatingLabel>
-              {t("contactUs.form.message")}
-            </FloatingLabel>
+            <FloatingLabel>{t("contactUs.form.message")}</FloatingLabel>
           </InputWrapper>
-          <SubmitButton type="submit">
-            {t("contactUs.form.submit")}
+          <SubmitButton type="submit" disabled={isLoading}>
+            {isLoading
+              ? t("contactUs.form.sending")
+              : t("contactUs.form.submit")}
           </SubmitButton>
         </form>
+        {feedback && (
+          <FeedbackMessage success={feedback.success}>
+            {feedback.success ? "✅" : "❌"} {feedback.message}
+          </FeedbackMessage>
+        )}
       </ContentWrapper>
     </Container>
   );

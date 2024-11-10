@@ -19,7 +19,7 @@ function App() {
 
         {/* Define Routes for each page */}
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/coeur-festifs" element={<HomePage />} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/events" element={<Events />} />
           <Route path="/contact" element={<ContactUs />} />
