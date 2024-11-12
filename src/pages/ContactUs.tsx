@@ -39,24 +39,40 @@ const ContentWrapper = styled.div`
   max-width: 600px;
   width: 90%;
   padding: 40px;
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.79);
   border-radius: 15px;
   backdrop-filter: blur(10px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   text-align: center;
   animation: ${fadeIn} 0.8s ease-out;
+
+  /* Small phones (portrait) */
+  @media (max-width: 480px) {
+    padding: 20px; /* Smaller padding for phones */
+    width: 80%;
+  }
 `;
 
 const Title = styled.h1`
   font-size: 2.5rem;
   color: #333;
   margin-bottom: 10px;
+
+  /* Small phones (portrait) */
+  @media (max-width: 480px) {
+    font-size: 2rem; /* Smaller font size for phones */
+  }
 `;
 
 const Subtitle = styled.p`
   font-size: 1rem;
   color: #555;
   margin-bottom: 30px;
+
+  /* Small phones (portrait) */
+  @media (max-width: 480px) {
+    font-size: 0.9rem; /* Smaller font size for phones */
+  }
 `;
 
 const InputWrapper = styled.div`
@@ -89,21 +105,26 @@ const FloatingLabel = styled.label`
 `;
 
 const InputField = styled.input`
-  width: 100%;
+  width: 95%;
   padding: 14px;
   border: 1px solid #ddd;
   border-radius: 8px;
   font-size: 1rem;
   background-color: rgba(255, 255, 255, 0.9);
   transition: border-color 0.3s ease;
+  position: relative;
 
   &:focus {
     border-color: #4682b4;
   }
+  /* Small phones (portrait) */
+  @media (max-width: 480px) {
+    width: 90%;
+  }
 `;
 
 const TextArea = styled.textarea`
-  width: 100%;
+  width: 95%;
   padding: 14px;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -115,6 +136,10 @@ const TextArea = styled.textarea`
 
   &:focus {
     border-color: #4682b4;
+  }
+  /* Small phones (portrait) */
+  @media (max-width: 480px) {
+    width: 90%;
   }
 `;
 
@@ -179,7 +204,7 @@ export const ContactUs: React.FC = () => {
 
       try {
         await emailjs.sendForm(
-          "service_p4pz1wk",
+          "service_eifl7or",
           "template_fgkhm0x",
           form.current,
           "-k6vrk17y-fe5vp8v"

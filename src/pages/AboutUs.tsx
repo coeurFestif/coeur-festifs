@@ -38,12 +38,46 @@ const Title = styled.h1`
   font-size: 3rem;
   color: #4b0082;
   margin-bottom: 20px;
+  /* Small phones (portrait) */
+  @media (max-width: 480px) {
+    font-size: 2rem; /* Smaller font size for phones */
+  }
+
+  /* Phones and small tablets (landscape and portrait) */
+  @media (min-width: 481px) and (max-width: 768px) {
+    font-size: 2.5rem;
+  }
+`;
+
+const AboutUsContainer = styled.div`
+  /* Small phones (portrait) */
+  @media (max-width: 480px) {
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+  }
+
+  /* Phones and small tablets (landscape and portrait) */
+  @media (min-width: 481px) and (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+  }
 `;
 
 const Subtitle = styled.h2`
   font-size: 2rem;
   color: #4b0082;
   margin-bottom: 30px;
+  /* Small phones (portrait) */
+  @media (max-width: 480px) {
+    font-size: 1.7rem; /* Smaller font size for phones */
+  }
+
+  /* Phones and small tablets (landscape and portrait) */
+  @media (min-width: 481px) and (max-width: 768px) {
+    font-size: 1.9rem;
+  }
 `;
 
 const Text = styled.p`
@@ -53,8 +87,14 @@ const Text = styled.p`
   max-width: 800px;
   margin-bottom: 20px;
 
-  @media (max-width: 768px) {
-    font-size: 1rem;
+  /* Small phones (portrait) */
+  @media (max-width: 480px) {
+    font-size: 1rem; /* Smaller font size for phones */
+  }
+
+  /* Phones and small tablets (landscape and portrait) */
+  @media (min-width: 481px) and (max-width: 768px) {
+    font-size: 1.1rem;
   }
 `;
 
@@ -64,6 +104,10 @@ const PresidentsContainer = styled.div`
   gap: 30px;
   flex-wrap: wrap;
   padding: 20px;
+  width: 100%;
+  margin-top: 30px;
+  align-items: center;
+  justify-content: center;
 `;
 
 const PresidentCard = styled.div`
@@ -75,11 +119,21 @@ const PresidentCard = styled.div`
   border-radius: 20px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  width: 250px;
+  width: 200px;
   backdrop-filter: blur(8px);
+  height: 300px;
 
   &:hover {
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+  }
+  /* Small phones (portrait) */
+  @media (max-width: 480px) {
+    width: 40%;
+  }
+
+  /* Phones and small tablets (landscape and portrait) */
+  @media (min-width: 481px) and (max-width: 768px) {
+    width: 60%;
   }
 `;
 
@@ -102,6 +156,34 @@ const PlaceholderImage = styled.div`
   margin-bottom: 20px;
 `;
 
+const MissionValueContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin-bottom: 30px;
+  width: 70%;
+
+  /* Small phones (portrait) */
+  @media (max-width: 480px) {
+    width: 50%;
+    font-size: 1rem; /* Smaller font size for phones */
+  }
+
+  /* Phones and small tablets (landscape and portrait) */
+  @media (min-width: 481px) and (max-width: 768px) {
+    width: 60%;
+    font-size: 1.2rem;
+  }
+`;
+
 // About Us Component
 export const AboutUs = () => {
   const { t } = useTranslation();
@@ -109,40 +191,57 @@ export const AboutUs = () => {
   return (
     <>
       <Container>
-  {/* About Us Section */}
-  <Section id="about" bgColor="linear-gradient(135deg, #f3e8ff, #e8f0fe)"> {/* Light Lavender */}
-    <Title>{t("aboutUs.title")}</Title>
-    <Text>{t("aboutUs.desc")}</Text>
-  </Section>
+        {/* About Us Section */}
+        <Section id="about" bgColor="linear-gradient(135deg, #f3e8ff, #e8f0fe)">
+          {" "}
+          <AboutUsContainer>
+            <Title>{t("aboutUs.title")}</Title>
+            <Text>{t("aboutUs.desc")}</Text>
+          </AboutUsContainer>
+        </Section>
 
-  {/* Presidents Section */}
-  <Section id="presidents" bgColor="linear-gradient(135deg, #ffffff, #ffffff)"> {/* Soft Peach */}
-    <Subtitle>{t("aboutUs.presidentsTitle")}</Subtitle>
-    <PresidentsContainer>
-      <PresidentCard>
-        <PlaceholderImage>👤</PlaceholderImage>
-        <PresidentName>Ariane Manekeng Guimfack</PresidentName>
-      </PresidentCard>
-      <PresidentCard>
-        <PlaceholderImage>👤</PlaceholderImage>
-        <PresidentName>Clara Maria Bridi</PresidentName>
-      </PresidentCard>
-    </PresidentsContainer>
-  </Section>
+        {/* Presidents Section */}
+        <Section
+          id="presidents"
+          bgColor="linear-gradient(135deg, #ffffff, #ffffff)"
+        >
+          {" "}
+          {/* Soft Peach */}
+          <Subtitle>{t("aboutUs.presidentsTitle")}</Subtitle>
+          <PresidentsContainer>
+            <PresidentCard>
+              <PlaceholderImage>👤</PlaceholderImage>
+              <PresidentName>Ariane Manekeng Guimfack</PresidentName>
+            </PresidentCard>
+            <PresidentCard>
+              <PlaceholderImage>👤</PlaceholderImage>
+              <PresidentName>Clara Maria Bridi</PresidentName>
+            </PresidentCard>
+          </PresidentsContainer>
+        </Section>
 
-  {/* Mission Section */}
-  <Section id="mission" bgColor="#f3e8ff"> {/* Pastel Yellow */}
-    <Subtitle>{t("aboutUs.missionTitle")}</Subtitle>
-    <Text>{t("aboutUs.missionText")}</Text>
-  </Section>
+        {/* Mission Section */}
+        <Section id="mission" bgColor="#f3e8ff">
+          {" "}
+          {/* Pastel Yellow */}
+          <MissionValueContainer>
+            <Subtitle>{t("aboutUs.missionTitle")}</Subtitle>
+            <Text>{t("aboutUs.missionText")}</Text>
+          </MissionValueContainer>
+          <MissionValueContainer>
+            <Subtitle>{t("aboutUs.valuesTitle")}</Subtitle>
+            <Text>{t("aboutUs.valuesText")}</Text>
+          </MissionValueContainer>
+        </Section>
 
-  {/* Values Section */}
-  <Section id="values" bgColor="linear-gradient(135deg, #ffffff, #f0f0f0)"> {/* Gentle Mint Green */}
-    <Subtitle>{t("aboutUs.valuesTitle")}</Subtitle>
-    <Text>{t("aboutUs.valuesText")}</Text>
-  </Section>
-</Container>
-
+        {/* Values Section */}
+        {/* <Section
+          id="values"
+          bgColor="linear-gradient(135deg, #ffffff, #f0f0f0)"
+        >
+        
+        </Section> */}
+      </Container>
     </>
   );
 };

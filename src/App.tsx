@@ -20,10 +20,10 @@ function App() {
         {/* Define Routes for each page */}
         <Routes>
           <Route path="/coeur-festifs" element={<HomePage />} />
-          <Route path="/about" element={<AboutUs />} />
-          <Route path="/events" element={<Events />} />
-          <Route path="/contact" element={<ContactUs />} />
-          <Route path="/event/:id" element={<EventDetail />} />
+          <Route path="/coeur-festifs/about" element={<AboutUs />} />
+          <Route path="/coeur-festifs/events" element={<Events />} />
+          <Route path="/coeur-festifs/contact" element={<ContactUs />} />
+          <Route path="/coeur-festifs/event/:id" element={<EventDetail />} />
         </Routes>
 
         {/* Footer is outside Routes so it appears on every page */}

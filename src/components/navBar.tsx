@@ -30,6 +30,11 @@ const Logo = styled.h1`
   color: #000;
   cursor: pointer;
   margin: 0;
+
+   /* Small phones (portrait) */
+@media (max-width: 480px) {
+  font-size: 1.2rem; /* Smaller font size for phones */
+}
 `;
 interface LinksContainerProps {
   isOpen: boolean;
@@ -101,6 +106,7 @@ const ToggleButton = styled.button`
     display: block;
   }
 `;
+
 // Language Toggle Button styling
 const LanguageToggle = styled.div`
   display: flex;
@@ -161,20 +167,20 @@ export const NavBar = () => {
           {t("navBar.home")}
         </StyledLink>
         <StyledLink
-          className={isActive("/about") ? "active" : ""}
-          onClick={() => handleNavigation("/about")}
+          className={isActive("/coeur-festifs/about") ? "active" : ""}
+          onClick={() => handleNavigation("/coeur-festifs/about")}
         >
           {t("navBar.about")}
         </StyledLink>
         <StyledLink
-          className={isActive("/events") ? "active" : ""}
-          onClick={() => handleNavigation("/events")}
+          className={isActive("/coeur-festifs/events") ? "active" : ""}
+          onClick={() => handleNavigation("/coeur-festifs/events")}
         >
           {t("navBar.events")}
         </StyledLink>
         <StyledLink
-          className={isActive("/contact") ? "active" : ""}
-          onClick={() => handleNavigation("/contact")}
+          className={isActive("/coeur-festifs/contact") ? "active" : ""}
+          onClick={() => handleNavigation("/coeur-festifs/contact")}
         >
           {t("navBar.contact")}
         </StyledLink>

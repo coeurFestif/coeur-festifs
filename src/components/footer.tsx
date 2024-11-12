@@ -12,6 +12,7 @@ const CustomFooter = styled.footer`
   color: black;
   font-size: 1rem;
   border-top: 1px solid #e0e0e0;
+  height: 100px;
 
   @media (min-width: 768px) {
     flex-direction: row;
@@ -62,12 +63,8 @@ export const Footer = () => {
   return (
     <CustomFooter>
       <FooterSection>
-        <FooterTitle>
-          {t("footer.title")}
-        </FooterTitle>
-        <FooterText>
-          {t("footer.desc")}
-        </FooterText>
+        <FooterTitle>{t("footer.title")}</FooterTitle>
+        <FooterText>{t("footer.desc")}</FooterText>
         <SocialIcons>
           {/* <IconLink
             href="https://facebook.com"
@@ -87,9 +84,7 @@ export const Footer = () => {
       </FooterSection>
 
       <FooterSection>
-        <FooterTitle>
-          {t("footer.contact")}
-        </FooterTitle>
+        <FooterTitle>{t("footer.contact")}</FooterTitle>
         <FooterText>cœurs.festifs@gmail.com</FooterText>
       </FooterSection>
     </CustomFooter>

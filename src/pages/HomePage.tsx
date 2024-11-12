@@ -72,8 +72,8 @@ const Logo = styled.img`
   border-radius: 50%;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
   @media (min-width: 768px) {
-    width: 250px;
-    height: 250px;
+    width: 300px;
+    height: 300px;
   }
 `;
 
@@ -84,10 +84,23 @@ const Title = styled.h1`
   margin: 15px 0;
   color: #ff6347;
   text-shadow: 2px 4px 6px rgba(0, 0, 0, 0.2);
+  padding-bottom: 30px;
 
-  @media (min-width: 768px) {
-    font-size: 3.5rem;
-  }
+  /* Small phones (portrait) */
+@media (max-width: 480px) {
+  font-size: 2rem; /* Smaller font size for phones */
+}
+
+/* Phones and small tablets (landscape and portrait) */
+@media (min-width: 481px) and (max-width: 768px) {
+  font-size: 2.5rem;
+}
+
+/* Tablets and larger screens */
+@media (min-width: 769px) and (max-width: 1024px) {
+  font-size: 2.6rem;
+}
+
 `;
 
 // Button with improved styling

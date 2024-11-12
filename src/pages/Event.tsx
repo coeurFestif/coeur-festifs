@@ -43,27 +43,19 @@ const EventsContainer = styled.div`
 const Title = styled.h1`
   font-size: 3.5rem;
   margin-bottom: 0.5rem;
+  margin-top: 2rem;
   color: #4b0082;
   text-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   animation: ${fadeIn} 1.2s ease-out both;
 
-  @media (max-width: 768px) {
-    font-size: 2.5rem;
+  /* Small phones (portrait) */
+  @media (max-width: 480px) {
+    font-size: 2.2rem; /* Smaller font size for phones */
   }
-`;
 
-const Subtitle = styled.p`
-  font-size: 1.6rem;
-  color: #555;
-  margin-bottom: 30px;
-  max-width: 700px;
-  line-height: 1.6;
-  animation: ${fadeIn} 1.4s ease-out both;
-  opacity: 0.9;
-
-  @media (max-width: 768px) {
-    font-size: 1.3rem;
-    margin-bottom: 30px;
+  /* Phones and small tablets (landscape and portrait) */
+  @media (min-width: 481px) and (max-width: 768px) {
+    font-size: 3rem;
   }
 `;
 
@@ -148,6 +140,16 @@ const Card = styled.div<{ index: number }>`
     min-width: 90%;
     margin-bottom: 20px;
   }
+
+  /* Small phones (portrait) */
+  @media (max-width: 480px) {
+    width: 45%;
+  }
+
+  /* Phones and small tablets (landscape and portrait) */
+  @media (min-width: 481px) and (max-width: 768px) {
+    width: 60%;
+  }
 `;
 
 // No Events Message Styling
@@ -169,11 +171,22 @@ const FooterContainer = styled.div`
 `;
 
 const FooterText = styled.p`
-  font-size: 1.3rem;
   color: #333;
   line-height: 1.8;
   margin-bottom: 40px;
   max-width: 700px;
+  font-size: 1.2rem;
+  /* Small phones (portrait) */
+  @media (max-width: 480px) {
+    font-size: 1rem; /* Smaller font size for phones */
+    width: 90%;
+  }
+
+  /* Phones and small tablets (landscape and portrait) */
+  @media (min-width: 481px) and (max-width: 768px) {
+    font-size: 1.9rem;
+    width: 90%;
+  }
 `;
 
 const SocialIcons = styled.div`
@@ -228,7 +241,7 @@ export const Events = () => {
   const availableEvents = events.filter((event) => event.isAvailable);
 
   const handleCardClick = (eventId: string | number) => {
-    navigate(`/event/${eventId}`);
+    navigate(`/coeur-festifs/event/${eventId}`);
   };
 
   return (
