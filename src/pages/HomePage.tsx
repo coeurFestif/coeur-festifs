@@ -87,20 +87,19 @@ const Title = styled.h1`
   padding-bottom: 30px;
 
   /* Small phones (portrait) */
-@media (max-width: 480px) {
-  font-size: 2rem; /* Smaller font size for phones */
-}
+  @media (max-width: 480px) {
+    font-size: 2rem; /* Smaller font size for phones */
+  }
 
-/* Phones and small tablets (landscape and portrait) */
-@media (min-width: 481px) and (max-width: 768px) {
-  font-size: 2.5rem;
-}
+  /* Phones and small tablets (landscape and portrait) */
+  @media (min-width: 481px) and (max-width: 768px) {
+    font-size: 2.5rem;
+  }
 
-/* Tablets and larger screens */
-@media (min-width: 769px) and (max-width: 1024px) {
-  font-size: 2.6rem;
-}
-
+  /* Tablets and larger screens */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    font-size: 2.6rem;
+  }
 `;
 
 // Button with improved styling
@@ -150,7 +149,7 @@ export const HomePage = () => {
       <HeroContent>
         <Logo src={logo} alt="Event Logo" />
         <Title>{t("homepage.title")}</Title>
-        <Button onClick={() => navigate("/events")}>
+        <Button onClick={() => navigate("/coeur-festifs/events")}>
           {t("homepage.explore")}
         </Button>
       </HeroContent>
