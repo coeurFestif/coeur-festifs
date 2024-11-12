@@ -10,6 +10,7 @@ import {
   FaEnvelope,
 } from "react-icons/fa";
 import logo from "../assets/logo.png";
+import eventsPicture from "../assets/events.jpg";
 
 // Fade-in animation
 const fadeIn = keyframes`
@@ -22,18 +23,19 @@ const EventsContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 100px 40px;
-  margin-top: 10px;
-  color: #333;
+  justify-content: center;
+  padding: 80px 40px;
+  margin-top: 30px;
+  color: #4a4a4a; /* Updated to a soft gray for better readability on light backgrounds */
   min-height: 100vh;
   text-align: center;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-  background: linear-gradient(135deg, #a6c0fe, #f68084);
-  animation: ${fadeIn} 1s ease-out both;
-  background-size: 200% 200%;
-
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+  background-image: url(${eventsPicture});
+  background-size: cover;
+  background-position: center;
+  animation: ${fadeIn} 1.2s ease-out both;
   @media (max-width: 768px) {
     padding: 60px 20px;
   }
@@ -42,9 +44,9 @@ const EventsContainer = styled.div`
 // Title and Subtitle Styling
 const Title = styled.h1`
   font-size: 3.5rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
   margin-top: 2rem;
-  color: #4b0082;
+  color: #000;
   text-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   animation: ${fadeIn} 1.2s ease-out both;
 
@@ -80,39 +82,44 @@ const ScrollContainer = styled.div`
 // Card styling
 const Card = styled.div<{ index: number }>`
   min-width: 320px;
-  max-width: 340px;
-  min-height: 480px;
-  max-height: 600px;
-  background-color: #fff;
+  max-width: 360px;
+  min-height: 500px;
+  background-color: #fff; /* Light blue background */
+  color: #2d3a4b; /* Dark blue-gray text for better contrast */
   border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
   scroll-snap-align: center;
-  animation-delay: ${(props) => props.index * 0.1}s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  padding-bottom: 20px;
 
+  /* Hover effect */
   &:hover {
     transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
   }
 
   img {
     width: 100%;
-    height: 220px;
+    height: 250px;
     object-fit: cover;
-    border-bottom: 4px solid #4b0082;
-    position: relative;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
   }
 
   .info {
     padding: 20px;
-    text-align: left;
+    text-align: center;
   }
 
   h2 {
-    font-size: 1.6rem;
-    color: #4b0082;
+    font-size: 1.8rem;
     margin-bottom: 10px;
+    color: #000;
   }
 
   .date,
@@ -120,20 +127,21 @@ const Card = styled.div<{ index: number }>`
     font-size: 1rem;
     display: flex;
     align-items: center;
-    color: #888;
+    justify-content: center;
+    color: #636e72;
     margin-bottom: 8px;
 
     svg {
       margin-right: 8px;
-      color: #4b0082;
+      color: #db2f2f;
     }
   }
 
   .description {
     font-size: 1rem;
-    color: #555;
-    line-height: 1.4;
-    margin-top: 10px;
+    color: #444;
+    line-height: 1.6;
+    margin-top: 15px;
   }
 
   @media (max-width: 768px) {
@@ -144,6 +152,7 @@ const Card = styled.div<{ index: number }>`
   /* Small phones (portrait) */
   @media (max-width: 480px) {
     width: 45%;
+    height: 500px;
   }
 
   /* Phones and small tablets (landscape and portrait) */
@@ -165,13 +174,12 @@ const FooterContainer = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 80px 20px;
-  background: linear-gradient(135deg, #89f7fe, #66a6ff);
-  text-align: center;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+ background: linear-gradient(135deg, #89f7fe, #66a6ff);  text-align: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
 `;
 
 const FooterText = styled.p`
-  color: #333;
+  color: #000;
   line-height: 1.8;
   margin-bottom: 40px;
   max-width: 700px;
@@ -195,39 +203,42 @@ const SocialIcons = styled.div`
   margin-bottom: 40px;
 
   a {
-    color: #4b0082;
+    color: #db2f2f;
     font-size: 2.5rem;
     transition: transform 0.3s ease, color 0.3s ease;
     filter: drop-shadow(0 5px 5px rgba(0, 0, 0, 0.1));
 
     &:hover {
       transform: scale(1.2);
-      color: #5d00a3;
+      color: #db2f2f;
     }
   }
 `;
 
-const Button = styled.button`
+const Button = styled.a`
   display: flex;
   align-items: center;
-  background-color: #4b0082;
-  color: white;
+  justify-content: center;
+  background-color: #db2f2f; /* Red background */
+  color: #fff;
   font-size: 1.2rem;
-  padding: 14px 28px;
-  border: none;
+  padding: 12px 24px;
   border-radius: 10px;
   cursor: pointer;
+  text-decoration: none;
+  margin-top: 20px;
   transition: all 0.3s ease;
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-  gap: 10px;
 
   &:hover {
-    background-color: #5d00a3;
+    background-color: #e63946; /* Lighter red on hover */
     transform: translateY(-5px);
   }
 
   svg {
+    margin-left: 8px;
     font-size: 1.5rem;
+
   }
 `;
 
@@ -267,6 +278,10 @@ export const Events = () => {
                   </div>
                   <p className="description">{event.description}</p>
                 </div>
+                <Button onClick={() => handleCardClick(event.id)}>
+                  {t("events.viewDetails")}
+                  
+                </Button>
               </Card>
             ))}
           </ScrollContainer>
@@ -289,7 +304,9 @@ export const Events = () => {
             <FaEnvelope />
           </a>
         </SocialIcons>
-        <Button>{t("events.Footer.contact")}</Button>
+        <Button href="mailto:Cœurs.festifs@gmail.com">
+          {t("events.Footer.contact")}
+        </Button>
       </FooterContainer>
     </>
   );

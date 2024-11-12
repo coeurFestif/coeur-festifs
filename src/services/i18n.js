@@ -58,6 +58,7 @@ const resources = {
         title: "Upcoming Events",
         subtitle: "Discover exciting upcoming events on our site",
         noEventsMessage: "No events scheduled at the moment.",
+        viewDetails: "View details",
         Footer: {
           title: "Stay connected !",
           desc: "Many exciting events are in the works! Stay connected and follow us on our social media to not miss anything. We are also open to your ideas and project proposals for future partnerships. Feel free to contact us — we would be delighted to collaborate with you! 😊",
@@ -156,6 +157,7 @@ const resources = {
         subtitle:
           "Découvrez les événements passionnants à venir sur notre site",
         noEventsMessage: "Aucun événement prévu pour le moment.",
+        viewDetails: "Voir les détails",
         Footer: {
           title: "Restez connectés !",
           desc: "De nombreux événements excitants sont en préparation ! Restez connectés et suivez-nous sur nos réseaux sociaux pour ne rien manquer. Nous sommes également ouverts à vos idées et propositions de projets pour de futurs partenariats. N'hésitez pas à nous contacter — nous serions ravis de collaborer avec vous ! 😊",

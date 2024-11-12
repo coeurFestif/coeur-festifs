@@ -105,10 +105,10 @@ const Title = styled.h1`
 // Button with improved styling
 const Button = styled.button`
   padding: 15px 30px;
-  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+  background: linear-gradient(135deg, #ff9a9e, #fad4c4);
   color: #fff;
   border: none;
-  border-radius: 30px;
+  border-radius: 15px;
   font-size: 1.2rem;
   font-weight: bold;
   cursor: pointer;

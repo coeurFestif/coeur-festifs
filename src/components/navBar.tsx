@@ -31,10 +31,10 @@ const Logo = styled.h1`
   cursor: pointer;
   margin: 0;
 
-   /* Small phones (portrait) */
-@media (max-width: 480px) {
-  font-size: 1.2rem; /* Smaller font size for phones */
-}
+  /* Small phones (portrait) */
+  @media (max-width: 480px) {
+    font-size: 1.2rem; /* Smaller font size for phones */
+  }
 `;
 interface LinksContainerProps {
   isOpen: boolean;
@@ -178,13 +178,6 @@ export const NavBar = () => {
         >
           {t("navBar.events")}
         </StyledLink>
-        <StyledLink
-          className={isActive("/coeur-festifs/contact") ? "active" : ""}
-          onClick={() => handleNavigation("/coeur-festifs/contact")}
-        >
-          {t("navBar.contact")}
-        </StyledLink>
-
         <LanguageToggle>
           <LanguageButton
             isActive={currentLanguage === "en"}

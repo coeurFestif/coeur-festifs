@@ -36,7 +36,7 @@ const Section = styled.section<{ bgColor: string }>`
 `;
 const Title = styled.h1`
   font-size: 3rem;
-  color: #4b0082;
+  color: black;
   margin-bottom: 20px;
   /* Small phones (portrait) */
   @media (max-width: 480px) {
@@ -67,7 +67,22 @@ const AboutUsContainer = styled.div`
 
 const Subtitle = styled.h2`
   font-size: 2rem;
-  color: #4b0082;
+  color: white;
+  margin-bottom: 30px;
+  /* Small phones (portrait) */
+  @media (max-width: 480px) {
+    font-size: 1.7rem; /* Smaller font size for phones */
+  }
+
+  /* Phones and small tablets (landscape and portrait) */
+  @media (min-width: 481px) and (max-width: 768px) {
+    font-size: 1.9rem;
+  }
+`;
+
+const Header2 = styled.h2`
+  font-size: 2rem;
+  color: black;
   margin-bottom: 30px;
   /* Small phones (portrait) */
   @media (max-width: 480px) {
@@ -114,7 +129,7 @@ const PresidentCard = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255);
   padding: 30px;
   border-radius: 20px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
@@ -139,14 +154,14 @@ const PresidentCard = styled.div`
 
 const PresidentName = styled.h3`
   font-size: 1.5rem;
-  color: #4b0082;
+  color: #000;
   margin-top: 15px;
 `;
 
 const PlaceholderImage = styled.div`
   width: 120px;
   height: 120px;
-  background-color: #d4c3e8;
+  background-color: #000;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -192,7 +207,7 @@ export const AboutUs = () => {
     <>
       <Container>
         {/* About Us Section */}
-        <Section id="about" bgColor="linear-gradient(135deg, #f3e8ff, #e8f0fe)">
+        <Section id="about" bgColor="white">
           {" "}
           <AboutUsContainer>
             <Title>{t("aboutUs.title")}</Title>
@@ -203,33 +218,33 @@ export const AboutUs = () => {
         {/* Presidents Section */}
         <Section
           id="presidents"
-          bgColor="linear-gradient(135deg, #ffffff, #ffffff)"
+          bgColor="linear-gradient(135deg, #000, #fff)"
         >
           {" "}
           {/* Soft Peach */}
           <Subtitle>{t("aboutUs.presidentsTitle")}</Subtitle>
           <PresidentsContainer>
             <PresidentCard>
-              <PlaceholderImage>👤</PlaceholderImage>
+              <PlaceholderImage></PlaceholderImage>
               <PresidentName>Ariane Manekeng Guimfack</PresidentName>
             </PresidentCard>
             <PresidentCard>
-              <PlaceholderImage>👤</PlaceholderImage>
+              <PlaceholderImage></PlaceholderImage>
               <PresidentName>Clara Maria Bridi</PresidentName>
             </PresidentCard>
           </PresidentsContainer>
         </Section>
 
         {/* Mission Section */}
-        <Section id="mission" bgColor="#f3e8ff">
+        <Section id="mission"  bgColor="linear-gradient(165deg, #fff, #fff)">
           {" "}
           {/* Pastel Yellow */}
           <MissionValueContainer>
-            <Subtitle>{t("aboutUs.missionTitle")}</Subtitle>
+            <Header2>{t("aboutUs.missionTitle")}</Header2>
             <Text>{t("aboutUs.missionText")}</Text>
           </MissionValueContainer>
           <MissionValueContainer>
-            <Subtitle>{t("aboutUs.valuesTitle")}</Subtitle>
+            <Header2>{t("aboutUs.valuesTitle")}</Header2>
             <Text>{t("aboutUs.valuesText")}</Text>
           </MissionValueContainer>
         </Section>

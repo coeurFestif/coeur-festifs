@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { FaFacebook, FaInstagram } from "react-icons/fa";
+import { FaFacebook, FaInstagram, FaEnvelope } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
 
 // Styled components
@@ -39,6 +39,7 @@ const FooterTitle = styled.h3`
 const FooterText = styled.p`
   margin: 5px 0;
   font-size: 0.875rem;
+  text-align: left;
 `;
 
 const SocialIcons = styled.div`
@@ -55,6 +56,12 @@ const IconLink = styled.a`
   &:hover {
     transform: scale(1.1);
   }
+`;
+
+const Contact = styled.div`
+  display: flex;
+  gap: 10px;
+  align-items: center;
 `;
 
 // Main component
@@ -85,7 +92,16 @@ export const Footer = () => {
 
       <FooterSection>
         <FooterTitle>{t("footer.contact")}</FooterTitle>
-        <FooterText>cœurs.festifs@gmail.com</FooterText>
+        <Contact>
+          <IconLink
+            href="mailto:Cœurs.festifs@gmail.com"
+            target="_blank"
+            aria-label="Email"
+          >
+            <FaEnvelope />
+          </IconLink>
+          <FooterText>cœurs.festifs@gmail.com</FooterText>
+        </Contact>
       </FooterSection>
     </CustomFooter>
   );
