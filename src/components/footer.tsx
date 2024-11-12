@@ -94,13 +94,13 @@ export const Footer = () => {
         <FooterTitle>{t("footer.contact")}</FooterTitle>
         <Contact>
           <IconLink
-            href="mailto:cœurs.festifs@gmail.com"
+            href="mailto:coeurs.festifs@gmail.com"
             target="_blank"
             aria-label="Email"
           >
             <FaEnvelope />
           </IconLink>
-          <FooterText>cœurs.festifs@gmail.com</FooterText>
+          <FooterText>coeurs.festifs@gmail.com</FooterText>
         </Contact>
       </FooterSection>
     </CustomFooter>

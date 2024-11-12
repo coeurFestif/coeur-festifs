@@ -299,11 +299,11 @@ export const Events = () => {
           >
             <FaInstagram />
           </a>
-          <a href="mailto:cœurs.festifs@gmail.com">
+          <a href="mailto:coeurs.festifs@gmail.com">
             <FaEnvelope />
           </a>
         </SocialIcons>
-        <Button href="mailto:cœurs.festifs@gmail.com">
+        <Button href="mailto:coeurs.festifs@gmail.com">
           {t("events.Footer.contact")}
         </Button>
       </FooterContainer>
