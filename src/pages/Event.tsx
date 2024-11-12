@@ -174,7 +174,8 @@ const FooterContainer = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 80px 20px;
- background: linear-gradient(135deg, #89f7fe, #66a6ff);  text-align: center;
+  background: linear-gradient(135deg, #89f7fe, #66a6ff);
+  text-align: center;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
 `;
 
@@ -238,7 +239,6 @@ const Button = styled.a`
   svg {
     margin-left: 8px;
     font-size: 1.5rem;
-
   }
 `;
 
@@ -280,7 +280,6 @@ export const Events = () => {
                 </div>
                 <Button onClick={() => handleCardClick(event.id)}>
                   {t("events.viewDetails")}
-                  
                 </Button>
               </Card>
             ))}
@@ -300,11 +299,11 @@ export const Events = () => {
           >
             <FaInstagram />
           </a>
-          <a href="mailto:Cœurs.festifs@gmail.com">
+          <a href="mailto:cœurs.festifs@gmail.com">
             <FaEnvelope />
           </a>
         </SocialIcons>
-        <Button href="mailto:Cœurs.festifs@gmail.com">
+        <Button href="mailto:cœurs.festifs@gmail.com">
           {t("events.Footer.contact")}
         </Button>
       </FooterContainer>

@@ -94,7 +94,7 @@ export const Footer = () => {
         <FooterTitle>{t("footer.contact")}</FooterTitle>
         <Contact>
           <IconLink
-            href="mailto:Cœurs.festifs@gmail.com"
+            href="mailto:cœurs.festifs@gmail.com"
             target="_blank"
             aria-label="Email"
           >
