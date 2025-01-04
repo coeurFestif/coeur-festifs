@@ -1,5 +1,9 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
+import Clara from "../assets/Clara.jpg";
+import Ariane from "../assets/Ariane.jpeg";
+import commonPic from "../assets/commonPic.jpg";
+import purple from "../assets/purple.png";
 import { useTranslation } from "react-i18next";
 
 // Fade-in animation for sections
@@ -14,6 +18,29 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
+`;
+
+const AboutContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 40px;
+  margin-top: 30px;
+  color: #4a4a4a; /* Updated to a soft gray for better readability on light backgrounds */
+  min-height: 100vh;
+  width: 100%;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+  background-image: url(${purple});
+  background-size: cover;
+  background-position: center;
+  animation: ${fadeIn} 1.2s ease-out both;
+  @media (max-width: 768px) {
+    padding: 60px 20px;
+  }
 `;
 
 const Section = styled.section<{ bgColor: string }>`
@@ -66,7 +93,7 @@ const AboutUsContainer = styled.div`
 `;
 
 const Subtitle = styled.h2`
-  font-size: 2rem;
+  font-size: 2.5rem;
   color: white;
   margin-bottom: 30px;
   /* Small phones (portrait) */
@@ -151,18 +178,56 @@ const PresidentCard = styled.div`
     width: 60%;
   }
 `;
+const GlobalPresidentCard = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(255, 255, 255);
+  padding: 10px;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 30%;
+  backdrop-filter: blur(8px);
+  height: 30%;
 
+  &:hover {
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+  }
+  /* Small phones (portrait) */
+  @media (max-width: 480px) {
+    width: 40%;
+  }
+
+  /* Phones and small tablets (landscape and portrait) */
+  @media (min-width: 481px) and (max-width: 768px) {
+    width: 60%;
+  }
+`;
 const PresidentName = styled.h3`
   font-size: 1.5rem;
   color: #000;
   margin-top: 15px;
 `;
 
-const PlaceholderImage = styled.div`
+const PresidentImage = styled.img`
   width: 120px;
   height: 120px;
   background-color: #000;
   border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: #fff;
+  margin-bottom: 20px;
+`;
+
+const GlobalViewImage = styled.img`
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  border-radius: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -216,27 +281,32 @@ export const AboutUs = () => {
         </Section>
 
         {/* Presidents Section */}
-        <Section
-          id="presidents"
-          bgColor="linear-gradient(135deg, #000, #fff)"
-        >
-          {" "}
-          {/* Soft Peach */}
-          <Subtitle>{t("aboutUs.presidentsTitle")}</Subtitle>
-          <PresidentsContainer>
-            <PresidentCard>
-              <PlaceholderImage></PlaceholderImage>
-              <PresidentName>Ariane Manekeng Guimfack</PresidentName>
-            </PresidentCard>
-            <PresidentCard>
-              <PlaceholderImage></PlaceholderImage>
-              <PresidentName>Clara Maria Bridi</PresidentName>
-            </PresidentCard>
-          </PresidentsContainer>
-        </Section>
+        <AboutContainer>
+          <Section id="presidents" bgColor="none">
+            {" "}
+            {/* Soft Peach */}
+            <Subtitle>{t("aboutUs.presidentsTitle")}</Subtitle>
+            {/* 
+          <div>
+          </div> */}
+            <GlobalPresidentCard>
+              <GlobalViewImage src={commonPic} />
+            </GlobalPresidentCard>
+            <PresidentsContainer>
+              <PresidentCard>
+                <PresidentImage src={Ariane} />
+                <PresidentName>Ariane Manekeng Guimfack</PresidentName>
+              </PresidentCard>
+              <PresidentCard>
+                <PresidentImage src={Clara} />
+                <PresidentName>Clara Maria Bridi</PresidentName>
+              </PresidentCard>
+            </PresidentsContainer>
+          </Section>
+        </AboutContainer>
 
         {/* Mission Section */}
-        <Section id="mission"  bgColor="linear-gradient(165deg, #fff, #fff)">
+        <Section id="mission" bgColor="linear-gradient(165deg, #fff, #fff)">
           {" "}
           {/* Pastel Yellow */}
           <MissionValueContainer>
