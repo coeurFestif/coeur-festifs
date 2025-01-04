@@ -3,7 +3,10 @@ import { useParams } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 import { useEventData } from "../data/events";
 import { useTranslation } from "react-i18next";
-import logo from "../assets/logo.png";
+import repitProvidence from "../assets/repitProvidence.png";
+import choco from "../assets/choco.jpg";
+
+
 
 
 // Animation d'apparition pour les détails de l'événement
@@ -32,7 +35,9 @@ const fadeInUp = keyframes`
 // Conteneur principal avec un fond en dégradé
 const Container = styled.div`
   padding: 40px 20px;
-  background: linear-gradient(135deg, #fffce0, #f9e5e5);
+  background: linear-gradient(135deg,rgb(255, 224, 250),rgb(159, 181, 242));
+  background-size: cover;
+  background-position: center;
   min-height: 100vh;
   display: flex;
   justify-content: center;
@@ -63,6 +68,13 @@ const EventDetails = styled.div`
   align-items: flex-start;
   animation: ${fadeInLeft} 0.8s ease-out;
 
+  .collaborator {
+    height: 100px;
+    width: 150px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+  }
   @media (max-width: 768px) {
     text-align: center;
     align-items: center;
@@ -73,7 +85,7 @@ const EventDetails = styled.div`
 const Divider = styled.div`
   width: 50px;
   height: 4px;
-  background-color: #e63946;
+  background-color:rgb(225, 123, 132);
   margin-bottom: 20px;
   border-radius: 2px;
 `;
@@ -81,7 +93,7 @@ const Divider = styled.div`
 // Titre stylisé
 const Title = styled.h1`
   font-size: 2.5rem;
-  color: #2e2e2e;
+  color:rgb(0, 0, 0);
   font-weight: bold;
   margin: 0;
   line-height: 1.2;
@@ -152,7 +164,7 @@ const ImageSection = styled.div`
 
 export const EventDetail = () => {
   const { id } = useParams();
-  const events  = useEventData();
+  const events = useEventData();
   const event = events.find((event) => event.id === id);
   const { t } = useTranslation();
 
@@ -171,6 +183,12 @@ export const EventDetail = () => {
           <Divider />
           <Title>{event.title}</Title>
           <Subtitle>{event.description}</Subtitle>
+          <Subtitle> {t("events.collaboration")}</Subtitle>
+          <img
+            className="collaborator"
+            src={repitProvidence}
+            alt="répit providence"
+          />
           <EventInfo>
             <p>
               <strong>Date:</strong> <span>{event.date}</span>
@@ -181,7 +199,7 @@ export const EventDetail = () => {
           </EventInfo>
         </EventDetails>
         <ImageSection>
-          <img src={logo} alt={event.title} />
+          <img src={choco} alt={event.title} />
         </ImageSection>
       </InnerWrapper>
     </Container>

@@ -11,6 +11,8 @@ import {
 } from "react-icons/fa";
 import logo from "../assets/logo.png";
 import eventsPicture from "../assets/events.jpg";
+import repitProvidence from "../assets/repitProvidence.png";
+import choco from "../assets/choco.jpg";
 
 // Fade-in animation
 const fadeIn = keyframes`
@@ -135,6 +137,11 @@ const Card = styled.div<{ index: number }>`
       margin-right: 8px;
       color: #db2f2f;
     }
+  }
+
+  .collaborator {
+    height: 80px;
+    width: 80px;
   }
 
   .description {
@@ -267,7 +274,7 @@ export const Events = () => {
                 index={index}
                 onClick={() => handleCardClick(event.id)}
               >
-                <img src={logo} alt={event.title} />
+                <img src={choco} alt={event.title} />
                 <div className="info">
                   <h2>{event.title}</h2>
                   <div className="date">
@@ -277,6 +284,12 @@ export const Events = () => {
                     <FaMapMarkerAlt /> {event.location}
                   </div>
                   <p className="description">{event.description}</p>
+                  <p> {t("events.collaboration")} </p>
+                  <img
+                    className="collaborator"
+                    src={repitProvidence}
+                    alt="répit providence"
+                  />
                 </div>
                 <Button onClick={() => handleCardClick(event.id)}>
                   {t("events.viewDetails")}

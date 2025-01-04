@@ -59,6 +59,7 @@ const resources = {
         subtitle: "Discover exciting upcoming events on our site",
         noEventsMessage: "No events scheduled at the moment.",
         viewDetails: "View details",
+        collaboration: " In collaboration with ",
         Footer: {
           title: "Stay connected !",
           desc: "Many exciting events are in the works! Stay connected and follow us on our social media to not miss anything. We are also open to your ideas and project proposals for future partnerships. Feel free to contact us — we would be delighted to collaborate with you! 😊",
@@ -69,8 +70,9 @@ const resources = {
             id: 1,
             title: "ChocoChaud and Snowball Fight",
             date: "Saturday, January 11, 2025",
-            location: "Hochelaga-Maisonneuve",
-            description: "In collaboration with Répit Providence",
+            location: "1855, rue Dézéry at Répit Providence",
+            description:
+              "Parents, children and people from the neighborhood, come play games and drink delicious hot chocolate.",
           },
           {
             id: 2,
@@ -157,6 +159,7 @@ const resources = {
         subtitle:
           "Découvrez les événements passionnants à venir sur notre site",
         noEventsMessage: "Aucun événement prévu pour le moment.",
+        collaboration: " En collaboration avec ",
         viewDetails: "Voir les détails",
         Footer: {
           title: "Restez connectés !",
@@ -168,8 +171,9 @@ const resources = {
             id: 1,
             title: "ChocoChaud et boules de neige ",
             date: "Samedi 11 janvier 2025",
-            location: "Hochelaga- Maisonneuve",
-            description: "En collaboration avec Répit Providence",
+            location: "1855, rue Dézéry chez Répit Providence",
+            description:
+              "Parents, enfants et gens du quartier, venez jouer à des jeux et boire un délicieux chocolat chaud. ",
           },
           {
             id: 2,
