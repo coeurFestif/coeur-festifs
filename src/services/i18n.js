@@ -197,7 +197,7 @@ const resources = {
             title: "Grands cœurs, petits professeurs",
             date: "Jeudi 10 avril 2025",
             location:
-              "Pavillon Jean-Brillant & Bibliothèque des sciences de l'homme et de la société, Université de Montréal",
+              "Pavillon Jean-Brillant & Bibliothèque des lettres et sciences humaines, Université de Montréal",
             description:
               "Un événement spécial, en collaboration avec la Fondation du Dr. Julien, mettra à l’honneur des jeunes ayant présenté un cours en droit à l’Université de Montréal. Au programme : visite exclusive de la Bibliothèque des Sciences et Lettres Humaines, activités ludiques et surprises pour célébrer leur engagement.",
           },
