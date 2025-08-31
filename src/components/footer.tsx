@@ -1,6 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import { FaFacebook, FaInstagram, FaEnvelope } from "react-icons/fa";
+import {
+  FaInstagram,
+  FaEnvelope,
+  FaLinkedin,
+  FaFacebook,
+} from "react-icons/fa";
 import { useTranslation } from "react-i18next";
 
 // Styled components
@@ -73,13 +78,20 @@ export const Footer = () => {
         <FooterTitle>{t("footer.title")}</FooterTitle>
         <FooterText>{t("footer.desc")}</FooterText>
         <SocialIcons>
-          {/* <IconLink
-            href="https://facebook.com"
+          <IconLink
+            href="https://www.linkedin.com/in/c%C5%93urs-festifs-39b901360/"
+            target="_blank"
+            aria-label="Linkedin"
+          >
+            <FaLinkedin />
+          </IconLink>
+          <IconLink
+            href="https://www.facebook.com/profile.php?id=61571443886637"
             target="_blank"
             aria-label="Facebook"
           >
             <FaFacebook />
-          </IconLink> */}
+          </IconLink>
           <IconLink
             href="https://www.instagram.com/coeurs.festifs?igsh=aTc3eDN5a2Q2dXYw"
             target="_blank"

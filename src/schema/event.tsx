@@ -6,6 +6,10 @@ export type Event = {
   date: string;
   location: string;
   capacity?: number;
+  partner?: string[];
+  Sponsor?: string[];
+  partnerImg?: string[];
+  SponsorImg?: string[];
   description: string;
   image: string;
 };

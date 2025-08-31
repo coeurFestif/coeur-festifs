@@ -14,6 +14,7 @@ const resources = {
         title: "Discover upcoming events",
         subtitle: "Discover the latest news and events on our site",
         explore: "Explore",
+        partnershipTitle: "Our Partners",
       },
 
       footer: {
@@ -24,14 +25,15 @@ const resources = {
 
       aboutUs: {
         title: "About us",
-        presidentsTitle: "Our Presidents",
+        presidentsTitle: "Meet our team",
+        presidentsText: "Co-president",
         missionTitle: "Our Mission",
         missionText:
-          "Our mission is to bring joy and smiles to children through engaging events. We aim to make a positive impact on their lives.",
+          "Our mission is simple yet profound: to offer moments of happiness to children living in vulnerable situations by organizing festive, fun, and accessible events. We firmly believe that every child deserves to smile and experience joy, at least for one day.",
         valuesTitle: "Our Values",
         valuesText:
           "We believe in compassion, community, and making the world a better place through charitable actions.",
-        desc: "Coeur Festifs is a charitable group led by medical students, dedicated to bringing joy and smiles to children in need in Montreal. We organize festive and fun events to create unforgettable moments, filled with fun and magic.",
+        desc: "We are Coeurs Festifs, a community project founded by two medical students. Our mission is simple: to bring joy, laughter, and unforgettable memories to children in vulnerable situations, for one festive, fun-filled, magical day. We believe that every child deserves to smile and be fully included. That’s why we organize accessible and engaging activities, guided by values that are deeply important to us: compassion, community, and inclusion. By creating these moments of happiness, we hope to make a small positive difference in their lives… one smile at a time 🌟!",
       },
 
       contactUs: {
@@ -55,10 +57,12 @@ const resources = {
       },
 
       events: {
-        title: "Upcoming Events",
+        title: "Events",
         subtitle: "Discover exciting upcoming events on our site",
         noEventsMessage: "No events scheduled at the moment.",
         viewDetails: "View details",
+        partner: "Partners",
+        sponsor: "Sponsors",
         collaboration: " In collaboration with ",
         Footer: {
           title: "Stay connected !",
@@ -76,19 +80,28 @@ const resources = {
           },
           {
             id: 2,
-            title: "Halloween Party",
-            date: "October 31, 2021",
-            location: "Montreal",
+            title: "Big Hearts, Little Teachers",
+            date: "Thursday, April 10, 2025",
+            location:
+              "Jean-Brillant Pavilion & Humanities and Social Sciences Library, Université de Montréal",
             description:
-              "Celebrate Halloween with us at our spooky party with costumes, games, and treats for kids.",
+              "A special event, in collaboration with the Fondation du Dr Julien, will highlight young people who presented a law course at the Université de Montréal. The day will include an exclusive visit to the Humanities and Social Sciences Library, fun activities, and surprises to celebrate their commitment.",
           },
           {
             id: 3,
-            title: "Easter Party",
-            date: "April 4, 2022",
-            location: "Montreal",
+            title:
+              "Annual Picnic of Répit Providence (30th Anniversary of the Organization)",
+            date: "Saturday, August 23, 2025",
+            location: "Sarah-Maxwell Park",
+            description: "Coeurs Festifs participated as a volunteer",
+          },
+          {
+            id: 4,
+            title: "PRISMART",
+            date: "Saturday, September 6 from 2:00 PM to 7:00 PM",
+            location: "Martin Luther King Park",
             description:
-              "Join us for an Easter party with egg hunts, games, and fun activities for children in need.",
+              "Coeurs Festifs will have a booth. Come visit us in large numbers!",
           },
         ],
       },
@@ -103,7 +116,7 @@ const resources = {
   },
   fr: {
     translation: {
-      events_title: "Événements à venir",
+      events_title: "Événements",
       events_subtitle:
         "Découvrez les événements passionnants à venir sur notre site",
       date: "Date",
@@ -114,18 +127,20 @@ const resources = {
         subtitle:
           "Découvrez les dernières actualités et événements sur notre site",
         explore: "Explorer",
+        partnershipTitle: "Nos Partenaires",
       },
 
       aboutUs: {
         title: "À propos de nous",
-        presidentsTitle: "Nos Présidents",
+        presidentsTitle: "Découvrez notre équipe",
+        presidentsText: "Co-présidente",
         missionTitle: "Notre Mission",
         missionText:
-          "Notre mission est d'apporter joie et sourire aux enfants à travers des événements engageants. Nous visons à avoir un impact positif sur leur vie.",
+          "Notre mission est simple et profonde : offrir des moments de bonheur aux enfants vivant en situation de vulnérabilité, en organisant des événements festifs, amusants et accessibles. Nous croyons fermement que chaque enfant mérite de sourire et de vivre des moments de bonheur, au moins l’espace d’une journée.",
         valuesTitle: "Nos Valeurs",
         valuesText:
           "Nous croyons en la compassion, la communauté et à rendre le monde meilleur à travers des actions caritatives.",
-        desc: " Cœurs Festifs est un groupe caritatif dirigé par des étudiantes en médecine, dédié à apporter joie et sourire aux enfants dans le besoin à Montréal. Nous organisons des événements festifs et ludiques pour créer des moments inoubliables, remplis d’amusement et de magie.",
+        desc: " Nous sommes Cœurs Festifs, un projet communautaire fondé par deux étudiantes en médecine. Notre mission est simple : apporter de la joie, des rires et des souvenirs inoubliables aux enfants en situation de vulnérabilité, le temps d’une journée festive, amusante et remplie de magie. Nous croyons que chaque enfant mérite de sourire et d’être pleinement inclus. C’est pourquoi nous organisons des activités accessibles et engageantes, en mettant au cœur de nos actions des valeurs qui nous tiennent profondément à cœur : la compassion, la communauté et l’inclusion. En créant ces moments de bonheur, nous espérons avoir un petit impact positif dans leur vie...un sourire à la fois🌟!",
       },
 
       footer: {
@@ -155,11 +170,13 @@ const resources = {
       },
 
       events: {
-        title: "Événements à venir",
+        title: "Événements",
         subtitle:
           "Découvrez les événements passionnants à venir sur notre site",
         noEventsMessage: "Aucun événement prévu pour le moment.",
         collaboration: " En collaboration avec ",
+        partner: "Partenaires",
+        sponsor: "Commanditaires",
         viewDetails: "Voir les détails",
         Footer: {
           title: "Restez connectés !",
@@ -177,19 +194,28 @@ const resources = {
           },
           {
             id: 2,
-            title: "Fête d'Halloween",
-            date: "31 octobre 2021",
-            location: "Montréal",
+            title: "Grands cœurs, petits professeurs",
+            date: "Jeudi 10 avril 2025",
+            location:
+              "Pavillon Jean-Brillant & Bibliothèque des sciences de l'homme et de la société, Université de Montréal",
             description:
-              "Célébrez Halloween avec nous lors de notre fête effrayante avec des costumes, des jeux et des friandises pour les enfants.",
+              "Un événement spécial, en collaboration avec la Fondation du Dr. Julien, mettra à l’honneur des jeunes ayant présenté un cours en droit à l’Université de Montréal. Au programme : visite exclusive de la Bibliothèque des Sciences et Lettres Humaines, activités ludiques et surprises pour célébrer leur engagement.",
           },
           {
             id: 3,
-            title: "Fête de Pâques",
-            date: "4 avril 2022",
-            location: "Montréal",
+            title:
+              "Pique-nique annuel de Répit Providence (30 ans de l’organisme)",
+            date: "Samedi 23 août 2025",
+            location: "Sarah-Maxwell Park",
+            description: "Coeurs Festifs a participé comme bénévole",
+          },
+          {
+            id: 4,
+            title: "PRISMART",
+            date: "Samedi 6 septembre de 14h00 à 19h00",
+            location: "Parc Martin Luther King",
             description:
-              "Rejoignez-nous pour une fête de Pâques avec des chasses aux œufs, des jeux et des activités amusantes pour les enfants dans le besoin.",
+              "Coeurs Festifs aura un kiosque. Venez nous voir en grand nombre!",
           },
         ],
       },
