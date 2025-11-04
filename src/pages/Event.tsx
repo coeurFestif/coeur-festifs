@@ -591,8 +591,8 @@ export const Events = () => {
                       role="text"
                       aria-label={`Date: ${event.date}`}
                     >
-                      <FaCalendarAlt aria-hidden="true" />
-                      <span>{event.date}</span>
+                     {event.date && <FaCalendarAlt aria-hidden="true" />}
+                      {event.date && <span>{event.date}</span>}
                     </div>
 
                     <div
@@ -600,11 +600,11 @@ export const Events = () => {
                       role="text"
                       aria-label={`Location: ${event.location}`}
                     >
-                      <FaMapMarkerAlt aria-hidden="true" />
-                      <span>{event.location}</span>
+                     {event.location && <FaMapMarkerAlt aria-hidden="true" />}
+                      {event.location && <span>{event.location}</span>}
                     </div>
 
-                    <p className="description">{event.description}</p>
+                    {event.description && <p className="description">{event.description}</p>}
 
                     {renderPartnersList(event.partner, "events.partner")}
                     {renderPartnersList(event.Sponsor, "events.sponsor")}

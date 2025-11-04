@@ -419,16 +419,18 @@ export const EventDetail = () => {
             {renderPartnerImages(event.SponsorImg, "events.sponsorImages")}
           </div>
 
-          <EventInfo>
-            <p>
-              <strong>{t("date") || "Date"}:</strong>
-              <span>{event.date}</span>
-            </p>
-            <p>
+         {event.date && event.location && (
+           <EventInfo>
+             <p>
+               <strong>{t("date") || "Date"}:</strong>
+               <span>{event.date}</span>
+             </p>
+             <p>
               <strong>{t("location") || "Location"}:</strong>
               <span>{event.location}</span>
             </p>
           </EventInfo>
+          )}
         </EventDetails>
 
         <ImageSection>

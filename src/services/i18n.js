@@ -27,6 +27,8 @@ const resources = {
         title: "About us",
         presidentsTitle: "Meet our team",
         presidentsText: "Co-president",
+        benevoleText:
+          "We are proud to have 15 dedicated volunteers who share their time, energy, and passion to brighten the lives of children.",
         missionTitle: "Our Mission",
         missionText:
           "Our mission is simple yet profound: to offer moments of happiness to children living in vulnerable situations by organizing festive, fun, and accessible events. We firmly believe that every child deserves to smile and experience joy, at least for one day.",
@@ -103,6 +105,27 @@ const resources = {
             description:
               "Coeurs Festifs will have a booth. Come visit us in large numbers!",
           },
+          {
+            id: 5,
+            title: "Levée de Fonds",
+            date: "",
+            location: "",
+            description:
+              "💖✨ Thank you all for your incredible generosity! ✨💖\n\n" +
+              "Thanks to you, the fundraiser “CCSIG x Festive Hearts for Sainte-Justine au Cœur du Monde” has reached our goal of $1,000! 🎉\n\n" +
+              "🎁 Over 25 toys have been purchased and will be distributed to patients during the next mission in Côte d’Ivoire. The remaining funds will be donated directly to the Sainte-Justine au Cœur du Monde foundation to support their work with children.\n\n" +
+              "🙏 This achievement would not have been possible without your kindness and support. You’ve truly made a difference!\n\n" +
+              "💖 Together, we’ve created smiles and brought a touch of magic to children who need it most. Thank you from the bottom of our hearts!\n\n" +
+              "— The CCSIG & Coeur Festifs Team",
+          },
+          {
+            id: 6,
+            title: "Halloween Party",
+            date: "Friday, October 31, 2025",
+            location: "5111 Rue Paré, Montréal, QC H4P 2B1",
+            description:
+              "Join us for a spooktacular Halloween celebration filled with fun activities!",
+          },
         ],
       },
 
@@ -134,6 +157,8 @@ const resources = {
         title: "À propos de nous",
         presidentsTitle: "Découvrez notre équipe",
         presidentsText: "Co-présidente",
+        benevoleText:
+          "Nous sommes fiers de pouvoir compter sur 15 bénévoles engagés qui partagent leur temps, leur énergie et leur passion pour illuminer la vie des enfants.",
         missionTitle: "Notre Mission",
         missionText:
           "Notre mission est simple et profonde : offrir des moments de bonheur aux enfants vivant en situation de vulnérabilité, en organisant des événements festifs, amusants et accessibles. Nous croyons fermement que chaque enfant mérite de sourire et de vivre des moments de bonheur, au moins l’espace d’une journée.",
@@ -216,6 +241,28 @@ const resources = {
             location: "Parc Martin Luther King",
             description:
               "Coeurs Festifs aura un kiosque. Venez nous voir en grand nombre!",
+          },
+          {
+            id: 5,
+            title: "Levée de Fonds",
+            date: "",
+            location: "",
+            description:
+              "💖✨ Merci à tous pour votre générosité! ✨💖\n\n" +
+              "Grâce à vous, la collecte de fonds « CCSIG x Cœurs Festifs pour Sainte-Justine au Cœur du Monde » a atteint notre objectif de 1 000 $! 🎉\n\n" +
+              "🎁 Plus de 25 jouets ont été achetés et seront distribués aux patients lors de la prochaine mission en Côte d’Ivoire. Le reste des fonds sera remis directement à la fondation Sainte-Justine au Cœur du Monde afin de soutenir leurs actions auprès des enfants.\n\n" +
+              "🙏 Cette réussite n’aurait pas été possible sans votre soutien et votre gentillesse. Vous avez fait une vraie différence!\n\n" +
+              "💖 Ensemble, nous avons créé des sourires et offert un peu de magie aux enfants qui en ont le plus besoin. Merci de tout cœur!\n\n" +
+              "— L’équipe CCSIG & Cœurs Festifs",
+          },
+
+          {
+            id: 6,
+            title: "Fête d'Halloween",
+            date: "Vendredi 31 octobre 2025",
+            location: "5111 Rue Paré, Montréal, QC H4P 2B1",
+            description:
+              "Venez passez l’halloween avec nous tout en profitant d’activités divertissantes!",
           },
         ],
       },

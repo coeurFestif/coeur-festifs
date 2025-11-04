@@ -6,6 +6,10 @@ import backgroundVideo from "../assets/backgroundVideo.mp4";
 import { useTranslation } from "react-i18next";
 import carrefour from "../assets/CJE.jpg";
 import repit from "../assets/repitProvidence.png";
+import promis from "../assets/promis.png";
+import maisonCulture from "../assets/maisonCulture.png";
+import fondationDrJulien from "../assets/fondationDrJulien.png";
+import mountainSights from "../assets/mountainSights.png";
 
 // Animations
 const fadeIn = keyframes`
@@ -351,8 +355,8 @@ const PartnerCard = styled.div`
 `;
 
 const PartnerIcon = styled.div`
-  width: 90px;
-  height: 90px;
+  width: 120px;
+  height: 120px;
   background: rgb(255, 255, 255);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 50%;
@@ -466,6 +470,46 @@ export const HomePage = () => {
               />
             </PartnerIcon>
             <PartnerName>Répit Providence</PartnerName>
+          </PartnerCard>
+          <PartnerCard>
+            <PartnerIcon>
+              <img
+                src={mountainSights}
+                style={{ width: "100%", height: "100%" }}
+                alt="Centre communautaire Mountain Sights"
+              />
+            </PartnerIcon>
+            <PartnerName>Centre communautaire Mountain Sights</PartnerName>
+          </PartnerCard>
+          <PartnerCard>
+            <PartnerIcon>
+              <img
+                src={promis}
+                style={{ width: "100%", height: "50%" }}
+                alt="PROMIS"
+              />
+            </PartnerIcon>
+            <PartnerName>PROMIS</PartnerName>
+          </PartnerCard>
+          <PartnerCard>
+            <PartnerIcon>
+              <img
+                src={maisonCulture}
+                style={{ width: "100%", height: "60%" }}
+                alt="Maison de la culture de Côte-des-Neiges"
+              />
+            </PartnerIcon>
+            <PartnerName>Maison de la culture de Côte-des-Neiges</PartnerName>
+          </PartnerCard>
+          <PartnerCard>
+            <PartnerIcon>
+              <img
+                src={fondationDrJulien}
+                style={{ width: "100%", height: "40%" }}
+                alt="Fondation du Dr Julien"
+              />
+            </PartnerIcon>
+            <PartnerName>Fondation du Dr Julien</PartnerName>
           </PartnerCard>
         </PartnerGrid>
       </PartnershipSection>

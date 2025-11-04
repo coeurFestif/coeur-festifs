@@ -248,7 +248,7 @@ const PresidentsContainer = styled.div`
   flex-wrap: wrap;
   padding: 20px;
   width: 100%;
-  margin-top: 40px;
+  margin-top: 30px;
   align-items: stretch;
 
   @media (max-width: 768px) {
@@ -326,10 +326,9 @@ const GlobalPresidentCard = styled.div`
   border: 1px solid rgba(255, 255, 255, 0.15);
   transition: all 0.4s ease;
   width: 100%;
-  max-width: 700px;
+  max-width: 670px;
   height: 350px;
   backdrop-filter: blur(15px);
-  margin-bottom: 80px;
   position: relative;
   animation: ${morphIn} 1s ease-out 0.1s both;
   overflow: hidden;
@@ -420,6 +419,42 @@ const GlobalViewImage = styled.img`
   &:hover {
     filter: brightness(0.9) contrast(1.2);
     transform: scale(1.02);
+  }
+`;
+
+const BenevoleText = styled.div`
+  max-width: 700px;
+  margin: 50px auto 0;
+  padding: 28px 24px;
+  font-size: 1.15rem;
+  line-height: 1.8;
+  color: #2c2c2c;
+  text-align: justify;
+  letter-spacing: 0.2px;
+  font-weight: 400;
+  font-style: italic;
+
+  background: rgba(255, 255, 255, 0.3) 50%;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+
+  p {
+    margin-bottom: 1.2em;
+  }
+
+  strong {
+    color: #1b5e20;
+    font-weight: 600;
+  }
+
+  em {
+    color: #388e3c;
+  }
+
+  transition: all 0.3s ease;
+  &:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+    transform: translateY(-2px);
   }
 `;
 
@@ -521,9 +556,13 @@ export const AboutUs = () => {
                 </PresidentName>
               </PresidentCard>
             </PresidentsContainer>
+            <BenevoleText>
+              <Text style={{ fontSize: "1rem", color: "white" }}>
+                {t("aboutUs.benevoleText")}
+              </Text>
+            </BenevoleText>
           </Section>
         </AboutContainer>
-
         {/* Mission Section */}
         <Section id="mission" bgColor="linear-gradient(165deg, #fff, #fff)">
           <MissionValueContainer>

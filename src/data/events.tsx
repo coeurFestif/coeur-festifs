@@ -10,6 +10,8 @@ import drJulien from "../assets/drJulien.png";
 import Gallimard from "../assets/Gallimard.jpg";
 import Scholastic from "../assets/Scholastic.png";
 import renojouets from "../assets/renojouets.jpeg";
+import leveeDeFonds from "../assets/levee.jpg";
+import halloween from "../assets/halloween.png";
 
 
 export const useEventData = (): Event[] => {
@@ -61,6 +63,27 @@ export const useEventData = (): Event[] => {
       partner: ["La Maison de la culture de Côte-des-Neiges"],
       image: prismart,
       isAvailable: true,
+    },
+    {
+      id: "5",
+      title: t("events.events.4.title"),
+      date: t("events.events.4.date"),
+      location: t("events.events.4.location"),
+      description: t("events.events.4.description"),
+      partner: ["CCSIG", "Sainte-Justine au Coeur du Monde", "Carrefour Jeunesse Emploi Côte-des-Neiges"],
+      image: leveeDeFonds,
+      isAvailable: true,
+    },
+
+    {
+      id: "6",
+      title: t("events.events.5.title"),
+      date: t("events.events.5.date"),
+      location: t("events.events.5.location"),
+      description: t("events.events.5.description"),
+      isAvailable: true,
+      partner: ["Centre communautaire Mountain Sights"],
+      image: halloween,
     },
   ];
 
