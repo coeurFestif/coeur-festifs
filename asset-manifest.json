@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/coeur-festifs/static/css/main.576125ab.css",
-    "main.js": "/coeur-festifs/static/js/main.8d179e77.js",
+    "main.js": "/coeur-festifs/static/js/main.cd1916ba.js",
     "static/js/453.2565e158.chunk.js": "/coeur-festifs/static/js/453.2565e158.chunk.js",
     "static/media/backgroundVideo.mp4": "/coeur-festifs/static/media/backgroundVideo.117b95d5f5f9bead3f59.mp4",
     "static/media/events.jpg": "/coeur-festifs/static/media/events.e0f88b127fb5f53e7e5b.jpg",
@@ -9,26 +9,31 @@
     "static/media/logo.png": "/coeur-festifs/static/media/logo.5f67cad964a523d4532a.png",
     "static/media/Gcpp.png": "/coeur-festifs/static/media/Gcpp.2ef782ba687fd9e1ed54.png",
     "static/media/purple.png": "/coeur-festifs/static/media/purple.05673d67d32fb96d09b0.png",
+    "static/media/halloween.png": "/coeur-festifs/static/media/halloween.969233cf57166b57c3a9.png",
     "static/media/30yB.png": "/coeur-festifs/static/media/30yB.f9efbec8a975f064282c.png",
     "static/media/Clara.jpg": "/coeur-festifs/static/media/Clara.be4a552a5181040a1a53.jpg",
+    "static/media/maisonCulture.png": "/coeur-festifs/static/media/maisonCulture.cb7dcc138553929fa26d.png",
     "static/media/drJulien.png": "/coeur-festifs/static/media/drJulien.ae68e312ae5024a2a584.png",
     "static/media/commonPic.jpg": "/coeur-festifs/static/media/commonPic.72fb5eafbda5524cee27.jpg",
     "static/media/debrouillard.png": "/coeur-festifs/static/media/debrouillard.255d1147bada80808437.png",
     "static/media/Ariane.jpeg": "/coeur-festifs/static/media/Ariane.f00fec795617c8912262.jpeg",
     "static/media/choco.jpg": "/coeur-festifs/static/media/choco.7d31a285365e863c002e.jpg",
+    "static/media/levee.jpg": "/coeur-festifs/static/media/levee.e9f970f96c4710319876.jpg",
+    "static/media/mountainSights.png": "/coeur-festifs/static/media/mountainSights.5d894882b2cab61c0e96.png",
     "static/media/Scholastic.png": "/coeur-festifs/static/media/Scholastic.fb7c5e552e6f72dc5ab1.png",
     "static/media/Gallimard.jpg": "/coeur-festifs/static/media/Gallimard.12570ccd6d6b006dcee6.jpg",
+    "static/media/promis.png": "/coeur-festifs/static/media/promis.ff68cffe122b7d9561e5.png",
     "static/media/slick.svg": "/coeur-festifs/static/media/slick.2630a3e3eab21c607e21.svg",
     "static/media/slick.eot": "/coeur-festifs/static/media/slick.a4e97f5a2a64f0ab1323.eot",
     "static/media/slick.ttf": "/coeur-festifs/static/media/slick.c94f7671dcc99dce43e2.ttf",
     "static/media/slick.woff": "/coeur-festifs/static/media/slick.295183786cd8a1389865.woff",
     "index.html": "/coeur-festifs/index.html",
     "main.576125ab.css.map": "/coeur-festifs/static/css/main.576125ab.css.map",
-    "main.8d179e77.js.map": "/coeur-festifs/static/js/main.8d179e77.js.map",
+    "main.cd1916ba.js.map": "/coeur-festifs/static/js/main.cd1916ba.js.map",
     "453.2565e158.chunk.js.map": "/coeur-festifs/static/js/453.2565e158.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.576125ab.css",
-    "static/js/main.8d179e77.js"
+    "static/js/main.cd1916ba.js"
   ]
 }
