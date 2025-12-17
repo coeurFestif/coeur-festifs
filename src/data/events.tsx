@@ -12,7 +12,11 @@ import Scholastic from "../assets/Scholastic.png";
 import renojouets from "../assets/renojouets.jpeg";
 import leveeDeFonds from "../assets/levee.jpg";
 import halloween from "../assets/halloween.png";
-
+import garageMusique from "../assets/garageMusique.png";
+import noelParty from "../assets/noelParty.jpg";
+import foireMetier from "../assets/foireMetier.png";
+import guignole from "../assets/guignole.png";
+import minimolars from "../assets/minimolars.png";
 
 export const useEventData = (): Event[] => {
   const { t } = useTranslation();
@@ -70,7 +74,11 @@ export const useEventData = (): Event[] => {
       date: t("events.events.4.date"),
       location: t("events.events.4.location"),
       description: t("events.events.4.description"),
-      partner: ["CCSIG", "Sainte-Justine au Coeur du Monde", "Carrefour Jeunesse Emploi Côte-des-Neiges"],
+      partner: [
+        "CCSIG",
+        "Sainte-Justine au Coeur du Monde",
+        "Carrefour Jeunesse Emploi Côte-des-Neiges",
+      ],
       image: leveeDeFonds,
       isAvailable: true,
     },
@@ -84,6 +92,36 @@ export const useEventData = (): Event[] => {
       isAvailable: true,
       partner: ["Centre communautaire Mountain Sights"],
       image: halloween,
+    },
+    {
+      id: "7",
+      title: t("events.events.6.title"),
+      date: t("events.events.6.date"),
+      location: t("events.events.6.location"),
+      description: t("events.events.6.description"),
+      isAvailable: true,
+      partner: ["Promis", "Mini Molars Club"],
+      image: foireMetier,
+    },
+    {
+      id: "8",
+      title: t("events.events.7.title"),
+      date: t("events.events.7.date"),
+      location: t("events.events.7.location"),
+      description: t("events.events.7.description"),
+      isAvailable: true,
+      partner: ["Promis"],
+      image: noelParty,
+    },
+    {
+      id: "9",
+      title: t("events.events.8.title"),
+      date: t("events.events.8.date"),
+      location: t("events.events.8.location"),
+      description: t("events.events.8.description"),
+      isAvailable: true,
+      partner: ["Centre spécialisé de pédiatrie sociale", "Garage à Musique"],
+      image: guignole,
     },
   ];
 

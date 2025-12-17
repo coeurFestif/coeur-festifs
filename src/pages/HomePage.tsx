@@ -10,6 +10,8 @@ import promis from "../assets/promis.png";
 import maisonCulture from "../assets/maisonCulture.png";
 import fondationDrJulien from "../assets/fondationDrJulien.png";
 import mountainSights from "../assets/mountainSights.png";
+import garageMusique from "../assets/garageMusique.png";
+import minimolars from "../assets/minimolars.png";
 
 // Animations
 const fadeIn = keyframes`
@@ -510,6 +512,26 @@ export const HomePage = () => {
               />
             </PartnerIcon>
             <PartnerName>Fondation du Dr Julien</PartnerName>
+          </PartnerCard>
+          <PartnerCard>
+            <PartnerIcon>
+              <img
+                src={garageMusique}
+                style={{ width: "100%", height: "90%" }}
+                alt="Garage à Musique"
+              />
+            </PartnerIcon>
+            <PartnerName>Garage à Musique</PartnerName>
+          </PartnerCard>
+          <PartnerCard>
+            <PartnerIcon>
+              <img
+                src={minimolars}
+                style={{ width: "80%", height: "80%" }}
+                alt="Minimolars"
+              />
+            </PartnerIcon>
+            <PartnerName>Mini Molars Club</PartnerName>
           </PartnerCard>
         </PartnerGrid>
       </PartnershipSection>

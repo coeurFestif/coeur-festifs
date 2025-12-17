@@ -111,7 +111,7 @@ const Title = styled.h1`
 const Subtitle = styled.p`
   font-size: 1.1rem;
   color: #555;
-  margin: 0 0 30px 0;
+  margin: 0;
   line-height: 1.7;
   max-width: 450px;
   text-align: left;
@@ -130,11 +130,16 @@ const EventInfo = styled.div`
   margin-top: 30px;
   text-align: left;
   width: 100%;
-  // background: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.1);
   padding: 20px;
   border-radius: 12px;
   border-left: 4px solid rgb(225, 123, 132);
   animation: ${fadeInScale} 0.8s ease-out 0.6s both;
+
+  &:hover {
+    transform: scale(1.03) rotate(1deg);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.2);
+  }
 
   p {
     margin: 12px 0;
@@ -303,7 +308,7 @@ const PartnerImagesSection = styled.div`
     object-fit: contain;
     background: rgba(255, 255, 255, 0.9);
     border-radius: 20px;
-    margin-right:10px;
+    margin-right: 10px;
     padding: 10px;
     border: 2px solid rgba(159, 181, 242, 0.2);
     transition: all 0.3s ease;
@@ -358,13 +363,18 @@ export const EventDetail = () => {
 
   const renderPartnersList = (
     items: string[] | undefined,
-    titleKey: string
+    titleKey: string,
+    isPartner: boolean = true
   ) => {
     if (!items || items.length === 0) return null;
 
     return (
       <PartnerSection>
-        <div className="section-title">{t(titleKey)}</div>
+        <div className="section-title">
+          {" "}
+          <span className="tab-icon">{isPartner ? "🤝" : "⭐"} </span>{" "}
+          {t(titleKey)}
+        </div>
         <ul className="items-list" role="list">
           {items.map((item: string, index: number) => (
             <li key={`${titleKey}-${index}`} role="listitem">
@@ -407,30 +417,28 @@ export const EventDetail = () => {
         <EventDetails>
           <Title>{event.title}</Title>
           <Subtitle>{event.description}</Subtitle>
-
+          {event.date && event.location && (
+            <EventInfo>
+              <p>
+                <strong>{t("date") || "Date"}:</strong>
+                <span>{event.date}</span>
+              </p>
+              <p>
+                <strong>{t("location") || "Location"}:</strong>
+                <span>{event.location}</span>
+              </p>
+            </EventInfo>
+          )}
           {/* Render partners list */}
           {renderPartnersList(event.partner, "events.partner")}
 
           {/* Render sponsors list */}
-          {renderPartnersList(event.Sponsor, "events.sponsor")}
+          {renderPartnersList(event.Sponsor, "events.sponsor", false)}
           {/* Render images */}
           <div>
             {renderPartnerImages(event.partnerImg, "events.partnerImages")}
             {renderPartnerImages(event.SponsorImg, "events.sponsorImages")}
           </div>
-
-         {event.date && event.location && (
-           <EventInfo>
-             <p>
-               <strong>{t("date") || "Date"}:</strong>
-               <span>{event.date}</span>
-             </p>
-             <p>
-              <strong>{t("location") || "Location"}:</strong>
-              <span>{event.location}</span>
-            </p>
-          </EventInfo>
-          )}
         </EventDetails>
 
         <ImageSection>

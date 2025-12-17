@@ -28,7 +28,7 @@ const resources = {
         presidentsTitle: "Meet our team",
         presidentsText: "Co-president",
         benevoleText:
-          "We are proud to have 15 dedicated volunteers who share their time, energy, and passion to brighten the lives of children.",
+          "We are proud to have 36 dedicated volunteers who share their time, energy, and passion to brighten the lives of children.",
         missionTitle: "Our Mission",
         missionText:
           "Our mission is simple yet profound: to offer moments of happiness to children living in vulnerable situations by organizing festive, fun, and accessible events. We firmly believe that every child deserves to smile and experience joy, at least for one day.",
@@ -126,6 +126,30 @@ const resources = {
             description:
               "Join us for a spooktacular Halloween celebration filled with fun activities!",
           },
+          {
+            id: 7,
+            title: "Career Fair",
+            date: "Saturday, November 22, 2025",
+            location:
+              "3333 chemin de la Côte Sainte-Catherine, Montréal, QC H3T 1C8",
+            description: "Come and discover various fields of study with us!",
+          },
+          {
+            id: 8,
+            title: "Christmas Party with Promis",
+            date: "Saturday, December 13, 2025",
+            location:
+              "3333 chemin de la Côte Sainte-Catherine, Montréal, QC H3T 1C8",
+            description: "Come celebrate Christmas with us!",
+          },
+          {
+            id: 9,
+            title: "Dr. Julien's Guignolée with the Garage à Musique",
+            date: "Saturday, December 13, 2025",
+            location: "2080, avenue Bennett, Montréal, QC H1V 3S6",
+            description:
+              "Enjoy a warm atmosphere and fun activities while supporting a great cause!",
+          },
         ],
       },
 
@@ -158,7 +182,7 @@ const resources = {
         presidentsTitle: "Découvrez notre équipe",
         presidentsText: "Co-présidente",
         benevoleText:
-          "Nous sommes fiers de pouvoir compter sur 15 bénévoles engagés qui partagent leur temps, leur énergie et leur passion pour illuminer la vie des enfants.",
+          "Nous sommes fiers de pouvoir compter sur 36 bénévoles engagés qui partagent leur temps, leur énergie et leur passion pour illuminer la vie des enfants.",
         missionTitle: "Notre Mission",
         missionText:
           "Notre mission est simple et profonde : offrir des moments de bonheur aux enfants vivant en situation de vulnérabilité, en organisant des événements festifs, amusants et accessibles. Nous croyons fermement que chaque enfant mérite de sourire et de vivre des moments de bonheur, au moins l’espace d’une journée.",
@@ -263,6 +287,31 @@ const resources = {
             location: "5111 Rue Paré, Montréal, QC H4P 2B1",
             description:
               "Venez passez l’halloween avec nous tout en profitant d’activités divertissantes!",
+          },
+          {
+            id: 7,
+            title: "Foire aux métiers",
+            date: "Samedi 22 novembre 2025",
+            location:
+              "3333 chemin de la Côte Sainte-Catherine, Montréal, QC H3T 1C8",
+            description:
+              "Venez découvrir plusieurs domaines d’études avec nous!",
+          },
+          {
+            id: 8,
+            title: "Fête de Noel avec Promis",
+            date: "Samedi 13 décembre 2025",
+            location:
+              "3333 chemin de la Côte Sainte-Catherine, Montréal, QC H3T 1C8",
+            description: "Venez fêter Noel à nos côtés!",
+          },
+          {
+            id: 9,
+            title: "Guignolée du Dr Julien avec le Garage à Musique",
+            date: "Samedi 13 décembre 2025",
+            location: "2080, avenue Bennett, Montréal, QC H1V 3S6",
+            description:
+              "Venez profitez d’une ambiance chaleureuse et des activités ludiques tout en soutenant une belle cause!",
           },
         ],
       },

@@ -10,10 +10,18 @@ import {
   FaEnvelope,
   FaExternalLinkAlt,
 } from "react-icons/fa";
-import logo from "../assets/logo.png";
-import eventsPicture from "../assets/events.jpg";
+import { Swiper, SwiperSlide } from "swiper/react";
+import {
+  Navigation,
+  Pagination,
+  Autoplay,
+  EffectCoverflow,
+} from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/effect-coverflow";
 
-// Enhanced animations
 const fadeIn = keyframes`
   from { 
     opacity: 0; 
@@ -25,23 +33,11 @@ const fadeIn = keyframes`
   }
 `;
 
-const slideInFromLeft = keyframes`
-  from {
-    opacity: 0;
-    transform: translateX(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-`;
-
 const floatAnimation = keyframes`
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-5px); }
 `;
 
-// Main container with improved responsiveness
 const EventsContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -54,14 +50,9 @@ const EventsContainer = styled.div`
   text-align: center;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
-  background-image: url(${eventsPicture});
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   animation: ${fadeIn} 1.2s ease-out both;
 
-  /* Improved overlay for better text readability */
   &::before {
     content: "";
     position: absolute;
@@ -69,7 +60,7 @@ const EventsContainer = styled.div`
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(255, 255, 255, 0.85);
+    background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(2px);
     z-index: 1;
   }
@@ -81,15 +72,11 @@ const EventsContainer = styled.div`
 
   @media (max-width: 768px) {
     padding: 60px 20px;
-    background-attachment: scroll;
   }
 `;
 
-// Enhanced title with better responsive behavior
 const Title = styled.h1`
-  font-size: clamp(2.2rem, 5vw, 3.5rem);
-  margin-bottom: 1.5rem;
-  margin-top: 2rem;
+  font-size: clamp(2.2rem, 5vw, 2.5rem);
   color: #000;
   text-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   animation: ${fadeIn} 1.2s ease-out both;
@@ -97,76 +84,95 @@ const Title = styled.h1`
   letter-spacing: -0.02em;
 `;
 
-// Improved scrollable container
-const ScrollContainer = styled.div`
-  display: flex;
-  overflow-x: auto;
-  padding: 20px 0;
-  gap: 30px;
-  scroll-snap-type: x mandatory;
-  max-width: 100%;
+const SwiperContainer = styled.div`
   width: 100%;
+  max-width: 1400px;
+  padding: 40px 0;
 
-  /* Custom scrollbar styling */
-  &::-webkit-scrollbar {
-    height: 8px;
+  .swiper {
+    padding: 20px 0 60px 0;
   }
 
-  &::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.1);
-    border-radius: 4px;
+  .swiper-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
-  &::-webkit-scrollbar-thumb {
-    background: #db2f2f;
-    border-radius: 4px;
+  .swiper-button-next,
+  .swiper-button-prev {
+    color: #db2f2f;
+    background: white;
+    width: 25px;
+    height: 25px;
+    padding: 15px;
+    border-radius: 50%;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+
+    &:after {
+      font-size: 10px;
+      font-weight: bold;
+    }
 
     &:hover {
-      background: #c62828;
+      background: #db2f2f;
+      color: white;
+      transform: scale(1.1);
+    }
+
+    @media (max-width: 768px) {
+      width: 40px;
+      height: 40px;
+
+      &:after {
+        font-size: 16px;
+      }
     }
   }
 
-  @media (max-width: 768px) {
-    flex-direction: column;
-    align-items: center;
-    overflow-x: visible;
-    padding: 20px 10px;
+  .swiper-pagination-bullet {
+    background: #db2f2f;
+    width: 12px;
+    height: 12px;
+    opacity: 0.5;
+    transition: all 0.3s ease;
+  }
+
+  .swiper-pagination-bullet-active {
+    opacity: 1;
+    width: 30px;
+    border-radius: 6px;
   }
 `;
 
-// Enhanced card with better animations and layout
-const Card = styled.div<{ index: number }>`
-  min-width: 320px;
-  max-width: 360px;
-  min-height: 520px;
+const Card = styled.div`
+  width: 300px; /* Reduced width */
+  max-width: 80vw; /* Adjusted max width */
+  min-height: 400px; /* Reduced height */
   background: linear-gradient(145deg, #ffffff, #f8f9fa);
   color: #2d3a4b;
   border-radius: 20px;
   overflow: hidden;
   cursor: pointer;
-  scroll-snap-align: center;
   display: flex;
   flex-direction: column;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  animation: ${slideInFromLeft} ${(props) => 0.6 + props.index * 0.2}s ease-out
-    both;
   border: 1px solid rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(10px);
 
   &:hover {
-    transform: translateY(-15px) scale(1.02);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-    animation: ${floatAnimation} 2s ease-in-out infinite;
   }
 
   .image-container {
     position: relative;
     overflow: hidden;
+    height: 200px; /* Reduced image height */
 
     img {
       width: 100%;
-      height: 250px;
+      height: 100%;
       object-fit: cover;
       transition: transform 0.4s ease;
     }
@@ -177,7 +183,7 @@ const Card = styled.div<{ index: number }>`
   }
 
   .info {
-    padding: 25px;
+    padding: 20px; /* Adjusted padding */
     text-align: center;
     flex-grow: 1;
     display: flex;
@@ -186,8 +192,8 @@ const Card = styled.div<{ index: number }>`
   }
 
   h2 {
-    font-size: 1.8rem;
-    margin-bottom: 15px;
+    font-size: 1.5rem; /* Reduced font size */
+    margin-bottom: 10px; /* Adjusted margin */
     color: #1a1a1a;
     font-weight: 600;
     line-height: 1.3;
@@ -195,50 +201,34 @@ const Card = styled.div<{ index: number }>`
 
   .date,
   .location {
-    font-size: 1rem;
+    font-size: 0.9rem; /* Reduced font size */
     display: flex;
     align-items: center;
     justify-content: center;
     color: #636e72;
-    margin-bottom: 12px;
+    margin-bottom: 10px; /* Adjusted margin */
     font-weight: 500;
 
     svg {
-      margin-right: 10px;
+      margin-right: 8px; /* Adjusted spacing */
       color: #db2f2f;
-      font-size: 1.1rem;
-    }
-  }
-
-  .description {
-    font-size: 1rem;
-    color: #555;
-    line-height: 1.6;
-    margin: 20px 0;
-    flex-grow: 1;
-  }
-
-  @media (max-width: 768px) {
-    min-width: 85%;
-    max-width: 85%;
-    margin-bottom: 25px;
-
-    h2 {
-      font-size: 1.6rem;
+      font-size: 1rem; /* Reduced icon size */
     }
   }
 
   @media (max-width: 480px) {
-    min-width: 90%;
-    max-width: 90%;
+    width: 250px; /* Adjusted width for smaller screens */
 
     .info {
-      padding: 20px;
+      padding: 15px; /* Adjusted padding for smaller screens */
+    }
+
+    h2 {
+      font-size: 1.3rem; /* Adjusted font size for smaller screens */
     }
   }
 `;
 
-// Enhanced partner/sponsor sections
 const PartnerSection = styled.div`
   margin: 15px 0 10px 0;
 
@@ -278,7 +268,6 @@ const PartnerSection = styled.div`
   }
 `;
 
-// Enhanced button with better accessibility
 const Button = styled.button`
   display: flex;
   align-items: center;
@@ -324,10 +313,6 @@ const Button = styled.button`
     }
   }
 
-  &:active {
-    transform: translateY(-1px);
-  }
-
   svg {
     margin-left: 8px;
     font-size: 1.2rem;
@@ -339,31 +324,6 @@ const Button = styled.button`
   }
 `;
 
-// Enhanced no events message
-const NoEventsMessage = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 50px;
-  padding: 40px;
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 20px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-
-  p {
-    font-size: 1.5rem;
-    color: #666;
-    margin-bottom: 20px;
-    font-weight: 500;
-  }
-
-  .emoji {
-    font-size: 3rem;
-    margin-bottom: 15px;
-  }
-`;
-
-// Enhanced footer with better styling
 const FooterContainer = styled.footer`
   display: flex;
   flex-direction: column;
@@ -373,15 +333,6 @@ const FooterContainer = styled.footer`
   text-align: center;
   box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.05);
   position: relative;
-
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-  }
 `;
 
 const FooterText = styled.p`
@@ -404,33 +355,10 @@ const SocialIcons = styled.div`
     font-size: 2.5rem;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.1));
-    position: relative;
-
-    &::after {
-      content: "";
-      position: absolute;
-      bottom: -10px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 0;
-      height: 3px;
-      background: #db2f2f;
-      transition: width 0.3s ease;
-    }
 
     &:hover {
       transform: translateY(-5px) scale(1.15);
       color: #c62828;
-
-      &::after {
-        width: 100%;
-      }
-    }
-
-    &:focus {
-      outline: 2px solid #db2f2f;
-      outline-offset: 4px;
-      border-radius: 4px;
     }
   }
 `;
@@ -449,72 +377,42 @@ const ContactButton = styled.a`
   text-decoration: none;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 8px 25px rgba(219, 47, 47, 0.3);
-  position: relative;
-  overflow: hidden;
-
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, 0.2),
-      transparent
-    );
-    transition: left 0.5s ease;
-  }
 
   &:hover {
     background: linear-gradient(135deg, #c62828, #d32f2f);
     transform: translateY(-3px);
     box-shadow: 0 12px 30px rgba(219, 47, 47, 0.4);
-
-    &::before {
-      left: 100%;
-    }
-  }
-
-  &:focus {
-    outline: 2px solid #fff;
-    outline-offset: 4px;
   }
 
   svg {
     margin-left: 10px;
     font-size: 1.1rem;
-    transition: transform 0.3s ease;
-  }
-
-  &:hover svg {
-    transform: translateX(3px);
   }
 `;
 
-// Loading skeleton for better UX
-const CardSkeleton = styled.div`
-  min-width: 320px;
-  max-width: 360px;
-  min-height: 520px;
-  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-  background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
+const NoEventsMessage = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+  padding: 40px;
+  background: rgba(255, 255, 255, 0.9);
   border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 
-  @keyframes shimmer {
-    0% {
-      background-position: -200% 0;
-    }
-    100% {
-      background-position: 200% 0;
-    }
+  p {
+    font-size: 1.5rem;
+    color: #666;
+    margin-bottom: 20px;
+    font-weight: 500;
+  }
+
+  .emoji {
+    font-size: 3rem;
+    margin-bottom: 15px;
   }
 `;
-
-// Main Events Component with improvements
+// Main Events Component
 export const Events = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -525,16 +423,6 @@ export const Events = () => {
 
   const handleCardClick = (eventId: string | number) => {
     navigate(`/coeur-festifs/event/${eventId}`);
-  };
-
-  const handleKeyPress = (
-    event: React.KeyboardEvent,
-    eventId: string | number
-  ) => {
-    if (event.key === "Enter" || event.key === " ") {
-      event.preventDefault();
-      handleCardClick(eventId);
-    }
   };
 
   const renderPartnersList = (
@@ -563,67 +451,85 @@ export const Events = () => {
         <Title>{t("events.title")}</Title>
 
         {availableEvents.length > 0 ? (
-          <ScrollContainer role="region" aria-label={t("events.title")}>
-            {availableEvents.map((event, index) => (
-              <Card
-                key={event.id}
-                index={index}
-                onClick={() => handleCardClick(event.id)}
-                onKeyDown={(e) => handleKeyPress(e, event.id)}
-                tabIndex={0}
-                role="button"
-                aria-label={`${t("events.viewDetails")} ${event.title}`}
-              >
-                <div className="image-container">
-                  <img
-                    src={event.image}
-                    alt={`${event.title} - ${event.location}`}
-                    loading="lazy"
-                  />
-                </div>
-
-                <div className="info">
-                  <div>
-                    <h2>{event.title}</h2>
-
-                    <div
-                      className="date"
-                      role="text"
-                      aria-label={`Date: ${event.date}`}
-                    >
-                     {event.date && <FaCalendarAlt aria-hidden="true" />}
-                      {event.date && <span>{event.date}</span>}
+          <SwiperContainer>
+            <Swiper
+              modules={[Navigation, Pagination, Autoplay, EffectCoverflow]}
+              spaceBetween={20}
+              slidesPerView={1}
+              navigation
+              pagination={{ clickable: true }}
+              autoplay={{
+                delay: 5000,
+                disableOnInteraction: false,
+              }}
+              effect="coverflow"
+              coverflowEffect={{
+                rotate: 50,
+                stretch: 1,
+                depth: 100,
+                modifier: 1,
+                slideShadows: true,
+              }}
+              breakpoints={{
+                640: {
+                  slidesPerView: 1,
+                  spaceBetween: 20,
+                },
+                768: {
+                  slidesPerView: 2,
+                  spaceBetween: 10,
+                },
+                1024: {
+                  slidesPerView: 3,
+                  spaceBetween: 30,
+                },
+              }}
+              loop={availableEvents.length > 3}
+            >
+              {availableEvents.map((event) => (
+                <SwiperSlide key={event.id}>
+                  <Card onClick={() => handleCardClick(event.id)}>
+                    <div className="image-container">
+                      <img
+                        src={event.image}
+                        alt={`${event.title} - ${event.location}`}
+                        loading="lazy"
+                      />
                     </div>
 
-                    <div
-                      className="location"
-                      role="text"
-                      aria-label={`Location: ${event.location}`}
-                    >
-                     {event.location && <FaMapMarkerAlt aria-hidden="true" />}
-                      {event.location && <span>{event.location}</span>}
+                    <div className="info">
+                      <div>
+                        <h2>{event.title}</h2>
+
+                        <div className="date">
+                          {event.date && <FaCalendarAlt />}
+                          {event.date && <span>{event.date}</span>}
+                        </div>
+
+                        <div className="location">
+                          {event.location && <FaMapMarkerAlt />}
+                          {event.location && <span>{event.location}</span>}
+                        </div>
+
+                        {renderPartnersList(event.partner, "Partners")}
+                        {renderPartnersList(event.Sponsor, "Sponsors")}
+                      </div>
+
+                      <Button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleCardClick(event.id);
+                        }}
+                      >
+                        <span>View Details</span>
+                        <FaExternalLinkAlt />
+                      </Button>
                     </div>
-
-                    {event.description && <p className="description">{event.description}</p>}
-
-                    {renderPartnersList(event.partner, "events.partner")}
-                    {renderPartnersList(event.Sponsor, "events.sponsor")}
-                  </div>
-
-                  <Button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleCardClick(event.id);
-                    }}
-                    aria-label={`${t("events.viewDetails")} ${event.title}`}
-                  >
-                    <span>{t("events.viewDetails")}</span>
-                    <FaExternalLinkAlt aria-hidden="true" />
-                  </Button>
-                </div>
-              </Card>
-            ))}
-          </ScrollContainer>
+                  </Card>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </SwiperContainer>
         ) : (
           <NoEventsMessage role="status" aria-live="polite">
             <div className="emoji" role="img" aria-label="Calendar">
