@@ -1,7 +1,7 @@
-// schema for event data
 export type Event = {
   id: string;
   isAvailable?: boolean;
+  isPast?: boolean;
   title: string;
   date: string;
   location: string;

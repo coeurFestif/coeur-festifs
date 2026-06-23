@@ -1,13 +1,103 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* Fonts loaded via <link> in index.html — removed @import to avoid render-blocking */
+
+/* ─────────────────────────────────────────────
+   Design tokens
+───────────────────────────────────────────── */
+:root {
+  /* Brand */
+  --c-primary:        #e63946;
+  --c-primary-dark:   #c62828;
+  --c-primary-light:  #ff6b6b;
+  --c-primary-surface:#fff0f0;
+  --c-accent-blue:    #9fb5f2;
+  --c-accent-coral:   #ff9a9e;
+  --c-accent-orange:  #ffb347;
+  --c-accent-pink:    #fad4c4;
+
+  /* Neutrals — warm cream palette */
+  --c-white:   #ffffff;
+  --c-cream:   #fff8f5;
+  --c-n50:     #fff8f5;
+  --c-n100:    #fff0f0;
+  --c-n200:    #f5e0e0;
+  --c-n400:    #9ca3af;
+  --c-n600:    #4a4a4a;
+  --c-n700:    #374151;
+  --c-n800:    #2d3a4b;
+  --c-n900:    #1a1a1a;
+
+  /* Typography */
+  --f-display: 'Fredoka', sans-serif;
+  --f-body:    'Nunito', sans-serif;
+
+  /* Spacing (8-pt grid) */
+  --sp-1: 4px;  --sp-2: 8px;   --sp-3: 12px;  --sp-4: 16px;
+  --sp-5: 20px; --sp-6: 24px;  --sp-8: 32px;  --sp-10: 40px;
+  --sp-12: 48px; --sp-16: 64px; --sp-20: 80px; --sp-24: 96px;
+
+  /* Radii */
+  --r-sm:   8px;
+  --r-md:   14px;
+  --r-lg:   20px;
+  --r-xl:   24px;
+  --r-2xl:  28px;
+  --r-full: 9999px;
+
+  /* Shadows — warmer tones */
+  --sh-xs: 0 1px 3px rgba(180,50,50,.06), 0 1px 2px rgba(180,50,50,.04);
+  --sh-sm: 0 2px 8px rgba(180,50,50,.08);
+  --sh-md: 0 4px 20px rgba(180,50,50,.11);
+  --sh-lg: 0 8px 40px rgba(180,50,50,.15);
+  --sh-xl: 0 16px 64px rgba(180,50,50,.18);
+
+  /* Motion */
+  --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* ─────────────────────────────────────────────
+   Reset & base
+───────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--f-body);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--c-n800);
+  background: var(--c-cream);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+img, video { max-width: 100%; display: block; }
+
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 16px;
+  z-index: 9999;
+  padding: 8px 18px;
+  background: var(--c-primary);
+  color: #fff;
+  font-family: var(--f-body);
+  font-weight: 700;
+  font-size: 0.9rem;
+  border-radius: 0 0 var(--r-md) var(--r-md);
+  text-decoration: none;
+}
+.skip-link:focus { top: 0; }
+
+button { font-family: var(--f-body); cursor: pointer; }
+
+a { color: inherit; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }

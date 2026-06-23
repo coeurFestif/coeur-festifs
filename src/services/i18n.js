@@ -15,18 +15,28 @@ const resources = {
         subtitle: "Discover the latest news and events on our site",
         explore: "Explore",
         partnershipTitle: "Our Partners",
+        stats: {
+          volunteers: "Volunteers",
+          events: "Events",
+          partners: "Partners",
+          founders: "Founders",
+        },
       },
 
       footer: {
         title: "Events",
-        desc: "Discover upcoming events near you.",
+        desc: "Bringing joy and unforgettable memories to children in need, one festive day at a time.",
         contact: "Contact us",
+        nav: "Navigation",
+        rights: "All rights reserved.",
+        madeWith: "Made with ♥ for children",
       },
 
       aboutUs: {
         title: "About us",
         presidentsTitle: "Meet our team",
         presidentsText: "Co-president",
+        teamLabel: "Our team",
         benevoleText:
           "We are proud to have 36 dedicated volunteers who share their time, energy, and passion to brighten the lives of children.",
         missionTitle: "Our Mission",
@@ -56,6 +66,8 @@ const resources = {
       notFound: {
         title: "404",
         subtitle: "Page not found",
+        desc: "The page you're looking for doesn't exist or has been moved.",
+        backHome: "Back to home",
       },
 
       events: {
@@ -63,6 +75,14 @@ const resources = {
         subtitle: "Discover exciting upcoming events on our site",
         noEventsMessage: "No events scheduled at the moment.",
         viewDetails: "View details",
+        upcomingTitle: "Upcoming Events",
+        pastTitle: "Past Events",
+        noUpcomingMessage: "No upcoming events yet — stay tuned!",
+        pastBadge: "Past",
+        notFound: "Event not found",
+        notFoundDesc: "This event does not exist or has been removed.",
+        share: "Share",
+        copied: "Copied!",
         partner: "Partners",
         sponsor: "Sponsors",
         collaboration: " In collaboration with ",
@@ -175,12 +195,19 @@ const resources = {
           "Découvrez les dernières actualités et événements sur notre site",
         explore: "Explorer",
         partnershipTitle: "Nos Partenaires",
+        stats: {
+          volunteers: "Bénévoles",
+          events: "Événements",
+          partners: "Partenaires",
+          founders: "Fondatrices",
+        },
       },
 
       aboutUs: {
         title: "À propos de nous",
         presidentsTitle: "Découvrez notre équipe",
         presidentsText: "Co-présidente",
+        teamLabel: "Notre équipe",
         benevoleText:
           "Nous sommes fiers de pouvoir compter sur 36 bénévoles engagés qui partagent leur temps, leur énergie et leur passion pour illuminer la vie des enfants.",
         missionTitle: "Notre Mission",
@@ -194,8 +221,11 @@ const resources = {
 
       footer: {
         title: "Événements",
-        desc: "Découvrez les événements à venir près de chez vous.",
+        desc: "Apporter de la joie et des souvenirs inoubliables aux enfants dans le besoin, une journée festive à la fois.",
         contact: "Contactez-nous",
+        nav: "Navigation",
+        rights: "Tous droits réservés.",
+        madeWith: "Fait avec ♥ pour les enfants",
       },
 
       contactUs: {
@@ -216,6 +246,8 @@ const resources = {
       notFound: {
         title: "404",
         subtitle: "Page non trouvée",
+        desc: "La page que vous cherchez n'existe pas ou a été déplacée.",
+        backHome: "Retour à l'accueil",
       },
 
       events: {
@@ -223,10 +255,18 @@ const resources = {
         subtitle:
           "Découvrez les événements passionnants à venir sur notre site",
         noEventsMessage: "Aucun événement prévu pour le moment.",
+        viewDetails: "Voir les détails",
+        upcomingTitle: "Événements à venir",
+        pastTitle: "Événements passés",
+        noUpcomingMessage: "Aucun événement à venir pour le moment — restez connectés !",
+        pastBadge: "Passé",
+        notFound: "Événement introuvable",
+        notFoundDesc: "Cet événement n'existe pas ou a été supprimé.",
+        share: "Partager",
+        copied: "Copié !",
         collaboration: " En collaboration avec ",
         partner: "Partenaires",
         sponsor: "Commanditaires",
-        viewDetails: "Voir les détails",
         Footer: {
           title: "Restez connectés !",
           desc: "De nombreux événements excitants sont en préparation ! Restez connectés et suivez-nous sur nos réseaux sociaux pour ne rien manquer. Nous sommes également ouverts à vos idées et propositions de projets pour de futurs partenariats. N'hésitez pas à nous contacter — nous serions ravis de collaborer avec vous ! 😊",

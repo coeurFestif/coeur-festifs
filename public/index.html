@@ -1,43 +1,85 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/logo.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>Coeurs Festifs</title>
+    <!-- Viewport & theme -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#e63946" />
+
+    <!-- Primary SEO -->
+    <title>Coeurs Festifs — Événements festifs pour enfants à Montréal</title>
+    <meta name="description" content="Coeurs Festifs organise des événements festifs gratuits pour les enfants dans le besoin à Montréal. Rejoignez nos 36 bénévoles et découvrez nos prochains événements." />
+    <meta name="keywords" content="Coeurs Festifs, événements enfants, bénévoles Montréal, organisme enfants, fêtes enfants Montréal, CDN, association jeunesse" />
+    <meta name="author" content="Coeurs Festifs" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Canonical — update to your final domain when deploying to Vercel -->
+    <link rel="canonical" href="https://coeurFestif.github.io/coeur-festifs/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Coeurs Festifs" />
+    <meta property="og:title" content="Coeurs Festifs — Événements festifs pour enfants à Montréal" />
+    <meta property="og:description" content="Coeurs Festifs organise des événements festifs gratuits pour les enfants dans le besoin à Montréal. Rejoignez nos 36 bénévoles et découvrez nos prochains événements." />
+    <meta property="og:url" content="https://coeurFestif.github.io/coeur-festifs/" />
+    <meta property="og:image" content="https://coeurFestif.github.io/coeur-festifs/logo512.png" />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
+    <meta property="og:locale" content="fr_CA" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Coeurs Festifs — Événements festifs pour enfants à Montréal" />
+    <meta name="twitter:description" content="Coeurs Festifs organise des événements festifs gratuits pour les enfants dans le besoin à Montréal." />
+    <meta name="twitter:image" content="https://coeurFestif.github.io/coeur-festifs/logo512.png" />
+
+    <!-- Icons & manifest -->
+    <link rel="icon" href="%PUBLIC_URL%/logo.png" />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+
+    <!-- Google Fonts — non-blocking via <link> instead of CSS @import -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap" />
+
+    <!-- hreflang: single URL hosts both languages -->
+    <link rel="alternate" hreflang="fr" href="https://coeurFestif.github.io/coeur-festifs/" />
+    <link rel="alternate" hreflang="en" href="https://coeurFestif.github.io/coeur-festifs/" />
+    <link rel="alternate" hreflang="x-default" href="https://coeurFestif.github.io/coeur-festifs/" />
+
+    <!-- JSON-LD: Organization -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "NGO",
+      "name": "Coeurs Festifs",
+      "url": "https://coeurFestif.github.io/coeur-festifs/",
+      "logo": "https://coeurFestif.github.io/coeur-festifs/logo512.png",
+      "description": "Organisation à but non lucratif qui organise des événements festifs gratuits pour les enfants dans le besoin à Montréal.",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Montréal",
+        "addressRegion": "QC",
+        "addressCountry": "CA"
+      },
+      "email": "coeurs.festifs@gmail.com",
+      "sameAs": [
+        "https://www.instagram.com/coeurs.festifs",
+        "https://www.facebook.com/profile.php?id=61571443886637",
+        "https://www.linkedin.com/in/c%C5%93urs-festifs-39b901360/"
+      ],
+      "founder": [
+        { "@type": "Person", "name": "Ariane Manekeng Guimfack" },
+        { "@type": "Person", "name": "Clara Maria Bridi" }
+      ],
+      "numberOfEmployees": { "@type": "QuantitativeValue", "value": 36 }
+    }
+    </script>
   </head>
   <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <noscript>Vous devez activer JavaScript pour utiliser ce site.</noscript>
     <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
   </body>
 </html>

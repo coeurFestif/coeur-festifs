@@ -1,46 +1,61 @@
-# Getting Started with Create React App
+# Coeurs Festifs
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Site web de l'organisme **Coeurs Festifs**, une association à but non lucratif basée à Montréal qui organise des événements festifs pour les enfants dans le besoin.
 
-## Available Scripts
+## À propos
 
-In the project directory, you can run:
+Coeurs Festifs a été fondé par **Ariane Manekeng Guimfack** et **Clara Maria Bridi**. L'organisation mobilise plus de 36 bénévoles pour créer des moments de joie et d'inclusion pour les enfants, en partenariat avec des organismes communautaires montréalais.
 
-### `npm start`
+**Valeurs :** Compassion · Communauté · Inclusion
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Pages
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+| Route | Description |
+|-------|-------------|
+| `/coeur-festifs` | Accueil — hero vidéo, mission, aperçu événements, partenaires |
+| `/coeur-festifs/events` | Catalogue de tous les événements |
+| `/coeur-festifs/event/:id` | Détail d'un événement |
+| `/coeur-festifs/about` | À propos — équipe, valeurs, mission |
 
-### `npm test`
+## Stack technique
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **React 18** + **TypeScript**
+- **styled-components** — design system via variables CSS (`--c-primary`, `--f-display`, etc.)
+- **React Router v6** — navigation SPA avec HashRouter
+- **i18next / react-i18next** — internationalisation (FR/EN)
+- **EmailJS** — formulaire de contact sans backend
+- **Swiper / react-slick** — carrousels
+- **GitHub Pages** — déploiement via `gh-pages`
 
-### `npm run build`
+## Démarrage local
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+npm install
+npm start
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+L'application sera disponible sur [http://localhost:3000](http://localhost:3000).
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Scripts disponibles
 
-### `npm run eject`
+| Commande | Description |
+|----------|-------------|
+| `npm start` | Serveur de développement |
+| `npm run build` | Build de production |
+| `npm test` | Tests unitaires |
+| `npm run deploy` | Build + déploiement sur GitHub Pages |
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Déploiement
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Le site est déployé automatiquement sur GitHub Pages via la commande `npm run deploy`. L'URL de production est configurée dans `package.json` via le champ `homepage`.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Partenaires
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Carrefour Jeunesse Emploi CDN–Outremont–VMR
+- Répit Providence
+- Centre communautaire Mountain Sights
+- PROMIS
+- Maison de la culture CDN
+- Fondation du Dr Julien
+- Garage à Musique
+- Mini Molars Club

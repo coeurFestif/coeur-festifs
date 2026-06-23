@@ -9,7 +9,6 @@ export const useForceUpdateOnLanguageChange = () => {
       setLanguage(i18n.language);
     };
 
-    console.log("useForceUpdateOnLanguageChange", i18n.language);
     i18n.on("languageChanged", handleLanguageChange);
 
     return () => {

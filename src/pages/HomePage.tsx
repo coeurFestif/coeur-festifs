@@ -1,9 +1,11 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { FaArrowRight, FaMapMarkerAlt } from "react-icons/fa";
 import logo from "../assets/logo.png";
 import backgroundVideo from "../assets/backgroundVideo.mp4";
-import { useTranslation } from "react-i18next";
+import { useEventData } from "../data/events";
 import carrefour from "../assets/CJE.jpg";
 import repit from "../assets/repitProvidence.png";
 import promis from "../assets/promis.png";
@@ -13,264 +15,490 @@ import mountainSights from "../assets/mountainSights.png";
 import garageMusique from "../assets/garageMusique.png";
 import minimolars from "../assets/minimolars.png";
 
-// Animations
-const fadeIn = keyframes`
-  from { 
-    opacity: 0; 
-    transform: translateY(30px); 
-  }
-  to { 
-    opacity: 1; 
-    transform: translateY(0); 
+/* ── Animations ────────────────────────────────────────────── */
+
+const fadeUp = keyframes`
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+`;
+
+const scaleIn = keyframes`
+  from { opacity: 0; transform: scale(.94); }
+  to   { opacity: 1; transform: scale(1); }
+`;
+
+/* ── Utility ───────────────────────────────────────────────── */
+
+const Section = styled.section`
+  width: 100%;
+`;
+
+const Inner = styled.div`
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 var(--sp-12);
+
+  @media (max-width: 768px) {
+    padding: 0 var(--sp-6);
   }
 `;
 
-const slideUp = keyframes`
-  from { 
-    opacity: 0; 
-    transform: translateY(40px); 
-  }
-  to { 
-    opacity: 1; 
-    transform: translateY(0); 
-  }
+/* ═══════════════════════════════════════════════════════
+   1 · HERO
+═══════════════════════════════════════════════════════ */
+
+const HeroSection = styled(Section)`
+  position: relative;
+  height: 100dvh;
+  min-height: 600px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  width: 100%;
+  padding-top: 68px;
+  box-sizing: border-box;
+  background: linear-gradient(to top, rgba(180,18,28,.9) 0%, rgba(20,10,10,.6) 100%);
 `;
 
-const float = keyframes`
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-`;
-
-const shimmer = keyframes`
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
-`;
-
-// Full-screen video background
-const VideoBackground = styled.video`
+const HeroBg = styled.video`
   position: absolute;
-  top: 0;
-  left: 0;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  z-index: -2;
-  opacity: 0.85;
+  z-index: 0;
   pointer-events: none;
 `;
 
-// Light overlay for text readability
-const Overlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.7) 0%,
-    rgba(255, 255, 255, 0.3) 100%
-  );
-  backdrop-filter: blur(5px);
-  z-index: -1;
-`;
-
-// Main container for content with section delimitations
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-`;
-
-// Hero Container
-const HeroContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-size: cover;
-  background-position: center;
-  position: relative;
-  overflow: hidden;
-  height: 800px;
-  width: 100%;
-`;
-
-// Hero section content
-const HeroContent = styled.div`
-  max-width: 900px;
-  width: 100%;
-  padding: 20px;
-  height: 100%;
+const HeroOverlay = styled.div`
+  position: absolute;
+  inset: 0;
   z-index: 1;
+  background: linear-gradient(
+    to top,
+    rgba(180, 18, 28, 0.85) 0%,
+    rgba(40, 10, 10, 0.55) 45%,
+    rgba(0, 0, 0, 0.18) 100%
+  );
+`;
+
+const HeroContent = styled(Inner)`
+  position: relative;
+  z-index: 2;
+  flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  backdrop-filter: blur(10px);
+  justify-content: flex-end;
+  padding-bottom: var(--sp-8);
+  min-height: 0;
+  width: 100%;
+
   @media (max-width: 768px) {
-    padding: 0 20px;
+    padding-bottom: var(--sp-6);
   }
 `;
 
-// Logo styling with larger size and soft shadow
-const Logo = styled.img`
-  width: 180px;
-  height: 180px;
-  margin-bottom: 20px;
-  position: relative;
-  border-radius: 50%;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-  @media (min-width: 768px) {
-    width: 300px;
-    height: 300px;
-  }
+const HeroBadge = styled.span`
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: var(--c-white);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: var(--r-full);
+  margin-bottom: var(--sp-5);
+  animation: ${fadeUp} 0.6s var(--ease-out) 0.1s both;
+  width: fit-content;
 `;
 
-// Title with responsive design
-const Title = styled.h1`
-  font-size: 2.8rem;
-  font-weight: bold;
-  margin: 15px 0;
-  color: #ff6347;
-  text-shadow: 2px 4px 6px rgba(0, 0, 0, 0.2);
-  padding-bottom: 30px;
-
-  @media (max-width: 480px) {
-    font-size: 2rem;
-  }
-
-  @media (min-width: 481px) and (max-width: 768px) {
-    font-size: 2.5rem;
-  }
-
-  @media (min-width: 769px) and (max-width: 1024px) {
-    font-size: 2.6rem;
-  }
+const HeroTitle = styled.h1`
+  font-family: var(--f-display);
+  font-size: clamp(2.6rem, 6vw, 4.4rem);
+  font-weight: 700;
+  color: var(--c-white);
+  line-height: 1.1;
+  margin-bottom: var(--sp-5);
+  max-width: 720px;
+  animation: ${fadeUp} 0.7s var(--ease-out) 0.2s both;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.3);
 `;
 
-// Button with improved styling
-const Button = styled.button`
-  padding: 15px 30px;
-  background: linear-gradient(135deg, #ff9a9e, #fad4c4);
-  color: #fff;
+
+const HeroCTAs = styled.div`
+  display: flex;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+  animation: ${fadeUp} 0.7s var(--ease-out) 0.42s both;
+`;
+
+const BtnPrimary = styled.button`
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  background: var(--c-white);
+  color: var(--c-primary);
   border: none;
-  border-radius: 15px;
-  font-size: 1.2rem;
-  font-weight: bold;
+  font-family: var(--f-body);
+  font-size: 0.95rem;
+  font-weight: 800;
+  padding: 13px 28px;
+  border-radius: var(--r-full);
   cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 8px 15px rgba(255, 145, 145, 0.3);
+  min-height: 48px;
+  box-shadow: var(--sh-md);
+  transition:
+    transform 200ms var(--ease-spring),
+    box-shadow 200ms ease;
 
   &:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 20px rgba(255, 145, 145, 0.4);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: var(--sh-lg);
   }
-
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(255, 165, 165, 0.4);
-  }
-
-  @media (max-width: 768px) {
-    font-size: 1rem;
+  &:active {
+    transform: scale(0.98);
   }
 `;
 
-// Partnership Section Styles
-const PartnershipSection = styled.section`
+const BtnGhost = styled.button`
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  background: transparent;
+  color: var(--c-white);
+  border: 2px solid rgba(255, 255, 255, 0.55);
+  font-family: var(--f-body);
+  font-size: 0.95rem;
+  font-weight: 700;
+  padding: 11px 26px;
+  border-radius: var(--r-full);
+  cursor: pointer;
+  min-height: 48px;
+  transition:
+    background 150ms ease,
+    border-color 150ms ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.8);
+  }
+`;
+
+/* Stats bar */
+const StatsBar = styled.div`
+  flex-shrink: 0;
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(16px);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  width: 100%;
+  overflow: hidden;
+`;
+
+const StatsInner = styled(Inner)`
+  display: flex;
+  padding-top: var(--sp-5);
+  padding-bottom: var(--sp-5);
+  gap: 0;
+  box-sizing: border-box;
+
+  @media (max-width: 480px) {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+`;
+
+const Stat = styled.div`
+  flex: 1;
+  text-align: center;
+  color: var(--c-white);
+  padding: var(--sp-3) var(--sp-2);
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+
+  &:last-child { border-right: none; }
+
+  @media (max-width: 480px) {
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+
+    &:nth-child(2) { border-right: none; }
+    &:nth-child(3) { border-bottom: none; }
+    &:nth-child(4) { border-right: none; border-bottom: none; }
+  }
+`;
+
+const StatNum = styled.div`
+  font-family: var(--f-display);
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 4px;
+`;
+
+const StatLabel = styled.div`
+  font-size: clamp(0.7rem, 2vw, 1rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.7;
+`;
+
+/* ═══════════════════════════════════════════════════════
+   2 · MISSION QUOTE
+═══════════════════════════════════════════════════════ */
+
+const MissionSection = styled(Section)`
+  padding: var(--sp-20) 0;
+  background: var(--c-white);
+`;
+
+const MissionInner = styled(Inner)`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 120px 40px;
-  background: white;
-  color: white;
-  width: 100%;
-  min-height: 100vh;
   text-align: center;
-  position: relative;
-  overflow: hidden;
+  gap: var(--sp-5);
+`;
 
-  &::before {
-    content: "";
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(
-        circle at 20% 30%,
-        rgba(255, 255, 255, 0.1) 0%,
-        transparent 60%
-      ),
-      radial-gradient(
-        circle at 80% 70%,
-        rgba(59, 130, 246, 0.08) 0%,
-        transparent 60%
-      );
-    animation: rotate 30s linear infinite;
-    pointer-events: none;
-  }
+const QuoteMark = styled.div`
+  font-family: var(--f-display);
+  font-size: 5rem;
+  line-height: 0.6;
+  color: var(--c-primary);
+  opacity: 0.2;
+  user-select: none;
+`;
 
-  @media (max-width: 768px) {
-    padding: 80px 20px;
+const MissionQuote = styled.blockquote`
+  font-family: var(--f-display);
+  font-size: clamp(1.6rem, 3.5vw, 2.6rem);
+  font-weight: 700;
+  color: var(--c-n900);
+  line-height: 1.25;
+  max-width: 860px;
+  border: none;
+  padding: 0;
+`;
+
+const MissionSub = styled.p`
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--c-n600);
+  max-width: 600px;
+  line-height: 1.7;
+`;
+
+/* ═══════════════════════════════════════════════════════
+   3 · EVENTS PREVIEW
+═══════════════════════════════════════════════════════ */
+
+const EventsSection = styled(Section)`
+  padding: var(--sp-20) 0;
+  background: var(--c-n50);
+`;
+
+const SectionHeader = styled.div`
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: var(--sp-8);
+  gap: var(--sp-4);
+  flex-wrap: wrap;
+`;
+
+const SectionEyebrow = styled.p`
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--c-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: var(--sp-2);
+`;
+
+const SectionTitle = styled.h2`
+  font-family: var(--f-display);
+  font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+  font-weight: 700;
+  color: var(--c-n900);
+  line-height: 1.15;
+`;
+
+const SeeAllBtn = styled.button`
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  font-family: var(--f-body);
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--c-primary);
+  cursor: pointer;
+  padding: 0;
+  white-space: nowrap;
+  transition: gap 150ms ease;
+
+  &:hover {
+    gap: 10px;
   }
 `;
 
-const PartnershipTitle = styled.h2`
-  font-size: 3.5rem;
-  font-weight: 100;
-  color: rgba(0, 0, 0, 0.95);
-  margin-bottom: 50px;
-  letter-spacing: -0.03em;
-  text-transform: uppercase;
-  position: relative;
-  animation: ${fadeIn} 1.2s ease-out 0.2s both;
+const EventsGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-6);
 
-  &::after {
-    content: "";
+  @media (max-width: 960px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (max-width: 560px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+const CARD_ACCENTS = ["#e63946", "#4361ee", "#f97316"];
+
+interface ECardProps {
+  accent: string;
+}
+
+const EventCard = styled.article<ECardProps>`
+  background: var(--c-white);
+  border-radius: var(--r-lg);
+  border: 1.5px solid var(--c-n200);
+  overflow: hidden;
+  cursor: pointer;
+  transition:
+    transform 220ms var(--ease-spring),
+    box-shadow 220ms ease,
+    border-color 200ms ease;
+  animation: ${scaleIn} 0.5s var(--ease-out) both;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--sh-lg);
+    border-color: ${(p) => p.accent}44;
+  }
+
+  &:nth-child(1) {
+    animation-delay: 0.05s;
+  }
+  &:nth-child(2) {
+    animation-delay: 0.12s;
+  }
+  &:nth-child(3) {
+    animation-delay: 0.19s;
+  }
+
+  .img-wrap {
+    position: relative;
+    height: 190px;
+    overflow: hidden;
+    background: var(--c-n100);
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+  }
+
+  &:hover .img-wrap img {
+    transform: scale(1.05);
+  }
+
+  .date-pill {
     position: absolute;
-    bottom: -15px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80px;
-    height: 1px;
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      rgba(0, 0, 0, 0.6) 50%,
-      transparent 100%
-    );
+    bottom: 10px;
+    left: 12px;
+    background: var(--c-white);
+    border-radius: var(--r-sm);
+    padding: 5px 10px;
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: ${(p) => p.accent};
+    box-shadow: var(--sh-sm);
+    max-width: calc(100% - 24px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
-  @media (max-width: 480px) {
-    font-size: 2.2rem;
+  .body {
+    padding: var(--sp-5) var(--sp-5) var(--sp-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-3);
   }
 
-  @media (min-width: 481px) and (max-width: 768px) {
-    font-size: 2.8rem;
+  h3 {
+    font-family: var(--f-display);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--c-n900);
+    line-height: 1.25;
+    margin: 0;
   }
+`;
+
+const EventMeta = styled.div`
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--c-n600);
+
+  svg {
+    color: var(--c-primary);
+    flex-shrink: 0;
+    margin-top: 2px;
+    font-size: 0.8rem;
+  }
+`;
+
+const CardLink = styled.div<{ accent: string }>`
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: ${(p) => p.accent};
+  margin-top: var(--sp-1);
+  transition: gap 150ms ease;
+
+  article:hover & {
+    gap: 9px;
+  }
+`;
+
+/* ═══════════════════════════════════════════════════════
+   4 · PARTNERS
+═══════════════════════════════════════════════════════ */
+
+const PartnersSection = styled(Section)`
+  padding: var(--sp-20) 0;
+  background: var(--c-white);
 `;
 
 const PartnerGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 40px;
-  width: 100%;
-  max-width: 1200px;
-  margin-top: 20px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--sp-4);
 
-  @media (max-width: 768px) {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 30px;
-    max-width: 600px;
+  @media (max-width: 900px) {
+    grid-template-columns: repeat(3, 1fr);
   }
-
-  @media (max-width: 480px) {
-    grid-template-columns: 1fr;
-    gap: 25px;
-    max-width: 300px;
+  @media (max-width: 560px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--sp-3);
   }
 `;
 
@@ -279,262 +507,219 @@ const PartnerCard = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: rgba(247, 126, 126, 0.64);
-  padding: 50px 30px;
-  border: 1px solid rgba(218, 149, 149, 0);
-  backdrop-filter: blur(20px);
-  height: 220px;
-  position: relative;
-  overflow: hidden;
-  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-  animation: ${slideUp} 1s ease-out both;
-
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      rgb(255, 255, 255) 50%,
-      transparent 100%
-    );
-    transition: left 0.8s ease;
-  }
-
-  &::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: linear-gradient(
-      90deg,
-      rgba(139, 92, 246, 0.6) 0%,
-      rgba(59, 130, 246, 0.6) 50%,
-      rgba(236, 72, 153, 0.6) 100%
-    );
-    transform: scaleX(0);
-    transition: transform 0.3s ease;
-  }
+  gap: var(--sp-3);
+  padding: var(--sp-6) var(--sp-5);
+  background: var(--c-n50);
+  border: 1.5px solid var(--c-n200);
+  border-radius: var(--r-lg);
+  transition:
+    border-color 200ms ease,
+    box-shadow 200ms ease,
+    transform 200ms var(--ease-spring);
 
   &:hover {
-    transform: translateY(-12px);
-    border-color: rgba(255, 255, 255, 0.12);
-    background: rgba(255, 255, 255, 0.04);
-
-    &::before {
-      left: 100%;
-    }
-
-    &::after {
-      transform: scaleX(1);
-    }
-  }
-
-  &:nth-child(1) {
-    animation-delay: 0.1s;
-  }
-  &:nth-child(2) {
-    animation-delay: 0.2s;
-  }
-  &:nth-child(3) {
-    animation-delay: 0.3s;
-  }
-  &:nth-child(4) {
-    animation-delay: 0.4s;
-  }
-  &:nth-child(5) {
-    animation-delay: 0.5s;
-  }
-  &:nth-child(6) {
-    animation-delay: 0.6s;
+    border-color: var(--c-primary);
+    box-shadow: 0 4px 20px rgba(230, 57, 70, 0.12);
+    transform: translateY(-3px);
   }
 `;
 
-const PartnerIcon = styled.div`
-  width: 120px;
-  height: 120px;
-  background: rgb(255, 255, 255);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 50%;
+const PartnerLogo = styled.div`
+  width: 72px;
+  height: 72px;
+  border-radius: var(--r-full);
+  background: var(--c-white);
+  border: 1.5px solid var(--c-n200);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 25px;
-  transition: all 0.4s ease;
-  font-size: 3rem;
-  animation: ${float} 4s ease-in-out infinite;
-  position: relative;
   overflow: hidden;
+  flex-shrink: 0;
 
-  &::before {
-    content: "";
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: conic-gradient(
-      from 0deg,
-      transparent 0deg,
-      rgba(139, 92, 246, 0.1) 90deg,
-      transparent 180deg
-    );
-    animation: rotate 6s linear infinite;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-
-  ${PartnerCard}:hover & {
-    background: rgba(255, 255, 255, 0.06);
-    border-color: rgba(255, 255, 255, 0.15);
-    transform: scale(1.1);
-
-    &::before {
-      opacity: 1;
-    }
+  img {
+    width: 80%;
+    height: 80%;
+    object-fit: contain;
   }
 `;
 
-const PartnerName = styled.h4`
-  font-size: 0.95rem;
-  font-weight: 300;
-  color: rgba(0, 0, 0, 0.8);
+const PartnerName = styled.p`
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--c-n800);
   text-align: center;
-  line-height: 1.4;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  line-height: 1.35;
   margin: 0;
-  transition: color 0.3s ease;
-
-  ${PartnerCard}:hover & {
-    color: rgb(0, 0, 0);
-  }
 `;
 
-// HomePage Component
+/* ═══════════════════════════════════════════════════════
+   Component
+═══════════════════════════════════════════════════════ */
+
+const PARTNERS = [
+  { img: carrefour, name: "Carrefour Jeunesse Emploi CDN–Outremont–VMR" },
+  { img: repit, name: "Répit Providence" },
+  { img: mountainSights, name: "Centre communautaire Mountain Sights" },
+  { img: promis, name: "PROMIS" },
+  { img: maisonCulture, name: "Maison de la culture CDN" },
+  { img: fondationDrJulien, name: "Fondation du Dr Julien" },
+  { img: garageMusique, name: "Garage à Musique" },
+  { img: minimolars, name: "Mini Molars Club" },
+];
+
 export const HomePage = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const events = useEventData();
+  const preview = events.filter((e) => e.isAvailable).slice(0, 3);
 
   return (
-    <Container>
-      {/* Hero Section */}
-      <HeroContainer>
-        {/* Background video */}
-        <VideoBackground autoPlay loop muted playsInline>
+    <>
+      {/* ── 1 · Hero ── */}
+      <HeroSection aria-labelledby="hero-heading">
+        <HeroBg autoPlay loop muted playsInline aria-hidden="true">
           <source src={backgroundVideo} type="video/mp4" />
-        </VideoBackground>
+        </HeroBg>
+        <HeroOverlay aria-hidden="true" />
 
-        {/* Light overlay */}
-        <Overlay />
-
-        {/* Hero content */}
         <HeroContent>
-          <Logo src={logo} alt="Event Logo" />
-          <Title>{t("homepage.title")}</Title>
-          <Button onClick={() => navigate("/coeur-festifs/events")}>
-            {t("homepage.explore")}
-          </Button>
+          <HeroBadge>
+            <img
+              src={logo}
+              alt=""
+              aria-hidden="true"
+              style={{
+                width: 20,
+                height: 20,
+                borderRadius: "50%",
+                objectFit: "cover",
+              }}
+            />
+            Coeurs Festifs
+          </HeroBadge>
+          <HeroTitle id="hero-heading">{t("homepage.title")}</HeroTitle>
+          <HeroCTAs>
+            <BtnPrimary onClick={() => navigate("/coeur-festifs/events")}>
+              {t("homepage.explore")} <FaArrowRight aria-hidden="true" />
+            </BtnPrimary>
+            <BtnGhost onClick={() => navigate("/coeur-festifs/about")}>
+              {t("navBar.about")}
+            </BtnGhost>
+          </HeroCTAs>
         </HeroContent>
-      </HeroContainer>
 
-      {/* Partnership Section */}
-      <PartnershipSection>
-        <PartnershipTitle>
-          {t("homepage.partnershipTitle") || "Our Partners"}
-        </PartnershipTitle>
-        <PartnerGrid>
-          <PartnerCard>
-            <PartnerIcon>
-              <img
-                src={carrefour}
-                style={{ width: "100%", height: "100%" }}
-                alt="Carrefour Jeunesse Emploi Côte-des-Neiges"
-              />
-            </PartnerIcon>
-            <PartnerName>
-              Carrefour Jeunesse Emploi Côte-des-Neiges, Outremont et Ville
-              Mont-Royal
-            </PartnerName>
-          </PartnerCard>
-          <PartnerCard>
-            <PartnerIcon>
-              <img
-                src={repit}
-                style={{ width: "100%", height: "70%" }}
-                alt="Répit Providence"
-              />
-            </PartnerIcon>
-            <PartnerName>Répit Providence</PartnerName>
-          </PartnerCard>
-          <PartnerCard>
-            <PartnerIcon>
-              <img
-                src={mountainSights}
-                style={{ width: "100%", height: "100%" }}
-                alt="Centre communautaire Mountain Sights"
-              />
-            </PartnerIcon>
-            <PartnerName>Centre communautaire Mountain Sights</PartnerName>
-          </PartnerCard>
-          <PartnerCard>
-            <PartnerIcon>
-              <img
-                src={promis}
-                style={{ width: "100%", height: "50%" }}
-                alt="PROMIS"
-              />
-            </PartnerIcon>
-            <PartnerName>PROMIS</PartnerName>
-          </PartnerCard>
-          <PartnerCard>
-            <PartnerIcon>
-              <img
-                src={maisonCulture}
-                style={{ width: "100%", height: "60%" }}
-                alt="Maison de la culture de Côte-des-Neiges"
-              />
-            </PartnerIcon>
-            <PartnerName>Maison de la culture de Côte-des-Neiges</PartnerName>
-          </PartnerCard>
-          <PartnerCard>
-            <PartnerIcon>
-              <img
-                src={fondationDrJulien}
-                style={{ width: "100%", height: "40%" }}
-                alt="Fondation du Dr Julien"
-              />
-            </PartnerIcon>
-            <PartnerName>Fondation du Dr Julien</PartnerName>
-          </PartnerCard>
-          <PartnerCard>
-            <PartnerIcon>
-              <img
-                src={garageMusique}
-                style={{ width: "100%", height: "90%" }}
-                alt="Garage à Musique"
-              />
-            </PartnerIcon>
-            <PartnerName>Garage à Musique</PartnerName>
-          </PartnerCard>
-          <PartnerCard>
-            <PartnerIcon>
-              <img
-                src={minimolars}
-                style={{ width: "80%", height: "80%" }}
-                alt="Minimolars"
-              />
-            </PartnerIcon>
-            <PartnerName>Mini Molars Club</PartnerName>
-          </PartnerCard>
-        </PartnerGrid>
-      </PartnershipSection>
-    </Container>
+        <StatsBar aria-label="Chiffres clés">
+          <StatsInner>
+            <Stat>
+              <StatNum>36</StatNum>
+              <StatLabel>{t("homepage.stats.volunteers")}</StatLabel>
+            </Stat>
+            <Stat>
+              <StatNum>9+</StatNum>
+              <StatLabel>{t("homepage.stats.events")}</StatLabel>
+            </Stat>
+            <Stat>
+              <StatNum>8+</StatNum>
+              <StatLabel>{t("homepage.stats.partners")}</StatLabel>
+            </Stat>
+            <Stat>
+              <StatNum>2</StatNum>
+              <StatLabel>{t("homepage.stats.founders")}</StatLabel>
+            </Stat>
+          </StatsInner>
+        </StatsBar>
+      </HeroSection>
+
+      {/* ── 2 · Mission ── */}
+      <MissionSection aria-labelledby="mission-heading">
+        <MissionInner>
+          <QuoteMark aria-hidden="true">"</QuoteMark>
+          <MissionQuote id="mission-heading">
+            {t("aboutUs.missionTitle")}
+          </MissionQuote>
+          <MissionSub>{t("aboutUs.benevoleText")}</MissionSub>
+        </MissionInner>
+      </MissionSection>
+
+      {/* ── 3 · Events preview ── */}
+      {preview.length > 0 && (
+        <EventsSection aria-labelledby="events-heading">
+          <Inner>
+            <SectionHeader>
+              <div>
+                <SectionEyebrow>Coeurs Festifs</SectionEyebrow>
+                <SectionTitle id="events-heading">
+                  {t("events.title")}
+                </SectionTitle>
+              </div>
+              <SeeAllBtn onClick={() => navigate("/coeur-festifs/events")}>
+                {t("events.viewDetails") ? t("navBar.events") : "Voir tout"}{" "}
+                <FaArrowRight aria-hidden="true" />
+              </SeeAllBtn>
+            </SectionHeader>
+
+            <EventsGrid>
+              {preview.map((ev, i) => {
+                const accent = CARD_ACCENTS[i % CARD_ACCENTS.length];
+                return (
+                  <EventCard
+                    key={ev.id}
+                    accent={accent}
+                    onClick={() => navigate(`/coeur-festifs/event/${ev.id}`)}
+                    role="article"
+                    tabIndex={0}
+                    onKeyDown={(e) =>
+                      e.key === "Enter" &&
+                      navigate(`/coeur-festifs/event/${ev.id}`)
+                    }
+                  >
+                    <div className="img-wrap">
+                      <img src={ev.image} alt={ev.title} loading="lazy" />
+                      {ev.date && <div className="date-pill">📅 {ev.date}</div>}
+                    </div>
+                    <div className="body">
+                      <h3>{ev.title}</h3>
+                      {ev.location && (
+                        <EventMeta>
+                          <FaMapMarkerAlt aria-hidden="true" />
+                          <span>{ev.location}</span>
+                        </EventMeta>
+                      )}
+                      <CardLink accent={accent}>
+                        Voir les détails <FaArrowRight aria-hidden="true" />
+                      </CardLink>
+                    </div>
+                  </EventCard>
+                );
+              })}
+            </EventsGrid>
+          </Inner>
+        </EventsSection>
+      )}
+
+      {/* ── 4 · Partners ── */}
+      <PartnersSection aria-labelledby="partners-heading">
+        <Inner>
+          <SectionHeader>
+            <div>
+              <SectionEyebrow>Ensemble</SectionEyebrow>
+              <SectionTitle id="partners-heading">
+                {t("homepage.partnershipTitle") || "Nos Partenaires"}
+              </SectionTitle>
+            </div>
+          </SectionHeader>
+          <PartnerGrid>
+            {PARTNERS.map((p, i) => (
+              <PartnerCard key={i}>
+                <PartnerLogo>
+                  <img src={p.img} alt={p.name} loading="lazy" />
+                </PartnerLogo>
+                <PartnerName>{p.name}</PartnerName>
+              </PartnerCard>
+            ))}
+          </PartnerGrid>
+        </Inner>
+      </PartnersSection>
+    </>
   );
 };
