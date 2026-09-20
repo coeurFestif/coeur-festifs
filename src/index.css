@@ -13,6 +13,9 @@
   --c-accent-coral:   #ff9a9e;
   --c-accent-orange:  #ffb347;
   --c-accent-pink:    #fad4c4;
+  --c-border:         #efe2dc;
+  --c-neutral-bg:     #f1eae4;
+  --gradient-orb:     linear-gradient(255deg, #e63946 0%, #ff9a9e 30%, #9fb5f2 65%, #ffffff 100%);
 
   /* Neutrals — warm cream palette */
   --c-white:   #ffffff;
