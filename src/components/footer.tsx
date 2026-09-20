@@ -6,8 +6,9 @@ import { useTranslation } from "react-i18next";
 import logo from "../assets/logo.png";
 
 const Shell = styled.footer`
-  background: var(--c-n900);
-  color: rgba(255,255,255,.7);
+  background: var(--c-neutral-bg);
+  border-top: 1px solid var(--c-border);
+  color: var(--c-n900);
 `;
 
 const Top = styled.div`
@@ -55,14 +56,14 @@ const BrandName = styled.span`
   font-family: var(--f-display);
   font-size: 1.25rem;
   font-weight: 700;
-  color: var(--c-white);
+  color: var(--c-n900);
 `;
 
 const FooterDesc = styled.p`
   font-size: 0.875rem;
   font-weight: 500;
   line-height: 1.7;
-  color: rgba(255,255,255,.55);
+  color: var(--c-n600);
   max-width: 300px;
 `;
 
@@ -78,28 +79,26 @@ const SocialBtn = styled.a`
   justify-content: center;
   width: 36px;
   height: 36px;
-  border-radius: var(--r-md);
-  background: rgba(255,255,255,.08);
-  color: rgba(255,255,255,.65);
+  color: var(--c-n600);
   font-size: 0.95rem;
   text-decoration: none;
-  border: 1px solid rgba(255,255,255,.1);
+  border: 1px solid var(--c-border);
   transition: background 150ms ease, color 150ms ease, border-color 150ms ease;
 
   &:hover {
-    background: var(--c-primary);
-    color: var(--c-white);
-    border-color: var(--c-primary);
+    background: var(--c-n900);
+    color: var(--c-cream);
+    border-color: var(--c-n900);
   }
 `;
 
 const ColTitle = styled.h4`
   font-family: var(--f-body);
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: .1em;
-  color: rgba(255,255,255,.4);
+  letter-spacing: .05em;
+  color: var(--c-n900);
   margin-bottom: var(--sp-2);
 `;
 
@@ -109,14 +108,14 @@ const NavItem = styled.button`
   padding: 0;
   font-family: var(--f-body);
   font-size: 0.875rem;
-  font-weight: 500;
-  color: rgba(255,255,255,.6);
+  font-weight: 600;
+  color: var(--c-n600);
   cursor: pointer;
   text-align: left;
   transition: color 150ms ease;
   line-height: 1.8;
 
-  &:hover { color: var(--c-white); }
+  &:hover { color: var(--c-n900); }
 `;
 
 const ContactLine = styled.a`
@@ -124,19 +123,19 @@ const ContactLine = styled.a`
   align-items: center;
   gap: var(--sp-2);
   font-size: 0.875rem;
-  font-weight: 500;
-  color: rgba(255,255,255,.6);
+  font-weight: 600;
+  color: var(--c-n600);
   text-decoration: none;
   transition: color 150ms ease;
   line-height: 1.8;
 
   svg { font-size: 0.8rem; flex-shrink: 0; color: var(--c-primary); }
 
-  &:hover { color: var(--c-white); }
+  &:hover { color: var(--c-n900); }
 `;
 
 const Bottom = styled.div`
-  border-top: 1px solid rgba(255,255,255,.08);
+  border-top: 1px solid var(--c-border);
   max-width: 1280px;
   margin: 0 auto;
   padding: var(--sp-5) var(--sp-12);
@@ -154,12 +153,12 @@ const Bottom = styled.div`
 
 const Copyright = styled.p`
   font-size: 0.8rem;
-  color: rgba(255,255,255,.3);
+  color: var(--c-n400);
 `;
 
 const MadeWith = styled.p`
   font-size: 0.8rem;
-  color: rgba(255,255,255,.3);
+  color: var(--c-n400);
 
   span { color: var(--c-primary); }
 `;
