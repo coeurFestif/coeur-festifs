@@ -7,6 +7,12 @@
 
 **Deux écarts assumés par rapport à la référence source, documentés pour ne pas être perdus :** (1) on garde Fredoka + Nunito comme paire, pas une police unique — un public mixte enfants/parents/partenaires a besoin qu'un titre chunky-arrondi et un corps de texte lisible restent distincts ; (2) on garde **un seul** bouton à remplissage plein (le CTA "Faire un don" / "Je m'inscris") — tout le reste est fantôme/contour — parce qu'un organisme de bienfaisance a besoin qu'au moins une action convertisse visiblement, et le restreindre à un seul renforce plutôt qu'il n'affaiblit la discipline chromatique.
 
+**Changement de direction (2026-09-20) — retour à l'image et au mouvement :** après implémentation réelle, la direction ci-dessus s'est révélée trop textuelle une fois vécue sur le vrai site — trop de typographie, pas assez d'images, pas assez de mouvement. Cette mise à jour garde les tokens (couleurs, typographie, espacement) mais change le traitement du contenu événementiel :
+- **Module "événement à venir" façon cinéma/billetterie** : l'affiche de l'événement (les images d'événements sont de vraies affiches promotionnelles avec texte intégré, pas des photos) est montrée intégralement à côté des informations (date, titre, lieu, CTA) — jamais de texte superposé sur l'affiche, ce qui entrerait en collision avec le texte déjà présent dessus. C'est l'élément le plus visible de la page (accueil et page Événements), directement inspiré des sites de cinéma où l'affiche du film est montrée à côté des horaires/réservation.
+- **Catalogue en cartes photo**, pas en lignes de texte : chaque événement passé redevient une carte avec vignette (l'affiche en `object-fit: cover`, recadrée — acceptable en vignette contrairement à un arrière-plan plein texte), accent de couleur cyclique, corps texte en dessous.
+- **Mouvement réintroduit** : survol carte (lever + zoom léger de l'image), grille de partenaires animée à l'entrée (révélation au défilement) et au survol (désaturation → couleur + léger agrandissement).
+- **Assouplissement de la règle "un seul bouton plein"** : elle reste la valeur par défaut, mais un CTA d'inscription sur le module événement à venir peut aussi être plein (rouge) — la richesse visuelle prime désormais sur la discipline monochrome stricte héritée de l'ancienne référence.
+
 ## Tokens — Couleurs
 
 | Nom | Valeur | Token | Rôle |

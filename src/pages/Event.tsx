@@ -1,22 +1,21 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
 import { useEventData } from "../data/events";
-import { Event } from "../schema/event";
 import { groupPastEventsByYear } from "../utils/eventGrouping";
 import { useRevealOnScroll } from "../hooks/useRevealOnScroll";
-import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { FeaturedEvent } from "../components/FeaturedEvent";
+import { EventCard } from "../components/EventCard";
 import {
-  FaMapMarkerAlt,
   FaInstagram,
   FaEnvelope,
   FaFacebook,
   FaLinkedin,
 } from "react-icons/fa";
 
-const rowIn = keyframes`
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
+const cellIn = keyframes`
+  from { opacity: 0; transform: translateY(16px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
 `;
 
 /* ── Page shell ────────────────────────────────────────────── */
@@ -40,16 +39,16 @@ const Inner = styled.div`
 `;
 
 const Header = styled.header`
-  padding: var(--sp-12) 0 var(--sp-6);
+  padding: var(--sp-12) 0 var(--sp-8);
 `;
 
 const Eyebrow = styled.p`
   font-family: var(--f-body);
   font-weight: 800;
-  font-size: 0.7rem;
-  letter-spacing: 0.05em;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--c-n900);
+  color: var(--c-primary);
   margin: 0 0 var(--sp-2);
 `;
 
@@ -68,203 +67,49 @@ const Subtitle = styled.p`
   font-weight: 500;
   font-size: 0.95rem;
   line-height: 1.6;
-  color: var(--c-n900);
+  color: var(--c-n600);
   max-width: 560px;
   margin: 0;
 `;
 
-/* ── Segmented filter (no JS state — radio + CSS Grid overlap) ── */
+/* ── Featured (next upcoming) section ─────────────────────────── */
 
-const FilterWrap = styled.div`
-  padding: var(--sp-3) 0 var(--sp-12);
-
-  /* CSS-only crossfade: :has() reaches the checked radio regardless of how
-     deeply it's nested (inside Segmented), and toggles the panel by class
-     regardless of how deeply *that* is nested (inside PanelSwap). No JS. */
-  &:has(#filter-past:checked) .panel-upcoming-slot {
-    opacity: 0;
-    transform: translateY(-6px);
-    visibility: hidden;
-    pointer-events: none;
-    transition: opacity 250ms ease, transform 250ms ease, visibility 0s linear 250ms;
-  }
-
-  &:has(#filter-past:checked) .panel-past-slot {
-    opacity: 1;
-    transform: translateY(0);
-    visibility: visible;
-    pointer-events: auto;
-    transition: opacity 250ms ease, transform 250ms ease, visibility 0s linear 0s;
-  }
-
-  /* Fallback when :has() is unsupported: the default Panel state below
-     (opacity: 0; pointer-events: none) would otherwise win permanently and
-     hide the entire catalogue with no way to reveal it. Show both panels
-     stacked instead, with no toggle. */
-  @supports not selector(:has(*)) {
-    .panel-upcoming-slot,
-    .panel-past-slot {
-      opacity: 1;
-      visibility: visible;
-      pointer-events: auto;
-      position: static;
-      grid-area: auto;
-    }
-  }
+const FeaturedBlock = styled.section`
+  padding: 0 0 var(--sp-16);
 `;
 
-const FilterBar = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: var(--sp-6);
-  flex-wrap: wrap;
-  gap: var(--sp-3);
-`;
-
-const Segmented = styled.div`
-  display: inline-flex;
-  background: var(--c-neutral-bg);
-  border-radius: var(--r-full);
-  padding: 4px;
-  gap: 4px;
-`;
-
-const SegRadio = styled.input`
-  position: absolute;
-  opacity: 0;
-  width: 1px;
-  height: 1px;
-
-  &:focus-visible + label {
-    outline: 2px solid var(--c-primary);
-    outline-offset: 2px;
-  }
-`;
-
-const SegLabel = styled.label`
-  font-family: var(--f-body);
-  font-weight: 700;
-  font-size: 0.85rem;
-  color: var(--c-n600);
-  border-radius: var(--r-full);
-  padding: 9px 22px;
-  cursor: pointer;
-  user-select: none;
-  transition: background 150ms ease, color 150ms ease;
-
-  input:checked + & {
-    background: var(--c-n900);
-    color: var(--c-cream);
-  }
-`;
-
-const PanelSwap = styled.div`
-  display: grid;
-`;
-
-const Panel = styled.div`
-  grid-area: 1 / 1;
-  opacity: 0;
-  transform: translateY(6px);
-  visibility: hidden;
-  pointer-events: none;
-  transition: opacity 250ms ease, transform 250ms ease, visibility 0s linear 250ms;
-
-  /* "À venir" is checked by default (defaultChecked on its radio), so its
-     panel starts visible; FilterWrap's :has() rules above override both
-     panels' state once "Passés" is checked. */
-  &.panel-upcoming-slot {
-    opacity: 1;
-    transform: translateY(0);
-    visibility: visible;
-    pointer-events: auto;
-    transition: opacity 250ms ease, transform 250ms ease, visibility 0s linear 0s;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    transition: opacity 1ms linear, transform 1ms linear, visibility 0s linear 0s;
-  }
-`;
-
-/* ── Registry rows (shared by upcoming + past) ────────────────── */
-
-const RegistryRow = styled.div<{ visible: boolean; delay: number; emphasized?: boolean }>`
-  display: flex;
-  align-items: center;
-  gap: var(--sp-6);
-  padding: 20px 0;
-  border-top: ${p => p.emphasized ? "1px solid var(--c-border)" : "none"};
-  border-bottom: 1px solid var(--c-border);
-  opacity: ${p => p.visible ? 1 : 0};
-  animation: ${p => p.visible ? rowIn : "none"} 360ms ease-out ${p => p.delay}ms both;
-  transition: padding-left 150ms ease;
-
-  &:hover { padding-left: 8px; }
-
-  @media (prefers-reduced-motion: reduce) {
-    opacity: 1;
-    animation: none;
-  }
-`;
-
-const RowDate = styled.div`
-  width: 80px;
-  flex-shrink: 0;
-
-  .day { font-family: var(--f-display); font-weight: 700; font-size: 2rem; line-height: 1; color: var(--c-n900); }
-  .rest { font-family: var(--f-body); font-weight: 700; font-size: 0.68rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--c-n900); }
-`;
-
-const RowBody = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  min-width: 0;
-`;
-
-const RowTitle = styled.span`
+const FeaturedLabel = styled.h2`
   font-family: var(--f-display);
   font-weight: 700;
-  font-size: 1.15rem;
+  font-size: 1.4rem;
   color: var(--c-n900);
+  margin: 0 0 var(--sp-4);
 `;
 
-const RowMeta = styled.span`
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-family: var(--f-body);
-  font-weight: 500;
-  font-size: 0.82rem;
-  color: var(--c-n900);
+const AlsoUpcomingGrid = styled.div`
+  margin-top: var(--sp-6);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-6);
 
-  svg { color: var(--c-n400); flex-shrink: 0; }
+  @media (max-width: 960px) { grid-template-columns: repeat(2, 1fr); }
+  @media (max-width: 560px) { grid-template-columns: 1fr; }
 `;
 
-const StatusLabel = styled.span<{ upcoming?: boolean }>`
+const AlsoUpcomingLabel = styled.p`
   font-family: var(--f-body);
   font-weight: 800;
-  font-size: 0.68rem;
-  letter-spacing: 0.05em;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: ${p => p.upcoming ? "var(--c-n900)" : "var(--c-n400)"};
-  border-bottom: ${p => p.upcoming ? "1.5px solid var(--c-n900)" : "none"};
-  padding-bottom: 2px;
-  white-space: nowrap;
+  color: var(--c-n600);
+  margin: var(--sp-8) 0 0;
 `;
 
-const RegisterLink = styled(Link)`
-  font-family: var(--f-body);
-  font-weight: 700;
-  font-size: 0.85rem;
-  color: var(--c-n900);
-  border-bottom: 1.5px solid var(--c-n900);
-  padding-bottom: 2px;
-  white-space: nowrap;
-  text-decoration: none;
-  cursor: pointer;
+/* ── Past catalogue (photo cards, grouped by year) ────────────── */
+
+const CatalogueSection = styled.section`
+  padding: var(--sp-4) 0 var(--sp-16);
 `;
 
 const YearLabel = styled.h3`
@@ -272,44 +117,52 @@ const YearLabel = styled.h3`
   font-weight: 700;
   font-size: 1.4rem;
   color: var(--c-n900);
-  margin: var(--sp-6) 0 var(--sp-1);
+  margin: var(--sp-8) 0 var(--sp-4);
 
   &:first-child { margin-top: 0; }
 `;
 
-const EmptyState = styled.div`
-  padding: var(--sp-12) 0;
-  text-align: center;
-  font-family: var(--f-body);
-  font-weight: 600;
-  color: var(--c-n600);
-  border-top: 1px solid var(--c-border);
-  border-bottom: 1px solid var(--c-border);
+const CardsGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-6);
+
+  @media (max-width: 960px) { grid-template-columns: repeat(2, 1fr); }
+  @media (max-width: 560px) { grid-template-columns: 1fr; }
 `;
 
-/* ── Trust grid (partners & sponsors) ─────────────────────────── */
+const EmptyState = styled.div`
+  padding: var(--sp-12) var(--sp-8);
+  text-align: center;
+  background: var(--c-white);
+  border: 1.5px dashed var(--c-n200);
+  border-radius: var(--r-lg);
+  font-family: var(--f-body);
+  font-weight: 700;
+  color: var(--c-n600);
+`;
+
+/* ── Trust grid (partners & sponsors, animated) ───────────────── */
 
 const TrustSection = styled.section`
-  border-top: 1px solid var(--c-border);
-  border-bottom: 1px solid var(--c-border);
-  padding: var(--sp-8) 0;
+  padding: var(--sp-12) 0;
+  background: var(--c-n50);
 `;
 
 const TrustGrid = styled.div`
   margin-top: var(--sp-4);
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  border-top: 1px solid var(--c-border);
-  border-left: 1px solid var(--c-border);
+  gap: var(--sp-3);
 
   @media (max-width: 900px) { grid-template-columns: repeat(3, 1fr); }
   @media (max-width: 560px) { grid-template-columns: repeat(2, 1fr); }
 `;
 
-const TrustCell = styled.div`
+const TrustCell = styled.div<{ visible: boolean; delay: number }>`
   background: var(--c-white);
-  border-right: 1px solid var(--c-border);
-  border-bottom: 1px solid var(--c-border);
+  border: 1.5px solid var(--c-n200);
+  border-radius: var(--r-md);
   height: 64px;
   display: flex;
   align-items: center;
@@ -317,10 +170,33 @@ const TrustCell = styled.div`
   font-family: var(--f-body);
   font-weight: 700;
   font-size: 0.8rem;
-  color: var(--c-n900);
+  color: var(--c-n800);
   text-align: center;
   padding: 0 var(--sp-2);
+  opacity: ${(p) => (p.visible ? 1 : 0)};
+  animation: ${(p) => (p.visible ? cellIn : "none")} 450ms var(--ease-spring) ${(p) => p.delay}ms both;
+  transition: transform 220ms var(--ease-spring), box-shadow 220ms ease, border-color 220ms ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(230, 57, 70, 0.12);
+    border-color: var(--c-primary);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    opacity: 1;
+    animation: none;
+  }
 `;
+
+const TrustCellRevealer: React.FC<{ delay: number; children: React.ReactNode }> = ({ delay, children }) => {
+  const [ref, visible] = useRevealOnScroll<HTMLDivElement>();
+  return (
+    <TrustCell ref={ref} visible={visible} delay={delay}>
+      {children}
+    </TrustCell>
+  );
+};
 
 /* ── Connect band ──────────────────────────────────────────── */
 
@@ -391,39 +267,6 @@ const ContactGhostBtn = styled.a`
   &:hover { background: var(--c-n900); color: var(--c-cream); }
 `;
 
-/* ── Shared row renderer with scroll reveal ───────────────────── */
-
-const RevealRow: React.FC<{
-  delay: number;
-  emphasized?: boolean;
-  event: Event;
-  actionsSlot: React.ReactNode;
-}> = ({ delay, emphasized, event, actionsSlot }) => {
-  const [ref, visible] = useRevealOnScroll<HTMLDivElement>();
-  const dayMatch = event.date.match(/\d{1,2}/);
-  const day = dayMatch?.[0] ?? "—";
-  const monthYear = event.date.replace(day, "").replace(/^[\s,]+|[\s,]+$/g, "").trim() || "—";
-
-  return (
-    <RegistryRow ref={ref} visible={visible} delay={delay} emphasized={emphasized}>
-      <RowDate>
-        <div className="day">{day}</div>
-        <div className="rest">{monthYear}</div>
-      </RowDate>
-      <RowBody>
-        <RowTitle>{event.title}</RowTitle>
-        {event.location && (
-          <RowMeta>
-            <FaMapMarkerAlt aria-hidden="true" />
-            <span>{event.location}</span>
-          </RowMeta>
-        )}
-      </RowBody>
-      {actionsSlot}
-    </RegistryRow>
-  );
-};
-
 /* ── Component ─────────────────────────────────────────────── */
 
 export const Events = () => {
@@ -434,98 +277,63 @@ export const Events = () => {
   const upcoming = available.filter((e) => !e.isPast);
   const past = available.filter((e) => e.isPast);
   const yearGroups = groupPastEventsByYear(past);
-
-  const pastCatalogue = yearGroups.length > 0 ? (
-    <div>
-      {yearGroups.map((group) => (
-        <div key={group.year}>
-          <YearLabel>{group.year}</YearLabel>
-          {group.events.map((ev, i) => (
-            <RevealRow
-              key={ev.id}
-              delay={i * 40}
-              event={ev}
-              actionsSlot={
-                <>
-                  <StatusLabel>{t("events.pastBadge")}</StatusLabel>
-                  <RegisterLink to={`/coeur-festifs/event/${ev.id}`}>
-                    {t("events.viewDetails")} →
-                  </RegisterLink>
-                </>
-              }
-            />
-          ))}
-        </div>
-      ))}
-    </div>
-  ) : (
-    <EmptyState>{t("events.noEventsMessage")}</EmptyState>
-  );
+  const [nextEvent, ...restUpcoming] = upcoming;
 
   return (
     <Page>
       <Inner>
         <Header>
+          <Eyebrow>{t("events.filterUpcoming")} · {t("events.filterPast")}</Eyebrow>
           <Title>{t("events.title")}</Title>
           <Subtitle>{t("events.subtitle")}</Subtitle>
         </Header>
 
-        {upcoming.length === 0 ? (
-          pastCatalogue
-        ) : (
-          <FilterWrap>
-            <FilterBar>
-              <Segmented role="radiogroup" aria-label={t("events.title")}>
-                <SegRadio type="radio" id="filter-upcoming" name="eventFilter" defaultChecked />
-                <SegLabel htmlFor="filter-upcoming">
-                  {t("events.filterUpcoming")} ({upcoming.length})
-                </SegLabel>
-                <SegRadio type="radio" id="filter-past" name="eventFilter" />
-                <SegLabel htmlFor="filter-past">
-                  {t("events.filterPast")} ({past.length})
-                </SegLabel>
-              </Segmented>
-            </FilterBar>
+        {nextEvent && (
+          <FeaturedBlock aria-labelledby="featured-heading">
+            <FeaturedLabel id="featured-heading">{t("events.filterUpcoming")}</FeaturedLabel>
+            <FeaturedEvent event={nextEvent} />
 
-            <PanelSwap>
-              <Panel className="panel-upcoming-slot">
-                <div>
-                  {upcoming.map((ev, i) => (
-                    <RevealRow
-                      key={ev.id}
-                      delay={i * 40}
-                      emphasized
-                      event={ev}
-                      actionsSlot={
-                        <>
-                          <StatusLabel upcoming>{t("events.filterUpcoming")}</StatusLabel>
-                          <RegisterLink to={`/coeur-festifs/event/${ev.id}`}>
-                            {t("events.registerCta")} →
-                          </RegisterLink>
-                        </>
-                      }
-                    />
+            {restUpcoming.length > 0 && (
+              <>
+                <AlsoUpcomingLabel>{t("events.filterUpcoming")}</AlsoUpcomingLabel>
+                <AlsoUpcomingGrid>
+                  {restUpcoming.map((ev, i) => (
+                    <EventCard key={ev.id} event={ev} index={i} />
                   ))}
-                </div>
-              </Panel>
-
-              <Panel className="panel-past-slot">
-                {pastCatalogue}
-              </Panel>
-            </PanelSwap>
-          </FilterWrap>
+                </AlsoUpcomingGrid>
+              </>
+            )}
+          </FeaturedBlock>
         )}
+
+        <CatalogueSection aria-labelledby="catalogue-heading">
+          <FeaturedLabel id="catalogue-heading">{t("events.filterPast")}</FeaturedLabel>
+          {yearGroups.length > 0 ? (
+            yearGroups.map((group) => (
+              <div key={group.year}>
+                <YearLabel>{group.year}</YearLabel>
+                <CardsGrid>
+                  {group.events.map((ev, i) => (
+                    <EventCard key={ev.id} event={ev} index={i} />
+                  ))}
+                </CardsGrid>
+              </div>
+            ))
+          ) : (
+            <EmptyState>{t("events.noEventsMessage")}</EmptyState>
+          )}
+        </CatalogueSection>
       </Inner>
 
       <TrustSection aria-labelledby="events-trust-heading">
         <Inner>
           <Eyebrow id="events-trust-heading">{t("homepage.partnershipTitle")}</Eyebrow>
           <TrustGrid>
-            <TrustCell>Fondation du Dr Julien</TrustCell>
-            <TrustCell>Répit Providence</TrustCell>
-            <TrustCell>Scholastic</TrustCell>
-            <TrustCell>Librairie Gallimard</TrustCell>
-            <TrustCell>Fondation Réno-Jouets</TrustCell>
+            {["Fondation du Dr Julien", "Répit Providence", "Scholastic", "Librairie Gallimard", "Fondation Réno-Jouets"].map((name, i) => (
+              <TrustCellRevealer key={name} delay={i * 50}>
+                {name}
+              </TrustCellRevealer>
+            ))}
           </TrustGrid>
         </Inner>
       </TrustSection>
