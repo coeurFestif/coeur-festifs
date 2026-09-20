@@ -17,7 +17,7 @@ const Page = styled.div`
   background: var(--c-cream);
   display: flex;
   flex-direction: column;
-  padding-top: 68px;
+  padding-top: 78px;
 `;
 
 /* ── Hero ──────────────────────────────────────────────────── */

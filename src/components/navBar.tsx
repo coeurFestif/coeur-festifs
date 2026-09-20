@@ -89,8 +89,8 @@ const LangToggle = styled.div`
 `;
 
 const LangBtn = styled.button<{ active: boolean }>`
-  background: ${p => p.active ? "var(--c-primary)" : "transparent"};
-  color: ${p => p.active ? "var(--c-white)" : "var(--c-n600)"};
+  background: ${p => p.active ? "var(--c-n900)" : "transparent"};
+  color: ${p => p.active ? "var(--c-cream)" : "var(--c-n600)"};
   border: none;
   font-family: var(--f-body);
   font-size: 0.78rem;
@@ -101,7 +101,7 @@ const LangBtn = styled.button<{ active: boolean }>`
   transition: background 150ms ease, color 150ms ease;
   min-height: 30px;
 
-  &:hover { color: ${p => p.active ? "var(--c-white)" : "var(--c-primary)"}; }
+  &:hover { color: ${p => p.active ? "var(--c-cream)" : "var(--c-primary)"}; }
 `;
 
 const DonateBtn = styled.a`
@@ -239,8 +239,8 @@ const DrawerLangRow = styled.div`
 
 const DrawerLangBtn = styled.button<{ active: boolean }>`
   flex: 1;
-  background: ${p => p.active ? "var(--c-primary)" : "var(--c-n100)"};
-  color: ${p => p.active ? "var(--c-white)" : "var(--c-n600)"};
+  background: ${p => p.active ? "var(--c-n900)" : "var(--c-n100)"};
+  color: ${p => p.active ? "var(--c-cream)" : "var(--c-n600)"};
   border: none;
   font-family: var(--f-body);
   font-size: 0.88rem;

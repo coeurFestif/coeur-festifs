@@ -84,13 +84,32 @@ const FilterWrap = styled.div`
   &:has(#filter-past:checked) .panel-upcoming-slot {
     opacity: 0;
     transform: translateY(-6px);
+    visibility: hidden;
     pointer-events: none;
+    transition: opacity 250ms ease, transform 250ms ease, visibility 0s linear 250ms;
   }
 
   &:has(#filter-past:checked) .panel-past-slot {
     opacity: 1;
     transform: translateY(0);
+    visibility: visible;
     pointer-events: auto;
+    transition: opacity 250ms ease, transform 250ms ease, visibility 0s linear 0s;
+  }
+
+  /* Fallback when :has() is unsupported: the default Panel state below
+     (opacity: 0; pointer-events: none) would otherwise win permanently and
+     hide the entire catalogue with no way to reveal it. Show both panels
+     stacked instead, with no toggle. */
+  @supports not selector(:has(*)) {
+    .panel-upcoming-slot,
+    .panel-past-slot {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      position: static;
+      grid-area: auto;
+    }
   }
 `;
 
@@ -135,8 +154,8 @@ const SegLabel = styled.label`
   transition: background 150ms ease, color 150ms ease;
 
   input:checked + & {
-    background: var(--c-primary);
-    color: var(--c-white);
+    background: var(--c-n900);
+    color: var(--c-cream);
   }
 `;
 
@@ -148,8 +167,9 @@ const Panel = styled.div`
   grid-area: 1 / 1;
   opacity: 0;
   transform: translateY(6px);
+  visibility: hidden;
   pointer-events: none;
-  transition: opacity 250ms ease, transform 250ms ease;
+  transition: opacity 250ms ease, transform 250ms ease, visibility 0s linear 250ms;
 
   /* "À venir" is checked by default (defaultChecked on its radio), so its
      panel starts visible; FilterWrap's :has() rules above override both
@@ -157,11 +177,13 @@ const Panel = styled.div`
   &.panel-upcoming-slot {
     opacity: 1;
     transform: translateY(0);
+    visibility: visible;
     pointer-events: auto;
+    transition: opacity 250ms ease, transform 250ms ease, visibility 0s linear 0s;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    transition: opacity 1ms linear;
+    transition: opacity 1ms linear, transform 1ms linear, visibility 0s linear 0s;
   }
 `;
 
@@ -378,8 +400,9 @@ const RevealRow: React.FC<{
   actionsSlot: React.ReactNode;
 }> = ({ delay, emphasized, event, actionsSlot }) => {
   const [ref, visible] = useRevealOnScroll<HTMLDivElement>();
-  const day = event.date.match(/\d{1,2}/)?.[0] ?? "—";
-  const monthYear = event.date.replace(/^\D*\d{1,2}\D*/, "").trim() || "—";
+  const dayMatch = event.date.match(/\d{1,2}/);
+  const day = dayMatch?.[0] ?? "—";
+  const monthYear = event.date.replace(day, "").replace(/^[\s,]+|[\s,]+$/g, "").trim() || "—";
 
   return (
     <RegistryRow ref={ref} visible={visible} delay={delay} emphasized={emphasized}>
@@ -412,32 +435,61 @@ export const Events = () => {
   const past = available.filter((e) => e.isPast);
   const yearGroups = groupPastEventsByYear(past);
 
+  const pastCatalogue = yearGroups.length > 0 ? (
+    <div>
+      {yearGroups.map((group) => (
+        <div key={group.year}>
+          <YearLabel>{group.year}</YearLabel>
+          {group.events.map((ev, i) => (
+            <RevealRow
+              key={ev.id}
+              delay={i * 40}
+              event={ev}
+              actionsSlot={
+                <>
+                  <StatusLabel>{t("events.pastBadge")}</StatusLabel>
+                  <RegisterLink to={`/coeur-festifs/event/${ev.id}`}>
+                    {t("events.viewDetails")} →
+                  </RegisterLink>
+                </>
+              }
+            />
+          ))}
+        </div>
+      ))}
+    </div>
+  ) : (
+    <EmptyState>{t("events.noEventsMessage")}</EmptyState>
+  );
+
   return (
     <Page>
       <Inner>
         <Header>
-          <Eyebrow>{t("homepage.registryLabel")}</Eyebrow>
+          <Eyebrow>{t("events.title")}</Eyebrow>
           <Title>{t("events.title")}</Title>
           <Subtitle>{t("events.subtitle")}</Subtitle>
         </Header>
 
-        <FilterWrap>
-          <FilterBar>
-            <Segmented role="radiogroup" aria-label={t("events.title")}>
-              <SegRadio type="radio" id="filter-upcoming" name="eventFilter" defaultChecked />
-              <SegLabel htmlFor="filter-upcoming">
-                {t("events.filterUpcoming")} ({upcoming.length})
-              </SegLabel>
-              <SegRadio type="radio" id="filter-past" name="eventFilter" />
-              <SegLabel htmlFor="filter-past">
-                {t("events.filterPast")} ({past.length})
-              </SegLabel>
-            </Segmented>
-          </FilterBar>
+        {upcoming.length === 0 ? (
+          pastCatalogue
+        ) : (
+          <FilterWrap>
+            <FilterBar>
+              <Segmented role="radiogroup" aria-label={t("events.title")}>
+                <SegRadio type="radio" id="filter-upcoming" name="eventFilter" defaultChecked />
+                <SegLabel htmlFor="filter-upcoming">
+                  {t("events.filterUpcoming")} ({upcoming.length})
+                </SegLabel>
+                <SegRadio type="radio" id="filter-past" name="eventFilter" />
+                <SegLabel htmlFor="filter-past">
+                  {t("events.filterPast")} ({past.length})
+                </SegLabel>
+              </Segmented>
+            </FilterBar>
 
-          <PanelSwap>
-            <Panel className="panel-upcoming-slot">
-              {upcoming.length > 0 ? (
+            <PanelSwap>
+              <Panel className="panel-upcoming-slot">
                 <div>
                   {upcoming.map((ev, i) => (
                     <RevealRow
@@ -456,41 +508,19 @@ export const Events = () => {
                     />
                   ))}
                 </div>
-              ) : (
-                <EmptyState role="status" aria-live="polite">
-                  {t("events.noUpcomingMessage")}
-                </EmptyState>
-              )}
-            </Panel>
+              </Panel>
 
-            <Panel className="panel-past-slot">
-              {yearGroups.length > 0 ? (
-                <div>
-                  {yearGroups.map((group) => (
-                    <div key={group.year}>
-                      <YearLabel>{group.year}</YearLabel>
-                      {group.events.map((ev, i) => (
-                        <RevealRow
-                          key={ev.id}
-                          delay={i * 40}
-                          event={ev}
-                          actionsSlot={<StatusLabel>{t("events.pastBadge")}</StatusLabel>}
-                        />
-                      ))}
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <EmptyState>{t("events.noEventsMessage")}</EmptyState>
-              )}
-            </Panel>
-          </PanelSwap>
-        </FilterWrap>
+              <Panel className="panel-past-slot">
+                {pastCatalogue}
+              </Panel>
+            </PanelSwap>
+          </FilterWrap>
+        )}
       </Inner>
 
       <TrustSection aria-labelledby="events-trust-heading">
         <Inner>
-          <Eyebrow id="events-trust-heading">{t("homepage.trustLabel")}</Eyebrow>
+          <Eyebrow id="events-trust-heading">{t("homepage.partnershipTitle")}</Eyebrow>
           <TrustGrid>
             <TrustCell>Fondation du Dr Julien</TrustCell>
             <TrustCell>Répit Providence</TrustCell>

@@ -22,7 +22,7 @@ const scaleIn = keyframes`
 const Page = styled.div`
   display: flex;
   flex-direction: column;
-  padding-top: 68px; /* navbar height */
+  padding-top: 78px; /* navbar height */
 `;
 
 const Inner = styled.div`

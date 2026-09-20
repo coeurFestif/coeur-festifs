@@ -105,16 +105,6 @@ const HeroInner = styled(Inner)`
   @media (max-width: 768px) { text-align: center; max-width: none; }
 `;
 
-const HeroEyebrow = styled.p`
-  font-family: var(--f-body);
-  font-weight: 800;
-  font-size: 0.7rem;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--c-n900);
-  margin: 0 0 var(--sp-4);
-`;
-
 const HeroTitle = styled.h1`
   font-family: var(--f-display);
   font-weight: 700;
@@ -304,6 +294,11 @@ const RegistryRow = styled.div<{ visible: boolean; delay: number }>`
 
   &:hover { padding-left: 8px; }
 
+  &:focus-visible {
+    outline: 2px solid var(--c-n900);
+    outline-offset: 2px;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     opacity: 1;
     animation: none;
@@ -370,7 +365,10 @@ const RevealRow: React.FC<{ delay: number; onClick: () => void; children: React.
       onClick={onClick}
       role="button"
       tabIndex={0}
-      onKeyDown={(e) => e.key === "Enter" && onClick()}
+      onKeyDown={(e) => {
+        if (e.key === "Enter") onClick();
+        if (e.key === " ") { e.preventDefault(); onClick(); }
+      }}
     >
       {children}
     </RegistryRow>
@@ -393,9 +391,8 @@ export const HomePage = () => {
           <Orb />
         </OrbWrap>
         <HeroInner>
-          <HeroEyebrow>Fondation communautaire à Montréal</HeroEyebrow>
           <HeroTitle id="hero-heading">{t("homepage.title")}</HeroTitle>
-          <HeroText>{t("homepage.introText")}</HeroText>
+          <HeroText>{t("footer.desc")}</HeroText>
           <HeroCTAs>
             <GhostLink onClick={() => navigate("/coeur-festifs/events")}>
               {t("homepage.explore")} <FaArrowRight aria-hidden="true" />
@@ -411,9 +408,9 @@ export const HomePage = () => {
       <IntroSection aria-labelledby="intro-heading">
         <IntroInner>
           <IntroLeft>
-            <IntroLabel id="intro-heading">{t("homepage.introLabel")}</IntroLabel>
+            <IntroLabel id="intro-heading">{t("aboutUs.title")}</IntroLabel>
             <IntroGhostLink onClick={() => navigate("/coeur-festifs/about")}>
-              {t("homepage.introCta")} →
+              {t("navBar.about")} →
             </IntroGhostLink>
           </IntroLeft>
           <IntroBody>{t("aboutUs.desc")}</IntroBody>
@@ -423,7 +420,7 @@ export const HomePage = () => {
       {/* ── 3 · Trust grid ── */}
       <TrustSection aria-labelledby="trust-heading">
         <Inner>
-          <IntroLabel id="trust-heading">{t("homepage.trustLabel")}</IntroLabel>
+          <IntroLabel id="trust-heading">{t("homepage.partnershipTitle")}</IntroLabel>
           <TrustGrid>
             {PARTNERS.map((p, i) => (
               <TrustCell key={i}>
@@ -438,12 +435,12 @@ export const HomePage = () => {
       <RegistrySection aria-labelledby="registry-heading">
         <Inner>
           <RegistryHeader>
-            <IntroLabel>{t("homepage.registryLabel")}</IntroLabel>
+            <IntroLabel>{t("events.title")}</IntroLabel>
             <IntroGhostLink onClick={() => navigate("/coeur-festifs/events")}>
-              {t("homepage.viewAll")} →
+              {t("navBar.events")} →
             </IntroGhostLink>
           </RegistryHeader>
-          <RegistryTitle id="registry-heading">{t("homepage.registryTitle")}</RegistryTitle>
+          <RegistryTitle id="registry-heading">{t("events.subtitle")}</RegistryTitle>
 
           {preview.length > 0 ? (
             <RegistryList>
@@ -451,7 +448,7 @@ export const HomePage = () => {
                 <RevealRow key={ev.id} delay={i * 40} onClick={() => navigate(`/coeur-festifs/event/${ev.id}`)}>
                   <RegistryDate>
                     <div className="day">{ev.date ? ev.date.match(/\d{1,2}/)?.[0] ?? "—" : "—"}</div>
-                    <div className="rest">{ev.isPast ? t("events.pastBadge") : t("events.upcomingTitle")}</div>
+                    <div className="rest">{ev.isPast ? t("events.pastBadge") : t("events.filterUpcoming")}</div>
                   </RegistryDate>
                   <RegistryBody>
                     <RegistryEventTitle>{ev.title}</RegistryEventTitle>
