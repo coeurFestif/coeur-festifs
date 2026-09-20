@@ -7,9 +7,7 @@ import logo from "../assets/logo.png";
 
 /* ── Shell ─────────────────────────────────────────────────── */
 
-interface NavShellProps { scrolled: boolean; }
-
-const NavShell = styled.nav<NavShellProps>`
+const NavShell = styled.nav`
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 1000;
@@ -261,16 +259,9 @@ export const NavBar = () => {
   const location   = useLocation();
   const { t, i18n } = useTranslation();
   const [open, setOpen]       = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const lang = i18n.language;
   const hamburgerRef = useRef<HTMLButtonElement>(null);
   const wasOpenRef   = useRef(false);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   useEffect(() => {
     if (wasOpenRef.current && !open) {
@@ -288,7 +279,7 @@ export const NavBar = () => {
 
   return (
     <>
-      <NavShell scrolled={scrolled} role="navigation" aria-label="Navigation principale">
+      <NavShell role="navigation" aria-label="Navigation principale">
         {/* Brand */}
         <Brand onClick={() => go("/coeur-festifs")} aria-label="Coeurs Festifs — Accueil">
           <BrandImg src={logo} alt="" aria-hidden="true" />
