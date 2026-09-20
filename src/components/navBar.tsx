@@ -13,15 +13,14 @@ const NavShell = styled.nav<NavShellProps>`
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 1000;
-  height: 68px;
+  height: 78px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 48px;
-  background: var(--c-white);
-  border-bottom: 1.5px solid ${p => p.scrolled ? "var(--c-n200)" : "transparent"};
-  box-shadow: ${p => p.scrolled ? "var(--sh-sm)" : "none"};
-  transition: border-color 200ms ease, box-shadow 200ms ease;
+  background: var(--c-cream);
+  border-bottom: 1px solid var(--c-border);
+  transition: background 200ms ease;
 
   @media (max-width: 768px) { padding: 0 20px; }
 `;
@@ -73,27 +72,13 @@ const NavLink = styled.button<{ active?: boolean }>`
   font-family: var(--f-body);
   font-size: 0.9rem;
   font-weight: 700;
-  color: ${p => p.active ? "var(--c-primary)" : "var(--c-n600)"};
+  color: var(--c-n900);
   padding: 8px 14px;
-  border-radius: var(--r-sm);
   cursor: pointer;
-  transition: color 150ms ease, background 150ms ease;
-  position: relative;
+  border-bottom: 1.5px solid ${p => p.active ? "var(--c-n900)" : "transparent"};
+  transition: border-color 150ms ease;
 
-  &::after {
-    content: "";
-    position: absolute;
-    bottom: 4px; left: 14px; right: 14px;
-    height: 2px;
-    border-radius: 2px;
-    background: var(--c-primary);
-    transform: scaleX(${p => p.active ? 1 : 0});
-    transform-origin: left;
-    transition: transform 200ms var(--ease-out);
-  }
-
-  &:hover { color: var(--c-primary); }
-  &:hover::after { transform: scaleX(1); }
+  &:hover { border-color: var(--c-n900); }
 `;
 
 const LangToggle = styled.div`
@@ -121,28 +106,33 @@ const LangBtn = styled.button<{ active: boolean }>`
   &:hover { color: ${p => p.active ? "var(--c-white)" : "var(--c-primary)"}; }
 `;
 
-const EventsCTA = styled.button`
+const DonateBtn = styled.a`
+  display: inline-flex;
+  align-items: center;
   background: var(--c-primary);
   color: var(--c-white);
-  border: none;
   font-family: var(--f-body);
   font-size: 0.88rem;
-  font-weight: 700;
-  padding: 9px 22px;
+  font-weight: 800;
+  padding: 10px 22px;
   border-radius: var(--r-full);
-  cursor: pointer;
   margin-left: 12px;
-  min-height: 38px;
-  box-shadow: 0 2px 10px rgba(230,57,70,.28);
-  transition: filter 150ms ease, transform 150ms ease, box-shadow 150ms ease;
-  white-space: nowrap;
+  min-height: 40px;
+  text-decoration: none;
+  transition: background 150ms ease;
 
-  &:hover {
-    filter: brightness(1.08);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 18px rgba(230,57,70,.35);
+  &:hover { background: var(--c-primary-dark); }
+  &:active { animation: navHeartBeat 600ms cubic-bezier(0.34, 1.56, 0.64, 1); }
+
+  @keyframes navHeartBeat {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.12); }
+    100% { transform: scale(1); }
   }
-  &:active { transform: translateY(0); filter: brightness(.96); }
+
+  @media (prefers-reduced-motion: reduce) {
+    &:active { animation: none; }
+  }
 `;
 
 /* ── Mobile controls ───────────────────────────────────────── */
@@ -313,18 +303,18 @@ export const NavBar = () => {
           <NavLink active={active("/coeur-festifs/about")} onClick={() => go("/coeur-festifs/about")}>
             {t("navBar.about")}
           </NavLink>
+          <NavLink active={active("/coeur-festifs/events")} onClick={() => go("/coeur-festifs/events")}>
+            {t("navBar.events")}
+          </NavLink>
 
           <LangToggle aria-label="Langue">
             <LangBtn active={lang === "fr"} onClick={() => setLang("fr")}>FR</LangBtn>
             <LangBtn active={lang === "en"} onClick={() => setLang("en")}>EN</LangBtn>
           </LangToggle>
 
-          <EventsCTA
-            onClick={() => go("/coeur-festifs/events")}
-            aria-current={active("/coeur-festifs/events") ? "page" : undefined}
-          >
-            {t("navBar.events")} →
-          </EventsCTA>
+          <DonateBtn href="mailto:coeurs.festifs@gmail.com?subject=Faire%20un%20don">
+            {t("navBar.donate")}
+          </DonateBtn>
         </DesktopNav>
 
         {/* Mobile toggle */}
@@ -372,6 +362,24 @@ export const NavBar = () => {
             <DrawerLangBtn active={lang === "fr"} onClick={() => setLang("fr")}>Français</DrawerLangBtn>
             <DrawerLangBtn active={lang === "en"} onClick={() => setLang("en")}>English</DrawerLangBtn>
           </DrawerLangRow>
+          <DrawerDivider />
+          <a
+            href="mailto:coeurs.festifs@gmail.com?subject=Faire%20un%20don"
+            style={{
+              display: "block",
+              textAlign: "center",
+              background: "var(--c-primary)",
+              color: "var(--c-white)",
+              fontFamily: "var(--f-body)",
+              fontWeight: 800,
+              padding: "13px",
+              borderRadius: "var(--r-full)",
+              margin: "8px 12px 0",
+              textDecoration: "none",
+            }}
+          >
+            {t("navBar.donate")}
+          </a>
         </DrawerBody>
       </Drawer>
     </>
