@@ -466,7 +466,6 @@ export const Events = () => {
     <Page>
       <Inner>
         <Header>
-          <Eyebrow>{t("events.title")}</Eyebrow>
           <Title>{t("events.title")}</Title>
           <Subtitle>{t("events.subtitle")}</Subtitle>
         </Header>
