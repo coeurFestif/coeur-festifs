@@ -17,7 +17,7 @@ const Page = styled.div`
   background: var(--c-cream);
   display: flex;
   flex-direction: column;
-  padding-top: 78px;
+  padding-top: var(--nav-space);
 `;
 
 /* ── Hero ──────────────────────────────────────────────────── */
@@ -148,8 +148,8 @@ const InfoChip = styled.div`
   align-items: center;
   gap: var(--sp-3);
   background: var(--c-white);
-  border: 1.5px solid var(--c-n200);
-  box-shadow: inset 4px 0 0 var(--c-primary);
+  border: 1px solid var(--c-border);
+  box-shadow: var(--sh-card);
   border-radius: var(--r-lg);
   padding: var(--sp-4) var(--sp-5);
 
@@ -220,16 +220,14 @@ const TagRow = styled.div`
   gap: var(--sp-2);
 `;
 
-interface TagProps { accent: string; }
-
-const Tag = styled.span<TagProps>`
+const Tag = styled.span`
   font-size: .85rem;
   font-weight: 700;
   padding: 6px 16px;
   border-radius: var(--r-full);
-  background: ${p => p.accent}12;
-  color: ${p => p.accent};
-  border: 1.5px solid ${p => p.accent}30;
+  background: var(--c-white);
+  color: var(--c-n900);
+  border: 1px solid var(--c-border);
 `;
 
 const LogoRow = styled.div`
@@ -242,14 +240,14 @@ const LogoTile = styled.img`
   width: 88px; height: 70px;
   object-fit: contain;
   background: var(--c-n50);
-  border: 1.5px solid var(--c-n200);
+  border: 1px solid var(--c-border);
   border-radius: var(--r-md);
   padding: var(--sp-2);
   transition: border-color 150ms ease, box-shadow 150ms ease;
 
   &:hover {
-    border-color: var(--c-accent-blue);
-    box-shadow: 0 4px 14px rgba(67,97,238,.18);
+    border-color: var(--c-primary);
+    box-shadow: var(--sh-card);
   }
 `;
 
@@ -378,7 +376,7 @@ export const EventDetail = () => {
               <BlockLabel>{t("events.partner")}</BlockLabel>
               {hasPartners && (
                 <TagRow>
-                  {event.partner!.map((p, i) => <Tag key={i} accent="#e63946">{p}</Tag>)}
+                  {event.partner!.map((p, i) => <Tag key={i}>{p}</Tag>)}
                 </TagRow>
               )}
               {renderLogos(event.partnerImg, event.partner)}
@@ -393,7 +391,7 @@ export const EventDetail = () => {
               <BlockLabel>{t("events.sponsor")}</BlockLabel>
               {hasSponsors && (
                 <TagRow>
-                  {event.Sponsor!.map((s, i) => <Tag key={i} accent="#4361ee">{s}</Tag>)}
+                  {event.Sponsor!.map((s, i) => <Tag key={i}>{s}</Tag>)}
                 </TagRow>
               )}
               {renderLogos(event.SponsorImg, event.Sponsor)}

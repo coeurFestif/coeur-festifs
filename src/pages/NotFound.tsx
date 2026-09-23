@@ -10,7 +10,7 @@ const Wrap = styled.div`
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: var(--sp-12) var(--sp-6);
+  padding: var(--nav-space) var(--sp-6) var(--sp-12);
   gap: var(--sp-4);
   background: var(--c-cream);
 `;

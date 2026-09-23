@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import logo from "../assets/logo.png";
 
 const Shell = styled.footer`
-  background: var(--c-neutral-bg);
+  background: var(--c-cream);
   border-top: 1px solid var(--c-border);
   color: var(--c-n900);
 `;

@@ -15,13 +15,15 @@ const Shell = styled.div`
   align-items: stretch;
   gap: var(--sp-8);
   background: var(--c-white);
+  border: 1px solid var(--c-border);
   border-radius: var(--r-lg);
-  box-shadow: var(--sh-md);
+  box-shadow: var(--sh-float);
   overflow: hidden;
   animation: ${fadeUp} 0.5s var(--ease-out) both;
 
   @media (max-width: 768px) {
     flex-direction: column;
+    gap: var(--sp-4);
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -31,24 +33,31 @@ const Shell = styled.div`
 
 const PosterFrame = styled.div`
   flex: 0 0 320px;
-  background: var(--c-neutral-bg);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: var(--sp-4);
+  padding: var(--sp-6) 0 var(--sp-6) var(--sp-6);
+
+  .photo {
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: var(--sh-card);
+    box-sizing: border-box;
+    width: 100%;
+  }
 
   img {
     width: 100%;
-    height: auto;
-    max-height: 420px;
-    object-fit: contain;
-    border-radius: var(--r-sm);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    height: 300px;
+    object-fit: cover;
+    display: block;
   }
 
   @media (max-width: 768px) {
     flex: none;
     padding: var(--sp-6) var(--sp-6) 0;
+
+    img { height: 220px; }
   }
 `;
 
@@ -117,34 +126,24 @@ const Meta = styled.div`
   svg { color: var(--c-primary); flex-shrink: 0; }
 `;
 
-const RegisterBtn = styled(Link)`
+const DetailsBtn = styled(Link)`
   display: inline-flex;
   align-items: center;
   gap: var(--sp-2);
   align-self: flex-start;
   margin-top: var(--sp-2);
-  background: var(--c-primary);
-  color: var(--c-white);
+  background: transparent;
+  color: var(--c-primary);
+  border: 2px solid var(--c-primary);
   font-family: var(--f-body);
   font-weight: 800;
   font-size: 0.95rem;
-  padding: 13px 28px;
+  padding: 12px 26px;
   border-radius: var(--r-full);
   text-decoration: none;
-  transition: background 150ms ease, transform 150ms var(--ease-spring);
+  transition: background 150ms ease, color 150ms ease, transform 150ms var(--ease-spring);
 
-  &:hover { background: var(--c-primary-dark); transform: translateY(-1px); }
-  &:active { animation: heartBeat 600ms cubic-bezier(0.34, 1.56, 0.64, 1); }
-
-  @keyframes heartBeat {
-    0% { transform: scale(1); }
-    40% { transform: scale(1.12); }
-    100% { transform: scale(1); }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    &:active { animation: none; }
-  }
+  &:hover { background: var(--c-primary); color: var(--c-white); transform: translateY(-1px); }
 `;
 
 function splitDate(dateStr: string): { day: string; rest: string } {
@@ -165,7 +164,9 @@ export const FeaturedEvent: React.FC<FeaturedEventProps> = ({ event }) => {
   return (
     <Shell>
       <PosterFrame>
-        <img src={event.image} alt={event.title} loading="eager" />
+        <div className="photo">
+          <img src={event.image} alt={event.title} loading="eager" />
+        </div>
       </PosterFrame>
       <Info>
         <Eyebrow>{t("events.filterUpcoming")}</Eyebrow>
@@ -182,9 +183,9 @@ export const FeaturedEvent: React.FC<FeaturedEventProps> = ({ event }) => {
             <span>{event.location}</span>
           </Meta>
         )}
-        <RegisterBtn to={`/coeur-festifs/event/${event.id}`}>
-          {t("events.registerCta")} <FaArrowRight aria-hidden="true" />
-        </RegisterBtn>
+        <DetailsBtn to={`/coeur-festifs/event/${event.id}`}>
+          {t("events.viewDetails")} <FaArrowRight aria-hidden="true" />
+        </DetailsBtn>
       </Info>
     </Shell>
   );

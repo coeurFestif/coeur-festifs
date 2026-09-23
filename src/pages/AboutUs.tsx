@@ -4,6 +4,15 @@ import { useTranslation } from "react-i18next";
 import Clara   from "../assets/Clara.jpg";
 import Ariane  from "../assets/Ariane.jpeg";
 import commonPic from "../assets/commonPic.jpg";
+import { GradientWord } from "../components/GradientWord";
+
+// Highlights the last word of a translated title in the brand gradient —
+// the one signature gesture (docs/DESIGN.md), never more than once per page.
+function splitLastWord(text: string): [string, string] {
+  const parts = text.trim().split(" ");
+  const last = parts.pop() ?? "";
+  return [parts.join(" "), last];
+}
 
 /* ── Animations ────────────────────────────────────────────── */
 
@@ -22,7 +31,7 @@ const scaleIn = keyframes`
 const Page = styled.div`
   display: flex;
   flex-direction: column;
-  padding-top: 78px; /* navbar height */
+  padding-top: var(--nav-space);
 `;
 
 const Inner = styled.div`
@@ -83,14 +92,14 @@ const PageDesc = styled.p`
 ═══════════════════════════════════════════════════════ */
 
 const StatsSection = styled.section`
-  padding: var(--sp-16) 0;
-  background: var(--c-primary);
+  padding: var(--sp-12) 0;
+  background: var(--c-white);
+  border-bottom: 1px solid var(--c-border);
 `;
 
 const StatsGrid = styled(Inner)`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
 `;
 
 const StatItem = styled.div`
@@ -98,36 +107,38 @@ const StatItem = styled.div`
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: var(--sp-8) var(--sp-6);
+  padding: var(--sp-6);
+  border-right: 1px solid var(--c-border);
   animation: ${scaleIn} .5s var(--ease-out) both;
 
+  &:last-child { border-right: none; }
   &:nth-child(1) { animation-delay: .05s; }
   &:nth-child(2) { animation-delay: .12s; }
   &:nth-child(3) { animation-delay: .19s; }
 
-  @media (max-width: 560px) { padding: var(--sp-6) var(--sp-2); }
+  @media (max-width: 560px) { padding: var(--sp-4) var(--sp-2); }
 `;
 
 const StatNum = styled.div`
   font-family: var(--f-display);
-  font-size: clamp(2.4rem, 6vw, 4rem);
+  font-size: clamp(2rem, 5vw, 3rem);
   font-weight: 700;
-  color: var(--c-white);
+  color: var(--c-primary);
   line-height: 1;
   margin-bottom: var(--sp-2);
 
-  @media (max-width: 560px) { font-size: 1.9rem; }
+  @media (max-width: 560px) { font-size: 1.6rem; }
 `;
 
 const StatLabel = styled.div`
-  font-size: .8rem;
+  font-size: .78rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: .1em;
-  color: rgba(255,255,255,.65);
+  color: var(--c-n600);
 
   @media (max-width: 560px) {
-    font-size: 0.65rem;
+    font-size: 0.6rem;
     letter-spacing: 0.04em;
   }
 `;
@@ -200,10 +211,10 @@ const PresidentsGrid = styled.div`
 
 const PresidentCard = styled.div`
   background: var(--c-white);
-  border-radius: var(--r-lg);
+  border-radius: 8px;
   overflow: hidden;
-  border: 1.5px solid var(--c-n200);
-  box-shadow: var(--sh-xs);
+  border: 1px solid var(--c-border);
+  box-shadow: var(--sh-card);
   transition: transform 220ms var(--ease-spring), box-shadow 220ms ease;
   animation: ${scaleIn} .5s var(--ease-out) both;
 
@@ -212,7 +223,7 @@ const PresidentCard = styled.div`
 
   &:hover {
     transform: translateY(-4px);
-    box-shadow: var(--sh-md);
+    box-shadow: var(--sh-float);
   }
 
   img {
@@ -251,8 +262,8 @@ const PresidentRole = styled.p`
 `;
 
 const VolunteerBanner = styled.div`
-  background: var(--c-primary-surface);
-  border-left: 4px solid var(--c-primary);
+  background: var(--c-white);
+  border: 1px solid var(--c-border);
   border-radius: var(--r-md);
   padding: var(--sp-6) var(--sp-8);
 
@@ -287,14 +298,11 @@ const ValuesGrid = styled.div`
   @media (max-width: 900px) { grid-template-columns: 1fr; gap: var(--sp-4); }
 `;
 
-interface VCardProps { accent: string; }
-
-const ValueCard = styled.div<VCardProps>`
+const ValueCard = styled.div`
   padding: var(--sp-8) var(--sp-6);
-  background: var(--c-n50);
+  background: var(--c-white);
   border-radius: var(--r-lg);
-  border: 1.5px solid var(--c-n200);
-  border-top: 4px solid ${p => p.accent};
+  border: 1px solid var(--c-border);
   display: flex;
   flex-direction: column;
   gap: var(--sp-3);
@@ -306,7 +314,7 @@ const ValueCard = styled.div<VCardProps>`
   &:nth-child(3) { animation-delay: .21s; }
 
   &:hover {
-    box-shadow: var(--sh-md);
+    box-shadow: var(--sh-float);
     transform: translateY(-3px);
   }
 `;
@@ -363,15 +371,13 @@ const MissionCard = styled.div`
   background: var(--c-white);
   border-radius: var(--r-lg);
   padding: var(--sp-8);
-  border: 1.5px solid var(--c-n200);
-  border-left: 4px solid var(--c-primary);
+  border: 1px solid var(--c-border);
   display: flex;
   flex-direction: column;
   gap: var(--sp-4);
   animation: ${fadeUp} .6s var(--ease-out) both;
 
   &:nth-child(2) {
-    border-left-color: var(--c-accent-blue);
     animation-delay: .12s;
   }
 
@@ -407,7 +413,12 @@ export const AboutUs = () => {
       <HeaderSection id="about">
         <HeaderInner>
           <Eyebrow>Coeurs Festifs</Eyebrow>
-          <PageTitle>{t("aboutUs.title")}</PageTitle>
+          <PageTitle>
+            {(() => {
+              const [rest, last] = splitLastWord(t("aboutUs.title"));
+              return rest ? <>{rest} <GradientWord>{last}</GradientWord></> : <GradientWord>{last}</GradientWord>;
+            })()}
+          </PageTitle>
           <PageDesc>{t("aboutUs.desc")}</PageDesc>
         </HeaderInner>
       </HeaderSection>
@@ -472,17 +483,17 @@ export const AboutUs = () => {
           <SectionLabel>Ce qui nous guide</SectionLabel>
           <SectionHeading>{t("aboutUs.valuesTitle")}</SectionHeading>
           <ValuesGrid>
-            <ValueCard accent="#e63946">
+            <ValueCard>
               <ValueIcon accent="#e63946">❤️</ValueIcon>
               <ValueTitle>Compassion</ValueTitle>
               <ValueText>Nous plaçons le bien-être et les besoins des enfants au cœur de chacune de nos actions.</ValueText>
             </ValueCard>
-            <ValueCard accent="#4361ee">
+            <ValueCard>
               <ValueIcon accent="#4361ee">🤝</ValueIcon>
               <ValueTitle>Communauté</ValueTitle>
               <ValueText>Nous croyons à la force du collectif pour créer des changements durables et positifs.</ValueText>
             </ValueCard>
-            <ValueCard accent="#f97316">
+            <ValueCard>
               <ValueIcon accent="#f97316">✨</ValueIcon>
               <ValueTitle>Inclusion</ValueTitle>
               <ValueText>Chaque enfant mérite d'être pleinement inclus, célébré et soutenu sans exception.</ValueText>

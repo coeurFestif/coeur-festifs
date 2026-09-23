@@ -6,33 +6,34 @@ import { FaMapMarkerAlt, FaArrowRight, FaCheckCircle } from "react-icons/fa";
 import { Event } from "../schema/event";
 import { useRevealOnScroll } from "../hooks/useRevealOnScroll";
 
+// Pronounced slide-in from below, staggered by card index, so the catalogue
+// reads as a wall of photos animating into place — no tilt, per the clean
+// "floating photo gallery" reference (docs/DESIGN.md).
 const cardIn = keyframes`
-  from { opacity: 0; transform: translateY(14px); }
+  from { opacity: 0; transform: translateY(48px); }
   to   { opacity: 1; transform: translateY(0); }
 `;
 
-const ACCENTS = ["#e63946", "#9fb5f2", "#ff9a9e", "#ffb347"];
-
-const Card = styled.article<{ accent: string; visible: boolean; delay: number }>`
+const Card = styled.article<{ $visible: boolean; $delay: number }>`
   background: var(--c-white);
-  border-radius: var(--r-lg);
-  border-top: 4px solid ${(p) => p.accent};
+  border: 1px solid var(--c-border);
+  border-radius: 8px;
   overflow: hidden;
   cursor: pointer;
   display: flex;
   flex-direction: column;
-  box-shadow: var(--sh-sm);
-  opacity: ${(p) => (p.visible ? 1 : 0)};
-  animation: ${(p) => (p.visible ? cardIn : "none")} 420ms var(--ease-out) ${(p) => p.delay}ms both;
+  box-shadow: var(--sh-card);
+  opacity: ${(p) => (p.$visible ? 1 : 0)};
+  animation: ${(p) => (p.$visible ? cardIn : "none")} 560ms var(--ease-out) ${(p) => p.$delay}ms both;
   transition: transform 220ms var(--ease-spring), box-shadow 220ms ease;
 
   &:hover {
     transform: translateY(-5px);
-    box-shadow: var(--sh-lg);
+    box-shadow: var(--sh-float);
   }
 
   &:focus-visible {
-    outline: 2px solid ${(p) => p.accent};
+    outline: 2px solid var(--c-n900);
     outline-offset: 2px;
   }
 
@@ -90,16 +91,12 @@ const Body = styled.div`
   flex: 1;
 `;
 
-const DateBadge = styled.span<{ accent: string }>`
+const DateBadge = styled.span`
   align-self: flex-start;
   font-family: var(--f-body);
   font-weight: 700;
   font-size: 0.72rem;
-  color: ${(p) => p.accent};
-  background: ${(p) => p.accent}14;
-  border: 1px solid ${(p) => p.accent}30;
-  border-radius: var(--r-full);
-  padding: 4px 10px;
+  color: var(--c-caption);
 `;
 
 const CardTitle = styled.h3`
@@ -123,7 +120,7 @@ const Meta = styled.div`
   svg { color: var(--c-primary); flex-shrink: 0; margin-top: 2px; }
 `;
 
-const CardLink = styled.span<{ accent: string }>`
+const CardLink = styled.span`
   display: flex;
   align-items: center;
   gap: 5px;
@@ -132,7 +129,7 @@ const CardLink = styled.span<{ accent: string }>`
   font-family: var(--f-body);
   font-weight: 700;
   font-size: 0.8rem;
-  color: ${(p) => p.accent};
+  color: var(--c-n900);
   transition: gap 150ms ease;
 
   article:hover & { gap: 9px; }
@@ -147,15 +144,13 @@ export const EventCard: React.FC<EventCardProps> = ({ event, index }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const [ref, visible] = useRevealOnScroll<HTMLElement>();
-  const accent = ACCENTS[index % ACCENTS.length];
   const go = () => navigate(`/coeur-festifs/event/${event.id}`);
 
   return (
     <Card
       ref={ref}
-      accent={accent}
-      visible={visible}
-      delay={Math.min(index * 60, 300)}
+      $visible={visible}
+      $delay={Math.min(index * 60, 300)}
       onClick={go}
       role="button"
       tabIndex={0}
@@ -166,13 +161,15 @@ export const EventCard: React.FC<EventCardProps> = ({ event, index }) => {
     >
       <div className="img-wrap">
         <img src={event.image} alt={event.title} loading="lazy" />
-        <PastBadge>
-          <FaCheckCircle aria-hidden="true" />
-          {t("events.pastBadge")}
-        </PastBadge>
+        {event.isPast && (
+          <PastBadge>
+            <FaCheckCircle aria-hidden="true" />
+            {t("events.pastBadge")}
+          </PastBadge>
+        )}
       </div>
       <Body>
-        {event.date && <DateBadge accent={accent}>{event.date}</DateBadge>}
+        {event.date && <DateBadge>{event.date}</DateBadge>}
         <CardTitle>{event.title}</CardTitle>
         {event.location && (
           <Meta>
@@ -180,7 +177,7 @@ export const EventCard: React.FC<EventCardProps> = ({ event, index }) => {
             <span>{event.location}</span>
           </Meta>
         )}
-        <CardLink accent={accent}>
+        <CardLink>
           {t("events.viewDetails")} <FaArrowRight aria-hidden="true" />
         </CardLink>
       </Body>
