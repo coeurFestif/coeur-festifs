@@ -1,404 +1,355 @@
 import React, { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import styled, { keyframes } from "styled-components";
-import { useEventData } from "../data/events";
+import styled from "styled-components";
+import { Link, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { FaCalendarAlt, FaMapMarkerAlt, FaArrowLeft, FaShareAlt, FaCheck } from "react-icons/fa";
+import {
+  PiArrowLeftBold,
+  PiArrowRightBold,
+  PiCalendarBlankFill,
+  PiCalendarPlusFill,
+  PiCheckBold,
+  PiMapPinFill,
+  PiShareFatFill,
+} from "react-icons/pi";
+import { useEventData } from "../data/events";
+import { Event } from "../schema/event";
+import { parseLocal, mapsUrl } from "../utils/eventDates";
+import { useEventMeta } from "../components/useEventMeta";
+import { downloadIcs, eventUrl } from "../components/eventActions";
+import { ButtonLink, Container, OutlineButton, StatusPill, TextLink } from "../components/ui";
 
-const fadeUp = keyframes`
-  from { opacity: 0; transform: translateY(16px); }
-  to   { opacity: 1; transform: translateY(0); }
+const Page = styled(Container)`
+  padding-top: var(--sp-8);
+  padding-bottom: var(--section);
 `;
 
-/* ── Shell ─────────────────────────────────────────────────── */
+const Layout = styled.div`
+  display: grid;
+  grid-template-columns: minmax(260px, 420px) 1fr;
+  gap: var(--sp-16);
+  align-items: start;
+  margin-top: var(--sp-8);
 
-const Page = styled.div`
-  min-height: 100dvh;
-  background: var(--c-cream);
-  display: flex;
-  flex-direction: column;
-  padding-top: var(--nav-space);
+  @media (max-width: 860px) { grid-template-columns: 1fr; gap: var(--sp-8); }
 `;
 
-/* ── Hero ──────────────────────────────────────────────────── */
-
-const Hero = styled.div`
-  position: relative;
-  width: 100%;
-  height: 520px;
+const Poster = styled.div`
+  position: sticky;
+  top: calc(var(--nav-h) + var(--sp-6));
+  aspect-ratio: 3 / 4;
+  border-radius: var(--r-card);
   overflow: hidden;
+  background: #f4f4f4;
+  box-shadow: var(--sh-event);
 
-  @media (max-width: 768px) { height: 360px; }
+  img { width: 100%; height: 100%; object-fit: cover; }
+
+  @media (max-width: 860px) { position: static; max-width: 360px; }
 `;
 
-const HeroImg = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+const Info = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-6);
+  min-width: 0;
 `;
 
-const HeroOverlay = styled.div`
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(0,0,0,.72) 0%,
-    rgba(0,0,0,.22) 50%,
-    rgba(0,0,0,.0) 100%
-  );
+const TopLine = styled.div`
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+
+  p { font-family: var(--f-display); font-weight: 800; color: var(--c-primary); letter-spacing: -0.02em; }
 `;
 
-const HeroBottom = styled.div`
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  padding: 0 var(--sp-12) var(--sp-10);
-
-  @media (max-width: 768px) { padding: 0 var(--sp-6) var(--sp-8); }
-`;
-
-const HeroTitle = styled.h1`
+const Title = styled.h1`
   font-family: var(--f-display);
-  font-size: clamp(1.9rem, 4.5vw, 3rem);
-  font-weight: 700;
-  color: var(--c-white);
-  margin: 0;
-  line-height: 1.12;
-  text-shadow: 0 2px 16px rgba(0,0,0,.35);
-  max-width: 900px;
-`;
-
-/* ── Content ────────────────────────────────────────────────── */
-
-const Content = styled.div`
-  max-width: 860px;
-  width: 100%;
-  margin: 0 auto;
-  padding: var(--sp-8) var(--sp-12) var(--sp-20);
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-8);
-  animation: ${fadeUp} .5s var(--ease-out) both;
-
-  @media (max-width: 768px) { padding: var(--sp-6) var(--sp-6) var(--sp-16); gap: var(--sp-6); }
-`;
-
-/* Back */
-const BackBtn = styled.button`
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  background: var(--c-white);
-  border: 1.5px solid var(--c-n200);
-  font-family: var(--f-body);
-  font-size: .85rem;
-  font-weight: 700;
-  color: var(--c-n700);
-  cursor: pointer;
-  padding: 8px 18px;
-  border-radius: var(--r-full);
-  align-self: flex-start;
-  box-shadow: var(--sh-xs);
-  transition: color 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
-
-  svg { font-size: .78rem; }
-  &:hover {
-    color: var(--c-primary);
-    border-color: var(--c-primary);
-    box-shadow: 0 2px 12px rgba(230,57,70,.14);
-  }
-`;
-
-/* Share */
-const ShareBtn = styled.button<{ copied?: boolean }>`
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  background: ${p => p.copied ? "var(--c-primary)" : "var(--c-white)"};
-  border: 1.5px solid ${p => p.copied ? "var(--c-primary)" : "var(--c-n200)"};
-  font-family: var(--f-body);
-  font-size: .85rem;
-  font-weight: 700;
-  color: ${p => p.copied ? "var(--c-white)" : "var(--c-n700)"};
-  cursor: pointer;
-  padding: 8px 18px;
-  border-radius: var(--r-full);
-  align-self: flex-start;
-  box-shadow: var(--sh-xs);
-  transition: all 150ms ease;
-
-  svg { font-size: .78rem; }
-  &:hover:not([data-copied="true"]) {
-    color: var(--c-primary);
-    border-color: var(--c-primary);
-  }
-`;
-
-/* Info chips */
-const ChipRow = styled.div`
-  display: flex;
-  gap: var(--sp-3);
-  flex-wrap: wrap;
-`;
-
-const InfoChip = styled.div`
-  flex: 1;
-  min-width: 200px;
-  display: flex;
-  align-items: center;
-  gap: var(--sp-3);
-  background: var(--c-white);
-  border: 1px solid var(--c-border);
-  box-shadow: var(--sh-card);
-  border-radius: var(--r-lg);
-  padding: var(--sp-4) var(--sp-5);
-
-  .icon {
-    width: 38px; height: 38px;
-    background: var(--c-primary-surface);
-    border-radius: var(--r-md);
-    display: flex; align-items: center; justify-content: center;
-    color: var(--c-primary);
-    font-size: .9rem;
-    flex-shrink: 0;
-  }
-
-  .text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-
-  .label {
-    font-size: .68rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: .09em;
-    color: var(--c-n400);
-  }
-
-  .value {
-    font-size: .9rem;
-    font-weight: 600;
-    color: var(--c-n900);
-    word-break: break-word;
-    line-height: 1.35;
-  }
-`;
-
-/* Description */
-const Description = styled.p`
-  font-size: 1rem;
-  font-weight: 500;
-  color: var(--c-n800);
-  line-height: 1.82;
-  margin: 0;
-  white-space: pre-line;
-`;
-
-/* Divider */
-const Divider = styled.hr`
-  border: none;
-  border-top: 1.5px solid var(--c-n100);
-`;
-
-/* Partners */
-const PartnerBlock = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-3);
-`;
-
-const BlockLabel = styled.p`
-  font-size: .72rem;
   font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: .1em;
-  color: var(--c-primary);
-  margin: 0;
+  font-size: clamp(2.25rem, 4.5vw, 3.5rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
 `;
 
-const TagRow = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--sp-2);
+const Rows = styled.ul`
+  list-style: none;
+  border-top: 1px solid var(--c-hair);
 `;
 
-const Tag = styled.span`
-  font-size: .85rem;
-  font-weight: 700;
-  padding: 6px 16px;
-  border-radius: var(--r-full);
-  background: var(--c-white);
-  color: var(--c-n900);
-  border: 1px solid var(--c-border);
-`;
+const Row = styled.li`
+  display: grid;
+  grid-template-columns: 40px 1fr auto;
+  gap: var(--sp-4);
+  align-items: center;
+  padding: var(--sp-4) 0;
+  border-bottom: 1px solid var(--c-hair);
 
-const LogoRow = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--sp-3);
-`;
+  .ico {
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    border-radius: var(--r-btn);
+    background: rgba(0, 0, 0, 0.05);
+    font-size: 1.15rem;
+  }
+  .txt { display: flex; flex-direction: column; min-width: 0; }
+  .txt strong { font-weight: 700; letter-spacing: -0.02em; overflow-wrap: anywhere; }
+  .txt span { font-size: 0.9rem; color: var(--c-slate); }
 
-const LogoTile = styled.img`
-  width: 88px; height: 70px;
-  object-fit: contain;
-  background: var(--c-n50);
-  border: 1px solid var(--c-border);
-  border-radius: var(--r-md);
-  padding: var(--sp-2);
-  transition: border-color 150ms ease, box-shadow 150ms ease;
-
-  &:hover {
-    border-color: var(--c-primary);
-    box-shadow: var(--sh-card);
+  @media (max-width: 520px) {
+    grid-template-columns: 40px 1fr;
+    & > :last-child:not(.txt) { grid-column: 2; justify-self: start; }
   }
 `;
 
-/* Error */
-const ErrorWrap = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+const SmallAction = styled.a`
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  gap: var(--sp-4);
-  padding: var(--sp-16) var(--sp-6);
-  text-align: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--c-ink);
+  text-decoration: none;
+  white-space: nowrap;
+  border-bottom: 1px solid currentColor;
 
-  h1 { font-family: var(--f-display); font-size: 2rem; font-weight: 700; color: var(--c-primary); }
-  p  { font-size: 1rem; font-weight: 500; color: var(--c-n600); }
+  &:hover { opacity: 0.7; }
 `;
 
-/* ── Component ─────────────────────────────────────────────── */
+const SmallButton = styled.button`
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  border: none;
+  border-bottom: 1px solid currentColor;
+  background: none;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--c-ink);
+  white-space: nowrap;
+
+  &:hover { opacity: 0.7; }
+`;
+
+const Description = styled.p`
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--c-graphite);
+  white-space: pre-line;
+  max-width: 38em;
+`;
+
+const Orgs = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+
+  h2 { font-size: 0.95rem; font-weight: 700; color: var(--c-slate); }
+  ul { display: flex; flex-wrap: wrap; gap: var(--sp-2); list-style: none; }
+  li {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px 6px 6px;
+    border-radius: var(--r-pill);
+    background: rgba(0, 0, 0, 0.05);
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+  li.noimg { padding-left: 12px; }
+  img { width: 28px; height: 28px; border-radius: 50%; object-fit: contain; background: var(--c-white); }
+`;
+
+const Neighbors = styled.nav`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-4);
+  margin-top: var(--section);
+  padding-top: var(--sp-8);
+  border-top: 1px solid var(--c-hair);
+
+  @media (max-width: 600px) { grid-template-columns: 1fr; }
+`;
+
+const NeighborCard = styled(Link)<{ $align: "left" | "right" }>`
+  display: flex;
+  flex-direction: ${(p) => (p.$align === "right" ? "row-reverse" : "row")};
+  align-items: center;
+  gap: var(--sp-4);
+  padding: var(--sp-3);
+  border-radius: var(--r-card);
+  text-decoration: none;
+  color: inherit;
+  text-align: ${(p) => p.$align};
+  transition: background 200ms ease;
+
+  &:hover { background: rgba(0, 0, 0, 0.04); }
+  img { width: 56px; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 6px; box-shadow: var(--sh-card); }
+  small { display: flex; align-items: center; gap: 6px; justify-content: ${(p) => (p.$align === "right" ? "flex-end" : "flex-start")}; font-size: 0.8rem; color: var(--c-ash); }
+  strong { display: block; font-weight: 700; letter-spacing: -0.02em; }
+`;
+
+const Missing = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--sp-5);
+  padding: var(--sp-20) 0;
+
+  p { color: var(--c-slate); font-size: 1.1rem; }
+`;
+
+const OrgList: React.FC<{ title: string; names?: string[]; imgs?: string[] }> = ({ title, names, imgs }) => {
+  const list = (names ?? []).map((name, i) => ({ name, img: imgs?.[i] }));
+  if (!list.length) return null;
+  return (
+    <Orgs>
+      <h2>{title}</h2>
+      <ul>
+        {list.map((o) => (
+          <li key={o.name} className={o.img ? undefined : "noimg"}>
+            {o.img && <img src={o.img} alt="" loading="lazy" />}
+            {o.name}
+          </li>
+        ))}
+      </ul>
+    </Orgs>
+  );
+};
+
+function neighbors(events: Event[], current: Event) {
+  const dated = events
+    .filter((e) => e.startsAt)
+    .sort((a, b) => parseLocal(a.startsAt!).getTime() - parseLocal(b.startsAt!).getTime());
+  const i = dated.findIndex((e) => e.id === current.id);
+  if (i < 0) return { prev: undefined, next: undefined };
+  return { prev: dated[i - 1], next: dated[i + 1] };
+}
+
+const Detail: React.FC<{ event: Event; events: Event[] }> = ({ event, events }) => {
+  const { t } = useTranslation();
+  const meta = useEventMeta(event);
+  const [copied, setCopied] = useState(false);
+  const { prev, next } = neighbors(events, event);
+
+  const share = async () => {
+    const url = eventUrl(event);
+    if (navigator.share) {
+      try { await navigator.share({ title: event.title, url }); } catch { /* dismissed */ }
+      return;
+    }
+    await navigator.clipboard.writeText(url);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <Page>
+      <TextLink to="/coeur-festifs/events">
+        <PiArrowLeftBold aria-hidden="true" /> {t("ui.events.back")}
+      </TextLink>
+
+      <Layout>
+        <Poster>
+          <img src={event.image} alt={t("ui.events.posterAlt", { title: event.title })} />
+        </Poster>
+
+        <Info>
+          <TopLine>
+            <StatusPill status={meta.status} label={meta.statusLabel} />
+            {meta.relative && <p>{meta.relative}</p>}
+          </TopLine>
+          <Title>{event.title}</Title>
+
+          <Rows>
+            <Row>
+              <span className="ico"><PiCalendarBlankFill aria-hidden="true" /></span>
+              <span className="txt">
+                <strong>{meta.dateText}</strong>
+                {meta.timeText && <span>{meta.timeText}</span>}
+              </span>
+              {meta.status === "upcoming" && event.startsAt ? (
+                <SmallButton type="button" onClick={() => downloadIcs(event)}>
+                  <PiCalendarPlusFill aria-hidden="true" /> {t("ui.events.addToCalendar")}
+                </SmallButton>
+              ) : <span />}
+            </Row>
+            {event.location && (
+              <Row>
+                <span className="ico"><PiMapPinFill aria-hidden="true" /></span>
+                <span className="txt"><strong>{event.location}</strong></span>
+                <SmallAction href={mapsUrl(event.location)} target="_blank" rel="noopener noreferrer">
+                  {t("ui.events.directions")} <PiArrowRightBold aria-hidden="true" />
+                </SmallAction>
+              </Row>
+            )}
+          </Rows>
+
+          <div>
+            <OutlineButton type="button" onClick={share} aria-live="polite">
+              {copied ? <PiCheckBold aria-hidden="true" /> : <PiShareFatFill aria-hidden="true" />}
+              {copied ? t("events.copied") : t("events.share")}
+            </OutlineButton>
+          </div>
+
+          {event.description && <Description>{event.description}</Description>}
+
+          <OrgList title={t("events.partner")} names={event.partner} imgs={event.partnerImg} />
+          <OrgList title={t("events.sponsor")} names={event.Sponsor} imgs={event.SponsorImg} />
+        </Info>
+      </Layout>
+
+      {(prev || next) && (
+        <Neighbors aria-label={t("events.title")}>
+          <div>
+            {prev && (
+              <NeighborCard to={`/coeur-festifs/event/${prev.id}`} $align="left">
+                <img src={prev.image} alt="" />
+                <span>
+                  <small><PiArrowLeftBold aria-hidden="true" /> {t("ui.events.prev")}</small>
+                  <strong>{prev.title}</strong>
+                </span>
+              </NeighborCard>
+            )}
+          </div>
+          <div>
+            {next && (
+              <NeighborCard to={`/coeur-festifs/event/${next.id}`} $align="right">
+                <img src={next.image} alt="" />
+                <span>
+                  <small>{t("ui.events.next")} <PiArrowRightBold aria-hidden="true" /></small>
+                  <strong>{next.title}</strong>
+                </span>
+              </NeighborCard>
+            )}
+          </div>
+        </Neighbors>
+      )}
+    </Page>
+  );
+};
 
 export const EventDetail = () => {
-  const { id }  = useParams();
-  const navigate = useNavigate();
-  const events  = useEventData();
-  const event   = events.find(e => e.id === id);
-  const { t }   = useTranslation();
-  const [copied, setCopied] = useState(false);
-
-  const handleShare = async () => {
-    const url = window.location.href;
-    if (navigator.share) {
-      try { await navigator.share({ title: event?.title, url }); } catch {}
-    } else {
-      await navigator.clipboard.writeText(url);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    }
-  };
+  const { id } = useParams();
+  const { t } = useTranslation();
+  const events = useEventData();
+  const event = events.find((e) => e.id === id);
 
   if (!event) {
     return (
       <Page>
-        <ErrorWrap>
-          <span style={{ fontSize: "3rem" }}>🔍</span>
-          <h1>{t("events.notFound") || "Événement introuvable"}</h1>
-          <p>{t("events.notFoundDesc") || "Cet événement n'existe pas ou a été supprimé."}</p>
-        </ErrorWrap>
+        <Missing>
+          <Title>{t("events.notFound")}</Title>
+          <p>{t("events.notFoundDesc")}</p>
+          <ButtonLink to="/coeur-festifs/events">
+            <PiArrowLeftBold aria-hidden="true" /> {t("ui.events.back")}
+          </ButtonLink>
+        </Missing>
       </Page>
     );
   }
 
-  const hasPartners   = event.partner    && event.partner.length   > 0;
-  const hasSponsors   = event.Sponsor    && event.Sponsor.length   > 0;
-  const hasPartnerImg = event.partnerImg && event.partnerImg.length > 0;
-  const hasSponsorImg = event.SponsorImg && event.SponsorImg.length > 0;
-
-  const renderLogos = (imgs: string[] | undefined, names: string[] | undefined) =>
-    imgs && imgs.length > 0 ? (
-      <LogoRow>
-        {imgs.map((src, i) => (
-          <LogoTile
-            key={i}
-            src={src}
-            alt={names?.[i] ?? `Logo ${i + 1}`}
-            onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
-              (e.target as HTMLImageElement).style.display = "none";
-            }}
-          />
-        ))}
-      </LogoRow>
-    ) : null;
-
-  return (
-    <Page>
-      {/* Hero */}
-      <Hero>
-        <HeroImg src={event.image} alt="" aria-hidden="true" />
-        <HeroOverlay />
-        <HeroBottom>
-          <HeroTitle>{event.title}</HeroTitle>
-        </HeroBottom>
-      </Hero>
-
-      {/* Body */}
-      <Content>
-        <div style={{ display: "flex", alignItems: "center", gap: "var(--sp-3)", flexWrap: "wrap" }}>
-          <BackBtn onClick={() => navigate("/coeur-festifs/events")}>
-            <FaArrowLeft aria-hidden="true" />
-            {t("navBar.events")}
-          </BackBtn>
-          <ShareBtn onClick={handleShare} copied={copied} data-copied={copied}>
-            {copied ? <FaCheck aria-hidden="true" /> : <FaShareAlt aria-hidden="true" />}
-            {copied ? (t("events.copied") || "Copié !") : (t("events.share") || "Partager")}
-          </ShareBtn>
-        </div>
-
-        {(event.date || event.location) && (
-          <ChipRow>
-            {event.date && (
-              <InfoChip>
-                <div className="icon"><FaCalendarAlt aria-hidden="true" /></div>
-                <div className="text">
-                  <span className="label">{t("date") || "Date"}</span>
-                  <span className="value">{event.date}</span>
-                </div>
-              </InfoChip>
-            )}
-            {event.location && (
-              <InfoChip>
-                <div className="icon"><FaMapMarkerAlt aria-hidden="true" /></div>
-                <div className="text">
-                  <span className="label">{t("location") || "Lieu"}</span>
-                  <span className="value">{event.location}</span>
-                </div>
-              </InfoChip>
-            )}
-          </ChipRow>
-        )}
-
-        {event.description && <Description>{event.description}</Description>}
-
-        {(hasPartners || hasPartnerImg) && (
-          <>
-            <Divider />
-            <PartnerBlock>
-              <BlockLabel>{t("events.partner")}</BlockLabel>
-              {hasPartners && (
-                <TagRow>
-                  {event.partner!.map((p, i) => <Tag key={i}>{p}</Tag>)}
-                </TagRow>
-              )}
-              {renderLogos(event.partnerImg, event.partner)}
-            </PartnerBlock>
-          </>
-        )}
-
-        {(hasSponsors || hasSponsorImg) && (
-          <>
-            <Divider />
-            <PartnerBlock>
-              <BlockLabel>{t("events.sponsor")}</BlockLabel>
-              {hasSponsors && (
-                <TagRow>
-                  {event.Sponsor!.map((s, i) => <Tag key={i}>{s}</Tag>)}
-                </TagRow>
-              )}
-              {renderLogos(event.SponsorImg, event.Sponsor)}
-            </PartnerBlock>
-          </>
-        )}
-      </Content>
-    </Page>
-  );
+  return <Detail event={event} events={events} />;
 };

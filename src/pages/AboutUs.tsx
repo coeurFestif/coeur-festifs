@@ -1,520 +1,193 @@
 import React from "react";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import { useTranslation } from "react-i18next";
-import Clara   from "../assets/Clara.jpg";
-import Ariane  from "../assets/Ariane.jpeg";
+import { PiInstagramLogoFill, PiEnvelopeSimpleFill } from "react-icons/pi";
+import { useEventData } from "../data/events";
+import { PARTNERS, VOLUNTEER_COUNT } from "../data/partners";
+import { Figures, Founders } from "../components/Showcase";
+import { ButtonA, Container, Display, Lead, OutlineA, Reveal, Section, SectionTitle } from "../components/ui";
+import { EMAIL, INSTAGRAM_URL } from "../components/eventActions";
 import commonPic from "../assets/commonPic.jpg";
-import { GradientWord } from "../components/GradientWord";
 
-// Highlights the last word of a translated title in the brand gradient —
-// the one signature gesture (docs/DESIGN.md), never more than once per page.
-function splitLastWord(text: string): [string, string] {
-  const parts = text.trim().split(" ");
-  const last = parts.pop() ?? "";
-  return [parts.join(" "), last];
-}
-
-/* ── Animations ────────────────────────────────────────────── */
-
-const fadeUp = keyframes`
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
-`;
-
-const scaleIn = keyframes`
-  from { opacity: 0; transform: scale(.94); }
-  to   { opacity: 1; transform: scale(1); }
-`;
-
-/* ── Shared layout ─────────────────────────────────────────── */
-
-const Page = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding-top: var(--nav-space);
-`;
-
-const Inner = styled.div`
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 0 var(--sp-12);
-
-  @media (max-width: 768px) { padding: 0 var(--sp-6); }
-`;
-
-/* ═══════════════════════════════════════════════════════
-   1 · PAGE HEADER
-═══════════════════════════════════════════════════════ */
-
-const HeaderSection = styled.section`
-  padding: var(--sp-20) 0 var(--sp-16);
-  background: var(--c-white);
-  border-bottom: 1.5px solid var(--c-n100);
-
-  @media (max-width: 768px) { padding: var(--sp-10) 0 var(--sp-8); }
-`;
-
-const HeaderInner = styled(Inner)`
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-4);
-  max-width: 760px;
-`;
-
-const Eyebrow = styled.p`
-  font-size: 0.75rem;
-  font-weight: 800;
-  color: var(--c-primary);
-  text-transform: uppercase;
-  letter-spacing: .12em;
-  animation: ${fadeUp} .5s var(--ease-out) both;
-`;
-
-const PageTitle = styled.h1`
-  font-family: var(--f-display);
-  font-size: clamp(2.4rem, 5vw, 3.6rem);
-  font-weight: 700;
-  color: var(--c-n900);
-  line-height: 1.1;
-  animation: ${fadeUp} .6s var(--ease-out) .08s both;
-`;
-
-const PageDesc = styled.p`
-  font-size: clamp(.95rem, 2vw, 1.05rem);
-  font-weight: 500;
-  color: var(--c-n600);
-  line-height: 1.8;
-  animation: ${fadeUp} .6s var(--ease-out) .16s both;
-`;
-
-/* ═══════════════════════════════════════════════════════
-   2 · IMPACT STATS
-═══════════════════════════════════════════════════════ */
-
-const StatsSection = styled.section`
-  padding: var(--sp-12) 0;
-  background: var(--c-white);
-  border-bottom: 1px solid var(--c-border);
-`;
-
-const StatsGrid = styled(Inner)`
+const Intro = styled(Container)`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-`;
-
-const StatItem = styled.div`
-  display: flex;
-  flex-direction: column;
+  grid-template-columns: 1.1fr 1fr;
+  gap: var(--sp-16);
   align-items: center;
-  text-align: center;
-  padding: var(--sp-6);
-  border-right: 1px solid var(--c-border);
-  animation: ${scaleIn} .5s var(--ease-out) both;
+  padding-top: var(--sp-12);
+  padding-bottom: var(--section);
 
-  &:last-child { border-right: none; }
-  &:nth-child(1) { animation-delay: .05s; }
-  &:nth-child(2) { animation-delay: .12s; }
-  &:nth-child(3) { animation-delay: .19s; }
-
-  @media (max-width: 560px) { padding: var(--sp-4) var(--sp-2); }
+  @media (max-width: 860px) { grid-template-columns: 1fr; gap: var(--sp-10); }
 `;
 
-const StatNum = styled.div`
-  font-family: var(--f-display);
-  font-size: clamp(2rem, 5vw, 3rem);
-  font-weight: 700;
-  color: var(--c-primary);
-  line-height: 1;
-  margin-bottom: var(--sp-2);
-
-  @media (max-width: 560px) { font-size: 1.6rem; }
-`;
-
-const StatLabel = styled.div`
-  font-size: .78rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: .1em;
-  color: var(--c-n600);
-
-  @media (max-width: 560px) {
-    font-size: 0.6rem;
-    letter-spacing: 0.04em;
-  }
-`;
-
-/* ═══════════════════════════════════════════════════════
-   3 · TEAM
-═══════════════════════════════════════════════════════ */
-
-const TeamSection = styled.section`
-  padding: var(--sp-20) 0;
-  background: var(--c-n50);
-
-  @media (max-width: 768px) { padding: var(--sp-12) 0; }
-`;
-
-const TeamInner = styled(Inner)`
+const IntroCopy = styled.div`
   display: flex;
   flex-direction: column;
-  gap: var(--sp-12);
-
-  @media (max-width: 768px) { gap: var(--sp-8); }
+  gap: var(--sp-6);
 `;
 
-const SectionLabel = styled.p`
-  font-size: 0.75rem;
-  font-weight: 800;
-  color: var(--c-primary);
-  text-transform: uppercase;
-  letter-spacing: .12em;
-  margin-bottom: var(--sp-2);
+const Body = styled.p`
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: var(--c-graphite);
+  max-width: 36em;
 `;
 
-const SectionHeading = styled.h2`
-  font-family: var(--f-display);
-  font-size: clamp(1.8rem, 3.5vw, 2.4rem);
-  font-weight: 700;
-  color: var(--c-n900);
-  line-height: 1.15;
-  margin-bottom: var(--sp-8);
-`;
+const PhotoCard = styled.figure`
+  justify-self: center;
+  width: min(100%, 440px);
+  transform: rotate(-2deg);
+  transition: transform 500ms var(--ease-out);
 
-const GroupPhoto = styled.div`
-  width: 100%;
-  border-radius: var(--r-xl);
-  overflow: hidden;
-  box-shadow: var(--sh-lg);
-  border: 2px solid var(--c-white);
-
+  &:hover { transform: rotate(0deg); }
   img {
     width: 100%;
-    height: 800px;
+    aspect-ratio: 1;
     object-fit: cover;
-    object-position: top center;
-    display: block;
-    transition: transform .4s ease;
+    border-radius: var(--r-card);
+    box-shadow: var(--sh-event);
   }
-
-  &:hover img { transform: scale(1.03); }
-
-  @media (max-width: 768px) { img { height: 260px; } }
 `;
 
-const PresidentsGrid = styled.div`
+const Split = styled(Container)`
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: var(--sp-6);
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-16);
+  align-items: start;
 
-  @media (max-width: 560px) { grid-template-columns: 1fr; }
+  @media (max-width: 860px) { grid-template-columns: 1fr; gap: var(--sp-10); }
 `;
 
-const PresidentCard = styled.div`
-  background: var(--c-white);
-  border-radius: 8px;
-  overflow: hidden;
-  border: 1px solid var(--c-border);
-  box-shadow: var(--sh-card);
-  transition: transform 220ms var(--ease-spring), box-shadow 220ms ease;
-  animation: ${scaleIn} .5s var(--ease-out) both;
-
-  &:nth-child(1) { animation-delay: .05s; }
-  &:nth-child(2) { animation-delay: .14s; }
-
-  &:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--sh-float);
-  }
-
-  img {
-    width: 100%;
-    height: 500px;
-    object-fit: cover;
-    object-position: center;
-    display: block;
-    transition: transform .4s ease;
-  }
-
-  &:hover img { transform: scale(1.03); }
-
-  @media (max-width: 560px) { img { height: 62vw; } }
-`;
-
-const PresidentInfo = styled.div`
-  padding: var(--sp-4) var(--sp-5) var(--sp-5);
-`;
-
-const PresidentName = styled.h3`
-  font-family: var(--f-display);
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: var(--c-n900);
-  margin: 0 0 4px;
-`;
-
-const PresidentRole = styled.p`
-  font-size: .78rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: .09em;
-  color: var(--c-primary);
-  margin: 0;
-`;
-
-const VolunteerBanner = styled.div`
-  background: var(--c-white);
-  border: 1px solid var(--c-border);
-  border-radius: var(--r-md);
-  padding: var(--sp-6) var(--sp-8);
-
-  p {
-    font-size: 1rem;
-    font-weight: 500;
-    font-style: italic;
-    color: var(--c-n800);
-    line-height: 1.75;
-    margin: 0;
-  }
-
-  @media (max-width: 768px) { padding: var(--sp-5) var(--sp-5); }
-`;
-
-/* ═══════════════════════════════════════════════════════
-   4 · VALUES
-═══════════════════════════════════════════════════════ */
-
-const ValuesSection = styled.section`
-  padding: var(--sp-20) 0;
-  background: var(--c-white);
-
-  @media (max-width: 768px) { padding: var(--sp-12) 0; }
-`;
-
-const ValuesGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--sp-6);
-
-  @media (max-width: 900px) { grid-template-columns: 1fr; gap: var(--sp-4); }
-`;
-
-const ValueCard = styled.div`
-  padding: var(--sp-8) var(--sp-6);
-  background: var(--c-white);
-  border-radius: var(--r-lg);
-  border: 1px solid var(--c-border);
+const Stack = styled.div`
   display: flex;
   flex-direction: column;
-  gap: var(--sp-3);
-  animation: ${fadeUp} .6s var(--ease-out) both;
-  transition: box-shadow 200ms ease, transform 200ms var(--ease-spring);
-
-  &:nth-child(1) { animation-delay: .05s; }
-  &:nth-child(2) { animation-delay: .13s; }
-  &:nth-child(3) { animation-delay: .21s; }
-
-  &:hover {
-    box-shadow: var(--sh-float);
-    transform: translateY(-3px);
-  }
+  gap: var(--sp-5);
 `;
 
-const ValueIcon = styled.div<{ accent: string }>`
-  width: 48px;
-  height: 48px;
-  border-radius: var(--r-md);
-  background: ${p => p.accent}18;
-  color: ${p => p.accent};
-  font-size: 1.4rem;
+// Values as editorial rows, not three emoji cards.
+const Values = styled.ol`
+  list-style: none;
+  margin-top: var(--sp-10);
+  border-top: 1px solid var(--c-ink);
+`;
+
+const Value = styled.div`
+  display: grid;
+  grid-template-columns: minmax(180px, 1fr) 1.4fr;
+  gap: var(--sp-8);
+  align-items: baseline;
+  padding: var(--sp-8) 0;
+  border-bottom: 1px solid var(--c-hair);
+
+  h3 {
+    font-family: var(--f-display);
+    font-weight: 800;
+    font-size: clamp(1.75rem, 3.6vw, 2.75rem);
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+  p { font-size: 1.1rem; color: var(--c-graphite); max-width: 32em; }
+
+  @media (max-width: 640px) { grid-template-columns: 1fr; gap: var(--sp-3); }
+`;
+
+const Join = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  gap: var(--sp-8);
+  flex-wrap: wrap;
+
+  div { display: flex; flex-direction: column; gap: var(--sp-3); }
+  nav { display: flex; gap: var(--sp-3); flex-wrap: wrap; }
 `;
-
-const ValueTitle = styled.h3`
-  font-family: var(--f-display);
-  font-size: 1.35rem;
-  font-weight: 700;
-  color: var(--c-n900);
-  margin: 0;
-`;
-
-const ValueText = styled.p`
-  font-size: .9rem;
-  font-weight: 500;
-  color: var(--c-n600);
-  line-height: 1.7;
-  margin: 0;
-`;
-
-/* ═══════════════════════════════════════════════════════
-   5 · MISSION & VALUES TEXT
-═══════════════════════════════════════════════════════ */
-
-const MissionSection = styled.section`
-  padding: var(--sp-20) 0;
-  background: var(--c-n50);
-  border-top: 1.5px solid var(--c-n100);
-
-  @media (max-width: 768px) { padding: var(--sp-12) 0; }
-`;
-
-const MissionGrid = styled(Inner)`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: var(--sp-6);
-
-  @media (max-width: 768px) { grid-template-columns: 1fr; gap: var(--sp-4); }
-`;
-
-const MissionCard = styled.div`
-  background: var(--c-white);
-  border-radius: var(--r-lg);
-  padding: var(--sp-8);
-  border: 1px solid var(--c-border);
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-4);
-  animation: ${fadeUp} .6s var(--ease-out) both;
-
-  &:nth-child(2) {
-    animation-delay: .12s;
-  }
-
-  @media (max-width: 768px) { padding: var(--sp-6); }
-`;
-
-const MissionTitle = styled.h2`
-  font-family: var(--f-display);
-  font-size: clamp(1.4rem, 3vw, 1.9rem);
-  font-weight: 700;
-  color: var(--c-n900);
-  margin: 0;
-`;
-
-const MissionText = styled.p`
-  font-size: .95rem;
-  font-weight: 500;
-  color: var(--c-n600);
-  line-height: 1.8;
-  margin: 0;
-`;
-
-/* ═══════════════════════════════════════════════════════
-   Component
-═══════════════════════════════════════════════════════ */
 
 export const AboutUs = () => {
   const { t } = useTranslation();
+  const events = useEventData();
+
+  const values = [
+    { title: t("ui.about.compassionTitle"), text: t("ui.about.compassion") },
+    { title: t("ui.about.communityTitle"), text: t("ui.about.community") },
+    { title: t("ui.about.inclusionTitle"), text: t("ui.about.inclusion") },
+  ];
 
   return (
-    <Page>
-      {/* ── 1 · Header ── */}
-      <HeaderSection id="about">
-        <HeaderInner>
-          <Eyebrow>Coeurs Festifs</Eyebrow>
-          <PageTitle>
-            {(() => {
-              const [rest, last] = splitLastWord(t("aboutUs.title"));
-              return rest ? <>{rest} <GradientWord>{last}</GradientWord></> : <GradientWord>{last}</GradientWord>;
-            })()}
-          </PageTitle>
-          <PageDesc>{t("aboutUs.desc")}</PageDesc>
-        </HeaderInner>
-      </HeaderSection>
+    <>
+      <Intro>
+        <IntroCopy>
+          <Display>{t("aboutUs.title")}</Display>
+          <Lead>{t("ui.about.lead")}</Lead>
+          <Body>{t("aboutUs.desc").trim()}</Body>
+        </IntroCopy>
+        <PhotoCard>
+          <img src={commonPic} alt={t("aboutUs.presidentsTitle")} />
+        </PhotoCard>
+      </Intro>
 
-      {/* ── 2 · Stats ── */}
-      <StatsSection aria-label="Chiffres clés">
-        <StatsGrid>
-          <StatItem>
-            <StatNum>36</StatNum>
-            <StatLabel>{t("homepage.stats.volunteers")}</StatLabel>
-          </StatItem>
-          <StatItem>
-            <StatNum>9+</StatNum>
-            <StatLabel>{t("homepage.stats.events")}</StatLabel>
-          </StatItem>
-          <StatItem>
-            <StatNum>8+</StatNum>
-            <StatLabel>{t("homepage.stats.partners")}</StatLabel>
-          </StatItem>
-        </StatsGrid>
-      </StatsSection>
+      <Section $wash>
+        <Container>
+          <Figures
+            items={[
+              { n: VOLUNTEER_COUNT, label: t("ui.home.statVolunteers") },
+              { n: events.length, label: t("ui.home.statEvents") },
+              { n: PARTNERS.length, label: t("ui.home.statPartners") },
+            ]}
+          />
+        </Container>
+      </Section>
 
-      {/* ── 3 · Team ── */}
-      <TeamSection id="team">
-        <TeamInner>
-          <div>
-            <SectionLabel>{t("aboutUs.teamLabel")}</SectionLabel>
-            <SectionHeading>{t("aboutUs.presidentsTitle")}</SectionHeading>
-          </div>
+      <Section aria-labelledby="team-title">
+        <Split>
+          <Stack>
+            <SectionTitle id="team-title">{t("aboutUs.presidentsTitle")}</SectionTitle>
+            <Lead>{t("aboutUs.benevoleText")}</Lead>
+            <SectionTitle as="h3" style={{ fontSize: "1.5rem", marginTop: "var(--sp-6)" }}>
+              {t("aboutUs.missionTitle")}
+            </SectionTitle>
+            <Body>{t("aboutUs.missionText")}</Body>
+          </Stack>
+          <Founders />
+        </Split>
+      </Section>
 
-          <GroupPhoto>
-            <img src={commonPic} alt="L'équipe Coeurs Festifs" />
-          </GroupPhoto>
+      <Section aria-labelledby="values-title">
+        <Container>
+          <SectionTitle id="values-title">{t("aboutUs.valuesTitle")}</SectionTitle>
+          <Lead style={{ marginTop: "var(--sp-3)" }}>{t("ui.about.valuesLead")}</Lead>
+          <Values>
+            {values.map((v, i) => (
+              <li key={v.title}>
+                <Reveal delay={i * 80}>
+                  <Value>
+                    <h3>{v.title}</h3>
+                    <p>{v.text}</p>
+                  </Value>
+                </Reveal>
+              </li>
+            ))}
+          </Values>
+        </Container>
+      </Section>
 
-          <PresidentsGrid>
-            <PresidentCard>
-              <img src={Ariane} alt="Ariane Manekeng Guimfack" />
-              <PresidentInfo>
-                <PresidentName>Ariane Manekeng Guimfack</PresidentName>
-                <PresidentRole>{t("aboutUs.presidentsText")}</PresidentRole>
-              </PresidentInfo>
-            </PresidentCard>
-
-            <PresidentCard>
-              <img src={Clara} alt="Clara Maria Bridi" />
-              <PresidentInfo>
-                <PresidentName>Clara Maria Bridi</PresidentName>
-                <PresidentRole>{t("aboutUs.presidentsText")}</PresidentRole>
-              </PresidentInfo>
-            </PresidentCard>
-          </PresidentsGrid>
-
-          <VolunteerBanner>
-            <p>{t("aboutUs.benevoleText")}</p>
-          </VolunteerBanner>
-        </TeamInner>
-      </TeamSection>
-
-      {/* ── 4 · Values ── */}
-      <ValuesSection id="values">
-        <Inner>
-          <SectionLabel>Ce qui nous guide</SectionLabel>
-          <SectionHeading>{t("aboutUs.valuesTitle")}</SectionHeading>
-          <ValuesGrid>
-            <ValueCard>
-              <ValueIcon accent="#e63946">❤️</ValueIcon>
-              <ValueTitle>Compassion</ValueTitle>
-              <ValueText>Nous plaçons le bien-être et les besoins des enfants au cœur de chacune de nos actions.</ValueText>
-            </ValueCard>
-            <ValueCard>
-              <ValueIcon accent="#4361ee">🤝</ValueIcon>
-              <ValueTitle>Communauté</ValueTitle>
-              <ValueText>Nous croyons à la force du collectif pour créer des changements durables et positifs.</ValueText>
-            </ValueCard>
-            <ValueCard>
-              <ValueIcon accent="#f97316">✨</ValueIcon>
-              <ValueTitle>Inclusion</ValueTitle>
-              <ValueText>Chaque enfant mérite d'être pleinement inclus, célébré et soutenu sans exception.</ValueText>
-            </ValueCard>
-          </ValuesGrid>
-        </Inner>
-      </ValuesSection>
-
-      {/* ── 5 · Mission text ── */}
-      <MissionSection id="mission">
-        <MissionGrid>
-          <MissionCard>
-            <MissionTitle>{t("aboutUs.missionTitle")}</MissionTitle>
-            <MissionText>{t("aboutUs.missionText")}</MissionText>
-          </MissionCard>
-          <MissionCard>
-            <MissionTitle>{t("aboutUs.valuesTitle")}</MissionTitle>
-            <MissionText>{t("aboutUs.valuesText")}</MissionText>
-          </MissionCard>
-        </MissionGrid>
-      </MissionSection>
-    </Page>
+      <Section $wash aria-labelledby="join-title">
+        <Container>
+          <Join>
+            <div>
+              <SectionTitle id="join-title">{t("ui.about.joinTitle")}</SectionTitle>
+              <Lead>{t("ui.about.joinText")}</Lead>
+            </div>
+            <nav aria-label={t("footer.contact")}>
+              <ButtonA href={`mailto:${EMAIL}`}>
+                <PiEnvelopeSimpleFill aria-hidden="true" /> {t("footer.contact")}
+              </ButtonA>
+              <OutlineA href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer">
+                <PiInstagramLogoFill aria-hidden="true" /> Instagram
+              </OutlineA>
+            </nav>
+          </Join>
+        </Container>
+      </Section>
+    </>
   );
 };

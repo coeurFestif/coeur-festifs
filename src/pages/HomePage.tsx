@@ -1,477 +1,416 @@
-import React from "react";
+import React, { useRef } from "react";
 import styled, { keyframes } from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { FaArrowRight } from "react-icons/fa";
+import { PiArrowRightBold, PiArrowLeftBold } from "react-icons/pi";
 import { useEventData } from "../data/events";
-import { FeaturedEvent } from "../components/FeaturedEvent";
-import { EventCard } from "../components/EventCard";
-import { PartnersMarquee } from "../components/PartnersMarquee";
-import { GradientWord } from "../components/GradientWord";
+import { PARTNERS, SPONSORS, VOLUNTEER_COUNT } from "../data/partners";
+import { getStatus } from "../utils/eventDates";
+import { NextEvent } from "../components/NextEvent";
+import { PosterCard } from "../components/PosterCard";
+import { OrgGrid } from "../components/OrgGrid";
+import { Figures, Founders } from "../components/Showcase";
+import {
+  ButtonLink,
+  Container,
+  Display,
+  Lead,
+  Reveal,
+  Section,
+  SectionTitle,
+  TextLink,
+} from "../components/ui";
+import { useEventMeta } from "../components/useEventMeta";
+import { Event } from "../schema/event";
 import commonPic from "../assets/commonPic.jpg";
-import carrefour from "../assets/CJE.jpg";
-import repit from "../assets/repitProvidence.png";
-import promis from "../assets/promis.png";
-import maisonCulture from "../assets/maisonCulture.png";
-import fondationDrJulien from "../assets/fondationDrJulien.png";
-import mountainSights from "../assets/mountainSights.png";
-import garageMusique from "../assets/garageMusique.png";
-import minimolars from "../assets/minimolars.png";
-import scholastic from "../assets/Scholastic.png";
-import gallimard from "../assets/Gallimard.jpg";
-import debrouillard from "../assets/debrouillard.png";
-import renojouets from "../assets/renojouets.jpeg";
+import logo from "../assets/logo.png";
 
-/* ── Utility ───────────────────────────────────────────────── */
+/* ═══════════════ 1 · Hero ═══════════════ */
 
-const Inner = styled.div`
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 0 var(--sp-12);
-
-  @media (max-width: 768px) { padding: 0 var(--sp-6); }
+const Hero = styled.section`
+  padding: var(--sp-12) 0 var(--section);
+  overflow: hidden;
 `;
 
-const floaty = keyframes`
-  0%, 100% { transform: translateY(0) rotate(var(--r, 0deg)); }
-  50%      { transform: translateY(-10px) rotate(var(--r, 0deg)); }
+const HeroGrid = styled(Container)`
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: var(--sp-12);
+  align-items: center;
+
+  @media (max-width: 900px) { grid-template-columns: 1fr; gap: var(--sp-10); }
 `;
 
-/* ═══════════════════════════════════════════════════════
-   1 · HERO — scrapbook photo wall
-═══════════════════════════════════════════════════════ */
-
-const HeroSection = styled.section`
-  position: relative;
-  padding: var(--nav-space) var(--sp-12) var(--sp-16);
+const HeroCopy = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
-  box-sizing: border-box;
-  overflow: hidden;
-
-  @media (max-width: 768px) { padding: var(--nav-space) var(--sp-6) var(--sp-10); }
+  align-items: flex-start;
+  gap: var(--sp-6);
 `;
 
-const ScatterWrap = styled.div`
-  display: none;
+const HeroActions = styled.div`
+  display: flex;
+  align-items: center;
+  gap: var(--sp-6);
+  flex-wrap: wrap;
+`;
 
-  @media (min-width: 901px) {
-    display: block;
+const deal = keyframes`
+  from { opacity: 0; transform: translate(var(--fx, 0), 24px) rotate(0deg) scale(.96); }
+  to   { opacity: 1; transform: translate(0, 0) rotate(var(--rot)) scale(1); }
+`;
+
+const bob = keyframes`
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+`;
+
+// Partiful's scattered invitation tiles: real posters tilted behind the one
+// real team photo, fanning out a little more on hover.
+const Stage = styled.div`
+  position: relative;
+  width: min(100%, 500px);
+  aspect-ratio: 1 / 1.08;
+  justify-self: center;
+
+  @media (max-width: 900px) { width: min(100%, 400px); }
+`;
+
+const Tile = styled.div<{ $rot: number; $x: string; $y: string; $w: string; $delay: number }>`
+  --rot: ${(p) => p.$rot}deg;
+  position: absolute;
+  left: ${(p) => p.$x};
+  top: ${(p) => p.$y};
+  width: ${(p) => p.$w};
+  aspect-ratio: 3 / 4;
+  border-radius: var(--r-card);
+  overflow: hidden;
+  background: #f4f4f4;
+  box-shadow: var(--sh-card);
+  transform: rotate(var(--rot));
+  animation: ${deal} 700ms var(--ease-out) ${(p) => p.$delay}ms both;
+  transition: transform 500ms var(--ease-out);
+
+  img { width: 100%; height: 100%; object-fit: cover; }
+
+  ${Stage}:hover & { transform: rotate(calc(var(--rot) * 1.4)) translateX(calc(var(--rot) * 1.2px)); }
+`;
+
+const Photo = styled.div`
+  position: absolute;
+  left: 20%;
+  top: 6%;
+  width: 60%;
+  aspect-ratio: 4 / 5;
+  border-radius: var(--r-card);
+  overflow: hidden;
+  box-shadow: var(--sh-float);
+  animation: ${deal} 700ms var(--ease-out) 260ms both;
+  --rot: 0deg;
+
+  img { width: 100%; height: 100%; object-fit: cover; }
+`;
+
+// Partiful's floating "app notification" widget, fed by real event data.
+const Notice = styled(Link)`
+  position: absolute;
+  left: 0;
+  bottom: 4%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: min(290px, 78%);
+  padding: 10px 12px;
+  border-radius: var(--r-modal);
+  background: var(--c-white);
+  box-shadow: var(--sh-float);
+  text-decoration: none;
+  color: inherit;
+  animation: ${deal} 700ms var(--ease-out) 520ms both, ${bob} 5s ease-in-out 1.4s infinite;
+  --rot: 0deg;
+
+  img { width: 36px; height: 36px; border-radius: 8px; flex-shrink: 0; }
+  div { display: flex; flex-direction: column; min-width: 0; }
+  small { font-size: 0.72rem; font-weight: 700; color: var(--c-primary); }
+  strong {
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  em {
+    margin-left: auto;
+    flex-shrink: 0;
+    padding: 5px 12px;
+    border-radius: 40px;
+    background: var(--c-ink);
+    color: var(--c-white);
+    font-style: normal;
+    font-size: 0.75rem;
+    font-weight: 700;
   }
 `;
 
-// Clean floating photo — no frame, no tilt, just a rounded rect with a soft
-// shadow that bobs gently. Matches the "floating photo gallery" reference.
-const FloatingPhoto = styled.div`
-  position: absolute;
-  border-radius: 18px;
-  overflow: hidden;
-  box-shadow: var(--sh-card);
-  animation: ${floaty} 5.5s ease-in-out infinite;
+const NoticeShell: React.FC<{ to: string; kicker: string; title: string }> = ({ to, kicker, title }) => {
+  const { t } = useTranslation();
+  return (
+    <Notice to={to}>
+      <img src={logo} alt="" />
+      <div>
+        <small>{kicker}</small>
+        <strong>{title}</strong>
+      </div>
+      <em>{t("homepage.explore")}</em>
+    </Notice>
+  );
+};
 
-  img { width: 100%; height: 100%; object-fit: cover; display: block; }
+const NoticeFor: React.FC<{ event: Event }> = ({ event }) => {
+  const { t } = useTranslation();
+  const meta = useEventMeta(event);
+  return (
+    <NoticeShell
+      to={`/coeur-festifs/event/${event.id}`}
+      kicker={meta.relative ?? t("ui.home.nextLabel")}
+      title={event.title}
+    />
+  );
+};
 
-  @media (prefers-reduced-motion: reduce) { animation: none; }
-`;
+const HeroNotice: React.FC<{ event?: Event }> = ({ event }) => {
+  const { t } = useTranslation();
+  return event ? (
+    <NoticeFor event={event} />
+  ) : (
+    <NoticeShell to="/coeur-festifs/events" kicker={t("ui.home.nextLabel")} title={t("ui.events.emptyTitle")} />
+  );
+};
 
-const MobileScatterRow = styled.div`
-  display: flex;
-  justify-content: center;
-  gap: var(--sp-3);
-  margin-bottom: var(--sp-6);
+/* ═══════════════ 2 · Next event ═══════════════ */
 
-  @media (min-width: 901px) { display: none; }
-`;
-
-const MobileFloatingPhoto = styled.div`
-  border-radius: 14px;
-  overflow: hidden;
-  box-shadow: var(--sh-card);
-  box-sizing: border-box;
-  width: 88px;
-  height: 108px;
-  flex-shrink: 0;
-
-  img { width: 100%; height: 100%; object-fit: cover; border-radius: 2px; display: block; }
-`;
-
-const Eyebrow = styled.span`
-  font-weight: 800;
-  font-size: 0.75rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--c-caption);
-  margin-bottom: var(--sp-4);
-`;
-
-const HeroTitle = styled.h1`
-  font-family: var(--f-display);
-  font-weight: 700;
-  font-size: clamp(2.2rem, 5.5vw, 3.6rem);
-  line-height: 1.1;
-  color: var(--c-n900);
-  margin: 0;
-  max-width: 720px;
-  position: relative;
-  z-index: 2;
-`;
-
-const HeroText = styled.p`
-  font-family: var(--f-body);
-  font-weight: 500;
-  font-size: 1.05rem;
-  color: var(--c-n600);
-  max-width: 480px;
-  margin: var(--sp-5) 0 0;
-  line-height: 1.6;
-`;
-
-const HeroCTAs = styled.div`
-  display: flex;
-  gap: var(--sp-3);
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-top: var(--sp-7);
-`;
-
-const BtnOutline = styled.button`
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--c-white);
-  color: var(--c-n900);
-  border: 1.5px solid var(--c-n900);
-  font-family: var(--f-body);
-  font-weight: 800;
-  font-size: 0.95rem;
-  padding: 14px 28px;
-  border-radius: var(--r-full);
-  cursor: pointer;
-  transition: background 150ms ease, color 150ms ease, transform 150ms var(--ease-spring);
-
-  &:hover { background: var(--c-n900); color: var(--c-cream); transform: translateY(-1px); }
-`;
-
-const BtnGhost = styled.button`
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: none;
-  color: var(--c-n600);
-  border: none;
-  font-family: var(--f-body);
-  font-weight: 700;
-  font-size: 0.95rem;
-  padding: 14px 10px;
-  cursor: pointer;
-
-  &:hover { color: var(--c-n900); }
-`;
-
-/* ═══════════════════════════════════════════════════════
-   2 · FEATURED EVENT
-═══════════════════════════════════════════════════════ */
-
-const FeaturedSection = styled.section`
-  padding: 0 var(--sp-12) var(--sp-16);
-  box-sizing: border-box;
-
-  @media (max-width: 768px) { padding: 0 var(--sp-6) var(--sp-10); }
-`;
-
-const FeaturedHeader = styled.div`
-  display: flex;
-  align-items: center;
-  gap: var(--sp-3);
-  margin-bottom: var(--sp-5);
-`;
-
-const FeaturedTag = styled.span`
-  font-family: var(--f-display);
-  font-weight: 700;
-  font-size: 0.8rem;
-  padding: 6px 16px;
-  background: var(--c-primary-surface);
-  color: var(--c-primary);
-  border-radius: var(--r-full);
-`;
-
-const FeaturedHeading = styled.h2`
-  margin: 0;
-  font-family: var(--f-display);
-  font-weight: 700;
-  font-size: 1.4rem;
-  color: var(--c-n900);
-`;
-
-/* ═══════════════════════════════════════════════════════
-   3 · INTRO
-═══════════════════════════════════════════════════════ */
-
-const IntroSection = styled.section`
-  padding: var(--sp-16) 0;
-  background: var(--c-white);
-  border-top: 1px solid var(--c-border);
-`;
-
-const IntroInner = styled(Inner)`
-  display: flex;
-  gap: var(--sp-6);
-
-  @media (max-width: 768px) { flex-direction: column; }
-`;
-
-const IntroLeft = styled.div`
-  width: 240px;
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-3);
-`;
-
-const SectionLabel = styled.span`
-  font-weight: 800;
-  font-size: 0.72rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--c-caption);
-`;
-
-const GhostTextBtn = styled.button`
-  align-self: flex-start;
-  background: none;
-  border: none;
-  border-bottom: 1.5px solid var(--c-n900);
-  font-family: var(--f-body);
-  font-weight: 700;
-  font-size: 0.9rem;
-  color: var(--c-n900);
-  padding: 0 0 2px;
-  cursor: pointer;
-`;
-
-const IntroBody = styled.p`
-  flex: 1;
-  max-width: 640px;
-  margin: 0;
-  font-family: var(--f-body);
-  font-size: 1.05rem;
-  line-height: 1.6;
-  color: var(--c-n800);
-`;
-
-/* ═══════════════════════════════════════════════════════
-   4 · TRUST — partenaires + commanditaires, une seule liste défilante
-═══════════════════════════════════════════════════════ */
-
-const TrustSection = styled.section`
-  padding: var(--sp-16) 0;
-  background: var(--c-n50);
-`;
-
-/* ═══════════════════════════════════════════════════════
-   5 · PAST EVENTS PREVIEW
-═══════════════════════════════════════════════════════ */
-
-const CatalogueSection = styled.section`
-  padding: var(--sp-16) 0 var(--sp-20);
-  background: var(--c-white);
-  border-top: 1px solid var(--c-border);
-`;
-
-const CatalogueHeader = styled.div`
+const Head = styled.div`
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
   gap: var(--sp-4);
-  margin-bottom: var(--sp-6);
   flex-wrap: wrap;
+  margin-bottom: var(--sp-8);
 `;
 
-const CatalogueTitle = styled.h2`
-  margin: var(--sp-1) 0 0;
-  font-family: var(--f-display);
-  font-weight: 700;
-  font-size: clamp(1.5rem, 3vw, 1.9rem);
-  color: var(--c-n900);
+/* ═══════════════ 3 · Numbers ═══════════════ */
+
+/* ═══════════════ 4 · Past events rail ═══════════════ */
+
+const RailHead = styled(Head)`
+  margin-bottom: var(--sp-6);
 `;
 
-const CardsGrid = styled.div`
+const RailButtons = styled.div`
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+
+  button {
+    width: 40px;
+    height: 40px;
+    display: inline-grid;
+    place-items: center;
+    border: 1px solid var(--c-silver);
+    border-radius: var(--r-pill);
+    background: var(--c-white);
+    color: var(--c-ink);
+    transition: border-color 150ms ease, background 150ms ease;
+  }
+  button:hover { border-color: var(--c-ink); }
+
+  @media (max-width: 700px) { button { display: none; } }
+`;
+
+// Full-bleed horizontal row with visible overflow, aligned to the page grid.
+const Rail = styled.ul`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--sp-6);
+  grid-auto-flow: column;
+  grid-auto-columns: clamp(200px, 22vw, 250px);
+  gap: var(--sp-5);
+  list-style: none;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: max(var(--gutter), calc((100vw - var(--page-max)) / 2));
+  padding: 8px max(var(--gutter), calc((100vw - var(--page-max)) / 2)) var(--sp-4);
+  scrollbar-width: none;
 
-  @media (max-width: 960px) { grid-template-columns: repeat(2, 1fr); }
-  @media (max-width: 560px) { grid-template-columns: 1fr; }
+  &::-webkit-scrollbar { display: none; }
+  li { scroll-snap-align: start; }
 `;
 
-/* ═══════════════════════════════════════════════════════
-   Component
-═══════════════════════════════════════════════════════ */
+/* ═══════════════ 5 · About teaser ═══════════════ */
 
-const PARTNERS = [
-  { img: fondationDrJulien, name: "Fondation du Dr Julien" },
-  { img: repit, name: "Répit Providence" },
-  { img: mountainSights, name: "Centre communautaire Mountain Sights" },
-  { img: promis, name: "PROMIS" },
-  { img: maisonCulture, name: "Maison de la culture CDN" },
-  { img: carrefour, name: "Carrefour Jeunesse Emploi CDN–Outremont–VMR" },
-  { img: garageMusique, name: "Garage à Musique" },
-  { img: minimolars, name: "Mini Molars Club" },
-];
+const Split = styled(Container)`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-16);
+  align-items: center;
 
-const SPONSORS = [
-  { img: scholastic, name: "Scholastic" },
-  { img: gallimard, name: "Librairie Gallimard" },
-  { img: debrouillard, name: "Les Débrouillards" },
-  { img: renojouets, name: "Fondation Réno-Jouets" },
-];
+  @media (max-width: 860px) { grid-template-columns: 1fr; gap: var(--sp-10); }
+`;
 
-// Highlights the last word of a translated title in the brand gradient —
-// the one signature gesture (docs/DESIGN.md), never more than once per page.
-function splitLastWord(text: string): [string, string] {
-  const parts = text.trim().split(" ");
-  const last = parts.pop() ?? "";
-  return [parts.join(" "), last];
-}
+const SplitCopy = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--sp-5);
+`;
+
+/* ═══════════════ 6 · Partners ═══════════════ */
+
+const GroupLabel = styled.h3`
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--c-slate);
+  margin: var(--sp-8) 0 var(--sp-4);
+
+  &:first-of-type { margin-top: 0; }
+`;
+
+/* ═══════════════ Page ═══════════════ */
 
 export const HomePage = () => {
-  const navigate = useNavigate();
   const { t } = useTranslation();
   const events = useEventData();
-  const available = events.filter((e) => e.isAvailable);
-  const upcoming = available.filter((e) => !e.isPast);
-  const past = available.filter((e) => e.isPast).slice(0, 3);
-  const nextEvent = upcoming[0];
+  const upcoming = events.filter((e) => getStatus(e) === "upcoming");
+  const past = events.filter((e) => getStatus(e) === "past");
+  const next = upcoming[0];
+  const railRef = useRef<HTMLUListElement>(null);
 
-  const scatterPhotos = [commonPic, ...available.map((e) => e.image)].slice(0, 6);
-  // Corner-hugging positions only (left/right within ~2–14%) so photos never
-  // cross into the centered title/text column — matches the reference image,
-  // where the gallery frames the headline instead of covering it.
-  const scatterLayout = [
-    { left: "2%", top: "4%", width: 140, height: 170, delay: "0s" },
-    { left: "6%", top: "64%", width: 110, height: 130, delay: "0.4s" },
-    { right: "2%", top: "2%", width: 150, height: 120, delay: "0.8s" },
-    { right: "3%", top: "40%", width: 160, height: 200, delay: "1.2s" },
-    { left: "14%", top: "84%", width: 100, height: 100, delay: "1.6s" },
-    { right: "13%", top: "80%", width: 110, height: 140, delay: "2s" },
-  ];
+  // Portrait posters read best in the tilted stack (Halloween, PRISMART);
+  // fall back to the latest past events if those are ever removed.
+  const pick = ["6", "4"].map((id) => events.find((e) => e.id === id)).filter(Boolean) as Event[];
+  const posters = (pick.length === 2 ? pick : past.slice(0, 2)).map((e) => e.image);
+  const scrollRail = (dir: 1 | -1) =>
+    railRef.current?.scrollBy({ left: dir * railRef.current.clientWidth * 0.8, behavior: "smooth" });
 
   return (
     <>
-      {/* ── 1 · Hero ── */}
-      <HeroSection aria-labelledby="hero-heading">
-        <ScatterWrap aria-hidden="true">
-          {scatterPhotos.map((src, i) => {
-            const pos = scatterLayout[i];
-            if (!pos) return null;
-            return (
-              <FloatingPhoto
-                key={i}
-                style={{
-                  left: pos.left,
-                  right: pos.right,
-                  top: pos.top,
-                  width: pos.width,
-                  height: pos.height,
-                  animationDelay: pos.delay,
-                }}
-              >
-                <img src={src} alt="" />
-              </FloatingPhoto>
-            );
-          })}
-        </ScatterWrap>
+      {/* 1 · Hero */}
+      <Hero aria-labelledby="hero-title">
+        <HeroGrid>
+          <HeroCopy>
+            <Display id="hero-title">{t("ui.home.heroTitle")}</Display>
+            <Lead>{t("ui.home.heroLead")}</Lead>
+            <HeroActions>
+              <ButtonLink to="/coeur-festifs/events">
+                {t("ui.home.ctaEvents")} <PiArrowRightBold aria-hidden="true" />
+              </ButtonLink>
+              <TextLink to="/coeur-festifs/about">{t("ui.home.ctaAbout")}</TextLink>
+            </HeroActions>
+          </HeroCopy>
 
-        <MobileScatterRow aria-hidden="true">
-          {scatterPhotos.slice(0, 3).map((src, i) => (
-            <MobileFloatingPhoto key={i}>
-              <img src={src} alt="" />
-            </MobileFloatingPhoto>
-          ))}
-        </MobileScatterRow>
+          <Stage aria-hidden="true">
+            {posters[0] && (
+              <Tile $rot={-12} $x="0%" $y="12%" $w="42%" $delay={0} style={{ ["--fx" as string]: "40%" }}>
+                <img src={posters[0]} alt="" />
+              </Tile>
+            )}
+            {posters[1] && (
+              <Tile $rot={10} $x="58%" $y="30%" $w="42%" $delay={120} style={{ ["--fx" as string]: "-40%" }}>
+                <img src={posters[1]} alt="" />
+              </Tile>
+            )}
+            <Photo>
+              <img src={commonPic} alt="" />
+            </Photo>
+            <HeroNotice event={next} />
+          </Stage>
+        </HeroGrid>
+      </Hero>
 
-        <Eyebrow>Cœurs Festifs · Montréal</Eyebrow>
-        <HeroTitle id="hero-heading">
-          {(() => {
-            const [rest, last] = splitLastWord(t("homepage.title"));
-            return (
-              <>
-                {rest} <GradientWord>{last}</GradientWord>
-              </>
-            );
-          })()}
-        </HeroTitle>
-        <HeroText>{t("footer.desc")}</HeroText>
-        <HeroCTAs>
-          <BtnOutline onClick={() => navigate("/coeur-festifs/events")}>
-            {t("homepage.explore")} <FaArrowRight aria-hidden="true" />
-          </BtnOutline>
-          <BtnGhost onClick={() => navigate("/coeur-festifs/about")}>
-            {t("navBar.about")} →
-          </BtnGhost>
-        </HeroCTAs>
-      </HeroSection>
+      {/* 2 · Next event */}
+      <Section $wash aria-labelledby="next-title">
+        <Container>
+          <Head>
+            <SectionTitle id="next-title">{t("ui.home.nextLabel")}</SectionTitle>
+            <TextLink to="/coeur-festifs/events">
+              {t("ui.home.seeAll")} <PiArrowRightBold aria-hidden="true" />
+            </TextLink>
+          </Head>
+          <Reveal>
+            <NextEvent event={next} />
+          </Reveal>
+        </Container>
+      </Section>
 
-      {/* ── 2 · Featured event ── */}
-      {nextEvent && (
-        <FeaturedSection aria-labelledby="featured-heading">
-          <Inner>
-            <FeaturedHeader>
-              <FeaturedTag>{t("events.filterUpcoming")}</FeaturedTag>
-              <FeaturedHeading id="featured-heading">{t("events.title")}</FeaturedHeading>
-            </FeaturedHeader>
-            <FeaturedEvent event={nextEvent} />
-          </Inner>
-        </FeaturedSection>
-      )}
+      {/* 3 · Numbers (real counts only) */}
+      <Section>
+        <Container>
+          <Figures
+            items={[
+              { n: VOLUNTEER_COUNT, label: t("ui.home.statVolunteers") },
+              { n: events.length, label: t("ui.home.statEvents") },
+              { n: PARTNERS.length, label: t("ui.home.statPartners") },
+            ]}
+          />
+        </Container>
+      </Section>
 
-      {/* ── 3 · Intro ── */}
-      <IntroSection aria-labelledby="intro-heading">
-        <IntroInner>
-          <IntroLeft>
-            <SectionLabel id="intro-heading">{t("aboutUs.title")}</SectionLabel>
-            <GhostTextBtn onClick={() => navigate("/coeur-festifs/about")}>
-              {t("navBar.about")} →
-            </GhostTextBtn>
-          </IntroLeft>
-          <IntroBody>{t("aboutUs.desc")}</IntroBody>
-        </IntroInner>
-      </IntroSection>
-
-      {/* ── 4 · Trust ── */}
-      <TrustSection aria-labelledby="trust-heading">
-        <Inner>
-          <SectionLabel id="trust-heading" style={{ display: "block", marginBottom: "var(--sp-5)" }}>
-            {t("events.partner")}
-          </SectionLabel>
-        </Inner>
-        <PartnersMarquee logos={[...PARTNERS, ...SPONSORS]} />
-      </TrustSection>
-
-      {/* ── 5 · Past events preview ── */}
+      {/* 4 · Past events rail */}
       {past.length > 0 && (
-        <CatalogueSection aria-labelledby="catalogue-heading">
-          <Inner>
-            <CatalogueHeader>
-              <div>
-                <SectionLabel>{t("events.title")}</SectionLabel>
-                <CatalogueTitle id="catalogue-heading">{t("events.subtitle")}</CatalogueTitle>
-              </div>
-              <GhostTextBtn onClick={() => navigate("/coeur-festifs/events")}>
-                {t("navBar.events")} →
-              </GhostTextBtn>
-            </CatalogueHeader>
-            <CardsGrid>
-              {past.map((ev, i) => (
-                <EventCard key={ev.id} event={ev} index={i} />
-              ))}
-            </CardsGrid>
-          </Inner>
-        </CatalogueSection>
+        <Section $wash aria-labelledby="past-title" style={{ paddingInline: 0 }}>
+          <Container>
+            <RailHead>
+              <SectionTitle id="past-title">{t("ui.home.pastTitle")}</SectionTitle>
+              <RailButtons>
+                <button type="button" onClick={() => scrollRail(-1)} aria-label={t("ui.events.prev")}>
+                  <PiArrowLeftBold aria-hidden="true" />
+                </button>
+                <button type="button" onClick={() => scrollRail(1)} aria-label={t("ui.events.next")}>
+                  <PiArrowRightBold aria-hidden="true" />
+                </button>
+                <TextLink to="/coeur-festifs/events" style={{ marginLeft: "var(--sp-3)" }}>
+                  {t("ui.home.seeAll")}
+                </TextLink>
+              </RailButtons>
+            </RailHead>
+          </Container>
+          <Rail ref={railRef}>
+            {past.map((ev, i) => (
+              <li key={ev.id}>
+                <Reveal delay={Math.min(i, 5) * 70}>
+                  <PosterCard event={ev} />
+                </Reveal>
+              </li>
+            ))}
+          </Rail>
+        </Section>
       )}
+
+      {/* 5 · About teaser */}
+      <Section aria-labelledby="about-title">
+        <Split>
+          <SplitCopy>
+            <SectionTitle id="about-title">{t("ui.home.aboutTitle")}</SectionTitle>
+            <Lead>{t("ui.home.aboutText")}</Lead>
+            <TextLink to="/coeur-festifs/about">
+              {t("ui.home.ctaAbout")} <PiArrowRightBold aria-hidden="true" />
+            </TextLink>
+          </SplitCopy>
+          <Founders />
+        </Split>
+      </Section>
+
+      {/* 6 · Partners & sponsors */}
+      <Section $wash aria-labelledby="orgs-title">
+        <Container>
+          <Head>
+            <SectionTitle id="orgs-title">{t("ui.home.worksWith")}</SectionTitle>
+          </Head>
+          <GroupLabel>{t("events.partner")}</GroupLabel>
+          <OrgGrid orgs={PARTNERS} />
+          <GroupLabel>{t("events.sponsor")}</GroupLabel>
+          <OrgGrid orgs={SPONSORS} />
+        </Container>
+      </Section>
     </>
   );
 };

@@ -1,230 +1,134 @@
 import React from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
-import { FaInstagram, FaEnvelope, FaLinkedin, FaFacebook } from "react-icons/fa";
+import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import logo from "../assets/logo.png";
+import { PiInstagramLogoFill, PiFacebookLogoFill, PiLinkedinLogoFill } from "react-icons/pi";
+import { EMAIL, FACEBOOK_URL, INSTAGRAM_URL, LINKEDIN_URL } from "./eventActions";
 
 const Shell = styled.footer`
-  background: var(--c-cream);
-  border-top: 1px solid var(--c-border);
-  color: var(--c-n900);
+  margin-top: auto;
+  border-top: 1px solid var(--c-hair);
+  background: var(--c-white);
+`;
+
+const Inner = styled.div`
+  max-width: calc(var(--page-max) + 2 * var(--gutter));
+  margin: 0 auto;
+  padding: var(--sp-16) var(--gutter) var(--sp-8);
 `;
 
 const Top = styled.div`
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: var(--sp-16) var(--sp-12);
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-columns: 1.4fr 1fr;
   gap: var(--sp-12);
+  align-items: end;
 
-  @media (max-width: 900px) {
-    grid-template-columns: 1fr 1fr;
-    gap: var(--sp-8);
-  }
+  @media (max-width: 760px) { grid-template-columns: 1fr; gap: var(--sp-8); }
+`;
 
-  @media (max-width: 560px) {
-    grid-template-columns: 1fr;
-    padding: var(--sp-12) var(--sp-6);
-    gap: var(--sp-8);
+const Sign = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+
+  p.big {
+    font-family: var(--f-display);
+    font-weight: 800;
+    font-size: clamp(1.75rem, 3.4vw, 2.5rem);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    max-width: 16em;
   }
+`;
+
+const Mail = styled.a`
+  align-self: flex-start;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--c-ink);
+  text-decoration: none;
+  background: linear-gradient(currentColor, currentColor) 0 100% / 100% 1px no-repeat;
+  padding-bottom: 2px;
+  transition: opacity 150ms ease;
+
+  &:hover { opacity: 0.7; }
+`;
+
+const Cols = styled.div`
+  display: flex;
+  gap: var(--sp-12);
+  justify-content: flex-end;
+
+  @media (max-width: 760px) { justify-content: flex-start; }
 `;
 
 const Col = styled.div`
   display: flex;
   flex-direction: column;
-  gap: var(--sp-4);
-`;
-
-const BrandRow = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: var(--sp-2);
-`;
-
-const BrandImg = styled.img`
-  width: 36px;
-  height: 36px;
-  border-radius: var(--r-full);
-  object-fit: cover;
-  opacity: .9;
-`;
-
-const BrandName = styled.span`
-  font-family: var(--f-display);
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--c-n900);
-`;
-
-const FooterDesc = styled.p`
-  font-size: 0.875rem;
-  font-weight: 500;
-  line-height: 1.7;
-  color: var(--c-n600);
-  max-width: 300px;
-`;
-
-const SocialRow = styled.div`
-  display: flex;
-  gap: var(--sp-3);
-  margin-top: var(--sp-2);
-`;
-
-const SocialBtn = styled.a`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  color: var(--c-n600);
-  font-size: 0.95rem;
-  text-decoration: none;
-  border: 1px solid var(--c-border);
-  transition: background 150ms ease, color 150ms ease, border-color 150ms ease;
-
-  &:hover {
-    background: var(--c-n900);
-    color: var(--c-cream);
-    border-color: var(--c-n900);
-  }
-`;
-
-const ColTitle = styled.h4`
-  font-family: var(--f-body);
-  font-size: 0.7rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: .05em;
-  color: var(--c-n900);
-  margin-bottom: var(--sp-2);
-`;
-
-const NavItem = styled.button`
-  background: none;
-  border: none;
-  padding: 0;
-  font-family: var(--f-body);
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--c-n600);
-  cursor: pointer;
-  text-align: left;
-  transition: color 150ms ease;
-  line-height: 1.8;
-
-  &:hover { color: var(--c-n900); }
-`;
-
-const ContactLine = styled.a`
-  display: flex;
-  align-items: center;
   gap: var(--sp-2);
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--c-n600);
-  text-decoration: none;
-  transition: color 150ms ease;
-  line-height: 1.8;
 
-  svg { font-size: 0.8rem; flex-shrink: 0; color: var(--c-primary); }
-
-  &:hover { color: var(--c-n900); }
+  h2 { font-size: 0.85rem; font-weight: 500; color: var(--c-ash); margin-bottom: var(--sp-1); }
+  a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+    color: var(--c-graphite);
+    text-decoration: none;
+    transition: color 150ms ease;
+  }
+  a:hover { color: var(--c-ink); }
 `;
 
 const Bottom = styled.div`
-  border-top: 1px solid var(--c-border);
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: var(--sp-5) var(--sp-12);
   display: flex;
-  align-items: center;
   justify-content: space-between;
   gap: var(--sp-4);
-
-  @media (max-width: 560px) {
-    flex-direction: column;
-    padding: var(--sp-5) var(--sp-6);
-    text-align: center;
-  }
-`;
-
-const Copyright = styled.p`
-  font-size: 0.8rem;
-  color: var(--c-n400);
-`;
-
-const MadeWith = styled.p`
-  font-size: 0.8rem;
-  color: var(--c-n400);
-
-  span { color: var(--c-primary); }
+  flex-wrap: wrap;
+  margin-top: var(--sp-12);
+  padding-top: var(--sp-6);
+  border-top: 1px solid var(--c-hair);
+  font-size: 0.85rem;
+  color: var(--c-ash);
 `;
 
 export const Footer = () => {
-  const navigate = useNavigate();
   const { t } = useTranslation();
 
   return (
-    <Shell role="contentinfo">
-      <Top>
-        {/* Brand col */}
-        <Col>
-          <BrandRow>
-            <BrandImg src={logo} alt="" aria-hidden="true" />
-            <BrandName>Coeurs Festifs</BrandName>
-          </BrandRow>
-          <FooterDesc>{t("footer.desc")}</FooterDesc>
-          <SocialRow aria-label="Réseaux sociaux">
-            <SocialBtn
-              href="https://www.linkedin.com/in/c%C5%93urs-festifs-39b901360/"
-              target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"
-            >
-              <FaLinkedin aria-hidden="true" />
-            </SocialBtn>
-            <SocialBtn
-              href="https://www.facebook.com/profile.php?id=61571443886637"
-              target="_blank" rel="noopener noreferrer" aria-label="Facebook"
-            >
-              <FaFacebook aria-hidden="true" />
-            </SocialBtn>
-            <SocialBtn
-              href="https://www.instagram.com/coeurs.festifs"
-              target="_blank" rel="noopener noreferrer" aria-label="Instagram"
-            >
-              <FaInstagram aria-hidden="true" />
-            </SocialBtn>
-          </SocialRow>
-        </Col>
-
-        {/* Navigation col */}
-        <Col>
-          <ColTitle>{t("footer.nav")}</ColTitle>
-          <NavItem onClick={() => navigate("/coeur-festifs")}>{t("navBar.home")}</NavItem>
-          <NavItem onClick={() => navigate("/coeur-festifs/about")}>{t("navBar.about")}</NavItem>
-          <NavItem onClick={() => navigate("/coeur-festifs/events")}>{t("navBar.events")}</NavItem>
-        </Col>
-
-        {/* Contact col */}
-        <Col>
-          <ColTitle>{t("footer.contact")}</ColTitle>
-          <ContactLine href="mailto:coeurs.festifs@gmail.com">
-            <FaEnvelope aria-hidden="true" />
-            coeurs.festifs@gmail.com
-          </ContactLine>
-        </Col>
-      </Top>
-
-      <Bottom>
-        <Copyright>© {new Date().getFullYear()} Coeurs Festifs. {t("footer.rights")}</Copyright>
-        <MadeWith>
-          {t("footer.madeWith").split("♥")[0]}
-          <span>♥</span>
-          {t("footer.madeWith").split("♥")[1]}
-        </MadeWith>
-      </Bottom>
+    <Shell>
+      <Inner>
+        <Top>
+          <Sign>
+            <p className="big">{t("footer.desc")}</p>
+            <Mail href={`mailto:${EMAIL}`}>{EMAIL}</Mail>
+          </Sign>
+          <Cols>
+            <Col>
+              <h2>{t("footer.nav")}</h2>
+              <Link to="/coeur-festifs">{t("navBar.home")}</Link>
+              <Link to="/coeur-festifs/events">{t("navBar.events")}</Link>
+              <Link to="/coeur-festifs/about">{t("navBar.about")}</Link>
+            </Col>
+            <Col>
+              <h2>{t("ui.footer.follow")}</h2>
+              <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer">
+                <PiInstagramLogoFill aria-hidden="true" /> Instagram
+              </a>
+              <a href={FACEBOOK_URL} target="_blank" rel="noopener noreferrer">
+                <PiFacebookLogoFill aria-hidden="true" /> Facebook
+              </a>
+              <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer">
+                <PiLinkedinLogoFill aria-hidden="true" /> LinkedIn
+              </a>
+            </Col>
+          </Cols>
+        </Top>
+        <Bottom>
+          <span>© {new Date().getFullYear()} Cœurs Festifs. {t("footer.rights")}</span>
+          <span>Montréal, Québec</span>
+        </Bottom>
+      </Inner>
     </Shell>
   );
 };

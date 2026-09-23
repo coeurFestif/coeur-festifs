@@ -1,82 +1,48 @@
 # Cœurs Festifs — Référence de style
-> Un mur de souvenirs sur papier chaud — de vraies photos, une seule signature en dégradé, et assez de mouvement pour que la page se sente vivante.
+> Une page calme et blanche où le contenu fait la fête : de vraies affiches, de vraies photos, une seule couleur d'action (l'encre).
 
-**Thème :** clair uniquement (pas de mode sombre)
+**Thème :** clair uniquement.
 
-**Direction finale (2026-09-20) — "Carnet-photo".** Après plusieurs itérations (voir Historique en bas de fichier), cette version est la référence à jour pour tout le site. Elle remplace tout ce qui précède. Inspirée de la structure réelle du design system "Portrait" (styles.refero.design) — mur de photos façon scrapbook, geste de marque unique et rare, quasi aucune ombre lourde — adaptée à nos vraies couleurs (rouge `#e63946`), nos vraies polices (Fredoka/Nunito) et nos vrais visuels (affiches d'événements, photos de bénévoles).
+**Direction actuelle (2026-09-23) : « Invitation ».** Ancrée sur la structure réelle du design system **Partiful** (styles.refero.design), une app d'invitations à des fêtes : système d'action noir/blanc, tuiles d'invitation en portrait, badges de statut sémantiques, gros chiffres d'affichage. Adaptée à nos contenus : les affiches d'événements jouent le rôle des tuiles d'invitation. Remplace toutes les directions précédentes (voir Historique).
 
-## Principes
+## Règles (valeur exacte + ce qu'elle remplace)
 
-1. **De vraies photos, pas de décoration abstraite.** Le hero, les cartes d'événements et les pages À propos utilisent les vraies images du site (affiches d'événements, photos d'équipe) — jamais un dégradé ou une forme géométrique comme substitut.
-2. **Un seul geste de marque, utilisé rarement.** Un dégradé signature (rouge → corail → ambre, `--gradient-brand`) apparaît à trois endroits maximum par page : un mot du titre, le contour du bouton de don dans la nav, et nulle part ailleurs. Le répéter sur chaque carte ou chaque bouton le banalise — c'est sa rareté qui le rend spécial.
-3. **Presque aucune ombre lourde.** Les cartes flottent grâce à une bordure fine (1px, `--c-border`) et une ombre à peine perceptible, jamais un `box-shadow` sombre. Seule la nav flottante et le module "événement à venir" ont une ombre douce plus marquée, pour se détacher du reste.
-4. **Mouvement partout, mais discret.** Photos qui flottent doucement dans le hero, cartes qui apparaissent en cascade au défilement, léger zoom au survol des images, halo respirant sur le CTA. Jamais d'animation sans raison, toujours désactivable via `prefers-reduced-motion`.
-5. **Mobile-first.** Le mur de photos scattered du hero devient une rangée simple sur mobile (jamais de positionnement absolu qui déborde ou se chevauche sous 768px).
-6. **Rien n'est inventé.** Aucun texte ne prétend à une fonctionnalité qui n'existe pas (pas de "inscription", le site n'en a pas — voir Composants). Toute copie réutilise les traductions déjà existantes plutôt que d'en inventer de nouvelles.
+1. **Typo.** Titres en **Cabinet Grotesk 800**, interlettrage -0.03em (40 à 72px). Tout le reste en **Satoshi** (-0.02em sur l'interface). *Pas* Fredoka/Nunito, dont les formes arrondies faisaient « gabarit pour enfants ». Chargées via Fontshare dans `public/index.html`.
+2. **Action = encre.** Bouton principal fond `#141414`, texte blanc, rayon 8px. Secondaire : contour 1px encre. *Jamais* de bouton rouge ni en dégradé.
+3. **Rouge `#e63946` = sémantique seulement** : cœur du logo, badge « À venir », compte à rebours. Jamais décoratif.
+4. **Affiches = tuiles d'invitation.** Ratio 3:4, rayon 12px, aucun texte superposé (les affiches ont déjà le leur). Inclinées ±10–12° seulement dans la composition du hero.
+5. **Rayons par type** : cartes/images 12px, boutons/champs 8px, modales et carte « prochain événement » 16px, badges/onglets 960px (pilule).
+6. **Profondeur.** Une seule ombre de carte `0 0 6px rgba(0,0,0,.1)` ; la carte « prochain événement » utilise l'ombre en couches `--sh-event`. *Jamais* d'ombre sur une section pleine largeur.
+7. **Surfaces.** Fond blanc. Sections alternées avec un lavis corail très léger `#fff1ee → #fff` (`--wash-coral`). *Pas* de papier crème partout.
+8. **Mise en page.** Largeur max 1200px, 80px entre sections, texte aligné à gauche. *Pas* de titre centré avec sur-titre en capitales.
+9. **Gros chiffres.** Chiffres réels uniquement (bénévoles, nombre d'événements calculé, nombre de partenaires), Cabinet Grotesk 800 jusqu'à 112px.
+10. **Mouvement** *(déduit, la spec ne le définit pas)* : apparition au défilement (8px, 400ms, décalage en cascade), affiches « distribuées » dans le hero, fondu natif (View Transitions) au changement d'onglet. Tout est coupé sous `prefers-reduced-motion`.
 
-## Tokens — Couleurs
+## Gestion des événements
 
-| Nom | Valeur | Token | Rôle |
-|---|---|---|---|
-| Toile papier | `#fff8f5` | `--c-cream` *(existant)* | Fond de page exclusif |
-| Encre | `#1a1a1a` | `--c-n900` *(existant)* | Texte principal |
-| Blanc | `#ffffff` | `--c-white` *(existant)* | Cartes, nav flottante |
-| Cendre | `#efe2dc` | `--c-border` | Bordures fines, hairlines |
-| Rouge Cœurs Festifs | `#e63946` | `--c-primary` *(existant)* | CTA de don (nav), touches d'accent ponctuelles |
-| Rouge foncé | `#c62828` | `--c-primary-dark` *(existant)* | Survol du CTA |
-| **Dégradé signature** | `linear-gradient(90deg, #e63946, #ff9a9e 50%, #ffb347)` | `--gradient-brand` **(nouveau)** | Le geste de marque unique — un mot de titre, le contour du CTA de don. Jamais ailleurs. |
-| Gris texte | `#4a4a4a` / `#8a7b6f` | `--c-n600` / *(nouveau, ton chaud)* | Texte secondaire, légendes de photos |
+- Chaque événement a une date ISO `startsAt` (et `endsAt` optionnel) dans `src/data/events.tsx`, en heure locale de Montréal. **Le statut passé/à venir est calculé** (`src/utils/eventDates.ts`) : un événement passe dans « Passés » tout seul le lendemain. `isPast` ne sert plus que pour un événement sans date.
+- Pour ajouter un événement : ajouter ses textes dans `src/services/i18n.js` (FR + EN), puis une entrée dans `events.tsx` avec `startsAt`. Rien d'autre à maintenir.
+- **Aucun événement à venir** → état vide conçu (« La prochaine fête se prépare. ») avec Instagram + proposition de partenariat, jamais un bloc vide.
+- **Événement sans date** → « Date à confirmer », regroupé sous « Sans date ».
+- Page détail : statut, compte à rebours, date/heure formatées selon la langue, **Ajouter au calendrier** (.ics généré côté client, seulement si à venir), **Itinéraire** (Google Maps), Partager, précédent/suivant chronologiques.
+- Page Événements : onglets « À venir / Passés » avec compteurs, onglet mémorisé dans l'URL (`?tab=`), passés groupés par année.
 
-## Tokens — Typographie
+## Composants (src/components)
 
-- **Fredoka** (600/700) : titres, marque. Jamais en dessous de 18px.
-- **Nunito** (400 à 800) : tout le reste.
-- Échelle : `12 / 13 / 14 / 16(base) / 17 / 20 / 24 / 28 / 34 / 44 / 58` px.
+- `ui.tsx` : Container, Section (`$wash`), Display, SectionTitle, Lead, boutons (encre / contour / lien texte), StatusPill, Reveal, `withViewTransition`.
+- `PosterCard` : tuile d'affiche + date relative/absolue + titre.
+- `NextEvent` / `NextEventEmpty` : carte « prochain événement » et son état vide.
+- `OrgGrid` : logos partenaires/commanditaires (gris, couleur au survol). Partenaires et commanditaires restent deux listes distinctes (`src/data/partners.ts`).
+- `Showcase` : `Figures` (gros chiffres) et `Founders`.
 
-## Tokens — Espacement, rayons, ombres
-
-- Espacement 4/8pt existant (`--sp-*`), inchangé.
-- Rayons : cartes/photos 6-20px (net mais pas carré), boutons et pilules `--r-full`.
-- **Ombres** (nouvelle règle, remplace le tout-plat de la direction précédente) : `--sh-card: 0 2px 10px rgba(0,0,0,0.06)` pour les cartes/photos, `--sh-float: 0 16px 32px rgba(0,0,0,0.08)` réservée à la nav flottante et au module événement à venir.
-
-## Composants
-
-### Nav flottante (pilule)
-Barre blanche en pilule (`border-radius: 9999px`), centrée en haut avec une marge, `--sh-float`, logo + liens + bouton de don à contour dégradé (`--gradient-brand` en bordure 1.5px, fond transparent, remplissage blanc au clic). Sur mobile : se réduit à logo + bouton hamburger, le tiroir garde le même geste dégradé sur son bouton de don.
-
-### Photo-souvenir (carte photo)
-Remplace la "carte douce" et la "ligne registre" des directions précédentes, utilisée pour le catalogue d'événements passés ET pour l'équipe (À propos). Cadre blanc, bordure fine `--c-border`, `--sh-card`, légère rotation aléatoire (±2 à 6°) qui se redresse à l'entrée dans le viewport, jamais d'accent de couleur en haut de carte (l'accent, c'est la photo elle-même). Légende sous l'image : date/rôle en petit gris chaud, titre en Fredoka.
-
-### Module "événement à venir"
-Photo/affiche de l'événement en grand (jamais de texte superposé — les affiches ont déjà leur propre texte), à côté des informations (date, titre, lieu) et d'un lien fantôme "Voir les détails" à contour encre (pas de dégradé ici — le dégradé reste réservé au CTA de don). `--sh-float`. C'est l'élément le plus visible de la page d'accueil et de la page Événements — inspiré des sites de cinéma/billetterie où l'affiche est montrée à côté des horaires.
-
-### Mot en dégradé
-Un seul mot par grand titre (jamais plus) peut être rempli du `--gradient-brand` via `background-clip: text`. Réservé aux titres H1 de chaque page.
-
-### Liste déroulante des commanditaires
-**Nouveau.** Section "Nos commanditaires" (sponsors — distincts des partenaires communautaires, qui restent en grille visible) présentée comme une liste repliée par défaut, avec un bouton qui l'ouvre/ferme. Anime la hauteur et l'opacité (250ms), jamais un `<details>` natif brut (pas d'animation) ni un composant à état complexe — un simple `useState` booléen suffit. Logos réels des commanditaires (Scholastic, Librairie Gallimard, Les Débrouillards, Fondation Réno-Jouets) en grille une fois ouverte.
-
-### Grille de partenaires (animée)
-Logos des partenaires communautaires (visible par défaut, jamais repliée — ce sont des collaborateurs actifs, pas des commanditaires ponctuels). Chaque logo apparaît en cascade au défilement, désaturé par défaut, couleur + léger agrandissement au survol.
-
-## À faire / À éviter
-
-### À faire
-- Utiliser de vraies photos partout où c'est possible ; un placeholder n'est acceptable que si aucune photo n'existe encore pour ce contenu précis.
-- Garder le dégradé signature à trois usages maximum par page.
-- Faire flotter/apparaître les éléments en douceur (translation ≤10px, durée 300-500ms), jamais de mouvement brusque.
-- Respecter `prefers-reduced-motion` sur chaque animation ajoutée.
-- Empiler le mur de photos du hero en rangée simple sous 768px — jamais de positionnement absolu qui déborde sur mobile.
-
-### À éviter
-- Répéter le dégradé signature sur plus de 3 éléments par page — ça dilue son impact.
-- Inventer une fonctionnalité qui n'existe pas (inscription, réservation) — le site permet de consulter les événements, pas de s'y inscrire.
-- Un `box-shadow` sombre ou lourd sur une carte — rester sur `--sh-card`.
-- Confondre partenaires (grille visible) et commanditaires (liste déroulante) — ce sont deux listes différentes dans les données (`event.partner` vs `event.Sponsor`).
+## À éviter
+- Dégradé sur un bouton ou dans un texte.
+- Photos de banque d'images (ballons, confettis) : uniquement nos vraies affiches et photos.
+- Inventer une fonctionnalité (inscription, billetterie) ou un chiffre.
+- Tirets cadratins dans les nouveaux textes d'interface.
 
 ## Historique des directions précédentes
-
-1. **A-E** (2026-09-19) : cinq pistes exploratoires (ludique à institutionnel), jamais implémentées dans le code réel — gardées sur le canvas de comparaison pour référence.
-2. **F/H** (2026-09-19) : direction "sphère de dégradé + typographie XXL", implémentée brièvement dans le code, puis abandonnée après retour utilisateur en conditions réelles ("trop de texte, pas assez d'images ni de mouvement").
-3. **Cinéma/billetterie** (2026-09-20, matin) : premher retour à l'image via un module d'événement à l'affiche + catalogue en cartes photo — la structure (affiche à côté des infos) est **conservée** dans la direction finale ci-dessus, seul l'habillage visuel change.
-4. **Carnet-photo** (2026-09-20, ce document) : direction finale, adopte l'habillage "Portrait" (mur de photos, dégradé signature rare, ombres quasi absentes) sur la structure cinéma déjà validée.
+1. **A-E** (2026-09-19) : pistes exploratoires, jamais implémentées.
+2. **F/H** (2026-09-19) : sphère de dégradé + typo XXL, abandonnée (« trop de texte, pas assez d'images »).
+3. **Cinéma/billetterie** (2026-09-20) : affiche à côté des infos. Idée conservée dans la carte « prochain événement ».
+4. **Carnet-photo** (2026-09-20) : habillage « Portrait » (mur de photos flottantes, mot en dégradé). Remplacée le 2026-09-23 : les photos flottantes, le mot en dégradé et la nav en pilule faisaient « généré par IA ».

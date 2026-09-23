@@ -1,385 +1,323 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { useNavigate, useLocation } from "react-router-dom";
-import { FaBars, FaTimes } from "react-icons/fa";
+import { Link, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { PiListBold, PiXBold, PiHeartFill } from "react-icons/pi";
 import logo from "../assets/logo.png";
+import { EMAIL } from "./eventActions";
 
-/* ── Shell ─────────────────────────────────────────────────── */
+const LINKS = [
+  { to: "/coeur-festifs", key: "navBar.home" },
+  { to: "/coeur-festifs/events", key: "navBar.events" },
+  { to: "/coeur-festifs/about", key: "navBar.about" },
+];
+const DONATE_HREF = `mailto:${EMAIL}?subject=Faire%20un%20don`;
 
-const NavWrap = styled.div`
-  position: fixed;
-  top: 18px;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  display: flex;
-  justify-content: center;
-  padding: 0 16px;
-  pointer-events: none;
+/* ── Bar ───────────────────────────────────────────────────── */
 
-  @media (max-width: 768px) { justify-content: stretch; }
+const Bar = styled.header<{ $scrolled: boolean }>`
+  position: sticky;
+  top: 0;
+  z-index: var(--z-nav);
+  background: rgba(255, 255, 255, ${(p) => (p.$scrolled ? 0.92 : 1)});
+  backdrop-filter: ${(p) => (p.$scrolled ? "saturate(1.4) blur(12px)" : "none")};
+  border-bottom: 1px solid ${(p) => (p.$scrolled ? "var(--c-hair)" : "transparent")};
+  transition: border-color 200ms ease, background 200ms ease;
 `;
 
-const NavShell = styled.nav`
-  pointer-events: auto;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--c-white);
-  border-radius: var(--r-full);
-  box-shadow: var(--sh-float);
-  padding: 8px 10px 8px 20px;
-  max-width: calc(100vw - 32px);
-
-  @media (max-width: 768px) { width: 100%; padding: 8px 8px 8px 16px; }
-`;
-
-/* ── Brand ─────────────────────────────────────────────────── */
-
-const Brand = styled.button`
+const Inner = styled.nav`
   display: flex;
   align-items: center;
-  gap: 8px;
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  flex-shrink: 0;
+  gap: var(--sp-6);
+  height: var(--nav-h);
+  max-width: calc(var(--page-max) + 2 * var(--gutter));
+  margin: 0 auto;
+  padding: 0 var(--gutter);
 `;
 
-const BrandImg = styled.img`
-  width: 32px;
-  height: 32px;
-  border-radius: var(--r-full);
-  object-fit: cover;
-`;
-
-const BrandName = styled.span`
-  font-family: var(--f-display);
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--c-n900);
-  white-space: nowrap;
-
-  @media (max-width: 900px) { display: none; }
-`;
-
-/* ── Desktop nav ───────────────────────────────────────────── */
-
-const DesktopNav = styled.div`
+const Brand = styled(Link)`
   display: flex;
   align-items: center;
-  gap: 4px;
-  margin-left: 12px;
-
-  @media (max-width: 768px) { display: none; }
-`;
-
-const NavLink = styled.button<{ $active?: boolean }>`
-  background: none;
-  border: none;
-  font-family: var(--f-body);
-  font-size: 0.88rem;
-  font-weight: 700;
-  color: ${(p) => (p.$active ? "var(--c-n900)" : "var(--c-n600)")};
-  padding: 8px 14px;
-  border-radius: var(--r-full);
-  cursor: pointer;
-  transition: background 150ms ease, color 150ms ease;
-
-  &:hover { background: var(--c-n50); color: var(--c-n900); }
-`;
-
-const LangToggle = styled.div`
-  display: flex;
-  align-items: center;
-  background: var(--c-n50);
-  border-radius: var(--r-full);
-  padding: 3px;
-  margin-left: 4px;
-
-  @media (max-width: 768px) { display: none; }
-`;
-
-const LangBtn = styled.button<{ $active: boolean }>`
-  background: ${(p) => (p.$active ? "var(--c-n900)" : "transparent")};
-  color: ${(p) => (p.$active ? "var(--c-cream)" : "var(--c-n600)")};
-  border: none;
-  font-family: var(--f-body);
-  font-size: 0.72rem;
-  font-weight: 800;
-  padding: 5px 10px;
-  border-radius: var(--r-full);
-  cursor: pointer;
-  transition: background 150ms ease, color 150ms ease;
-`;
-
-/* ── Gradient-border donate pill — the one signature moment used site-wide ── */
-
-const DonateWrap = styled.a`
-  position: relative;
-  display: inline-flex;
-  border-radius: var(--r-full);
-  padding: 1.5px;
-  background: var(--gradient-brand);
-  margin-left: 8px;
+  gap: 10px;
   text-decoration: none;
+  flex-shrink: 0;
 
+  img { width: 36px; height: 36px; border-radius: 10px; object-fit: cover; }
   span {
-    display: inline-flex;
-    align-items: center;
-    background: var(--c-white);
-    color: var(--c-n900);
-    font-family: var(--f-body);
+    font-family: var(--f-display);
     font-weight: 800;
-    font-size: 0.85rem;
-    padding: 10px 20px;
-    border-radius: var(--r-full);
-    transition: background 150ms ease;
-  }
-
-  &:active span { animation: navHeartBeat 600ms cubic-bezier(0.34, 1.56, 0.64, 1); }
-
-  @keyframes navHeartBeat {
-    0% { transform: scale(1); }
-    40% { transform: scale(1.12); }
-    100% { transform: scale(1); }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    &:active span { animation: none; }
+    font-size: 1.2rem;
+    letter-spacing: -0.03em;
+    color: var(--c-ink);
   }
 `;
 
-/* ── Mobile controls ───────────────────────────────────────── */
+const Links = styled.ul`
+  display: flex;
+  gap: 4px;
+  list-style: none;
 
-const MobileRight = styled.div`
-  display: none;
-  align-items: center;
-  margin-left: auto;
-
-  @media (max-width: 768px) { display: flex; }
+  @media (max-width: 820px) { display: none; }
 `;
 
-const HamburgerBtn = styled.button`
+const NavItem = styled(Link)`
+  position: relative;
+  display: block;
+  padding: 8px 12px;
+  font-weight: 500;
+  font-size: 0.95rem;
+  color: var(--c-slate);
+  text-decoration: none;
+  border-radius: 4px;
+  transition: color 150ms ease;
+
+  &:hover { color: var(--c-ink); }
+  &[aria-current="page"] { color: var(--c-ink); font-weight: 700; }
+  &[aria-current="page"]::after {
+    content: "";
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    bottom: 2px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--c-ink);
+  }
+`;
+
+const Right = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 38px;
-  height: 38px;
-  background: var(--c-n50);
-  border: none;
-  border-radius: var(--r-full);
-  color: var(--c-n800);
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background 150ms ease;
-
-  &:hover { background: var(--c-primary-surface); color: var(--c-primary); }
+  gap: var(--sp-3);
+  margin-left: auto;
 `;
 
-/* ── Mobile drawer ─────────────────────────────────────────── */
+const Lang = styled.div`
+  display: flex;
+  padding: 3px;
+  border-radius: var(--r-pill);
+  background: rgba(0, 0, 0, 0.05);
 
-const Backdrop = styled.div<{ open: boolean }>`
+  @media (max-width: 820px) { display: none; }
+`;
+
+const LangBtn = styled.button<{ $on: boolean }>`
+  border: none;
+  padding: 4px 10px;
+  border-radius: var(--r-pill);
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: ${(p) => (p.$on ? "var(--c-white)" : "transparent")};
+  color: ${(p) => (p.$on ? "var(--c-ink)" : "var(--c-slate)")};
+  box-shadow: ${(p) => (p.$on ? "var(--sh-card)" : "none")};
+  transition: background 150ms ease, color 150ms ease;
+`;
+
+const Donate = styled.a`
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 8px 18px;
+  border-radius: var(--r-btn);
+  background: var(--c-ink);
+  color: var(--c-white);
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+  transition: opacity 150ms ease, transform 150ms var(--ease-out);
+
+  svg { color: var(--c-primary); }
+  &:hover { opacity: 0.85; }
+  &:active { transform: translateY(1px) scale(0.98); }
+
+  @media (max-width: 480px) { span { display: none; } padding: 8px 12px; }
+`;
+
+const Burger = styled.button`
   display: none;
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--c-hair);
+  border-radius: var(--r-btn);
+  background: var(--c-white);
+  color: var(--c-ink);
+  font-size: 1.2rem;
+
+  @media (max-width: 820px) { display: inline-flex; }
+`;
+
+/* ── Mobile sheet ──────────────────────────────────────────── */
+
+const Scrim = styled.div<{ $open: boolean }>`
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,.45);
-  z-index: 999;
-  opacity: ${(p) => (p.open ? 1 : 0)};
-  pointer-events: ${(p) => (p.open ? "auto" : "none")};
+  z-index: var(--z-drawer);
+  background: rgba(20, 20, 20, 0.35);
+  opacity: ${(p) => (p.$open ? 1 : 0)};
+  pointer-events: ${(p) => (p.$open ? "auto" : "none")};
   transition: opacity 250ms ease;
-
-  @media (max-width: 768px) { display: block; }
 `;
 
-const Drawer = styled.div<{ open: boolean }>`
-  display: none;
+const Sheet = styled.div<{ $open: boolean }>`
   position: fixed;
-  top: 0; right: 0;
-  width: min(320px, 88vw);
-  height: 100dvh;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: calc(var(--z-drawer) + 1);
+  padding: var(--sp-4) var(--gutter) var(--sp-8);
   background: var(--c-white);
-  z-index: 1001;
-  padding: 0;
-  transform: translateX(${(p) => (p.open ? "0" : "100%")});
-  transition: transform 300ms var(--ease-out);
-  overflow-y: auto;
-  flex-direction: column;
-
-  @media (max-width: 768px) { display: flex; }
+  border-radius: 0 0 var(--r-modal) var(--r-modal);
+  box-shadow: var(--sh-float);
+  transform: translateY(${(p) => (p.$open ? "0" : "-105%")});
+  visibility: ${(p) => (p.$open ? "visible" : "hidden")};
+  transition: transform 350ms var(--ease-out), visibility 350ms;
 `;
 
-const DrawerHeader = styled.div`
+const SheetHead = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 20px;
-  border-bottom: 1.5px solid var(--c-n100);
+  margin-bottom: var(--sp-6);
 `;
 
-const DrawerBody = styled.div`
-  padding: 12px 12px 32px;
+const SheetLink = styled(Link)`
+  display: block;
+  padding: 10px 0;
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-size: 2rem;
+  letter-spacing: -0.03em;
+  color: var(--c-ash);
+  text-decoration: none;
+
+  &[aria-current="page"] { color: var(--c-ink); }
+`;
+
+const SheetFoot = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: 4px;
-  flex: 1;
-`;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  margin-top: var(--sp-8);
+  padding-top: var(--sp-6);
+  border-top: 1px solid var(--c-hair);
 
-const DrawerLink = styled.button<{ $active?: boolean }>`
-  background: ${(p) => (p.$active ? "var(--c-primary-surface)" : "none")};
-  border: none;
-  width: 100%;
-  text-align: left;
-  font-family: var(--f-body);
-  font-size: 1rem;
-  font-weight: 700;
-  color: ${(p) => (p.$active ? "var(--c-primary)" : "var(--c-n800)")};
-  padding: 13px 16px;
-  border-radius: var(--r-md);
-  cursor: pointer;
-  transition: background 150ms ease, color 150ms ease;
-
-  &:hover { background: var(--c-n100); color: var(--c-primary); }
-`;
-
-const DrawerDivider = styled.div`
-  height: 1.5px;
-  background: var(--c-n100);
-  margin: 8px 4px;
-`;
-
-const DrawerLangRow = styled.div`
-  display: flex;
-  gap: 8px;
-  padding: 8px 16px;
-`;
-
-const DrawerLangBtn = styled.button<{ $active: boolean }>`
-  flex: 1;
-  background: ${(p) => (p.$active ? "var(--c-n900)" : "var(--c-n100)")};
-  color: ${(p) => (p.$active ? "var(--c-cream)" : "var(--c-n600)")};
-  border: none;
-  font-family: var(--f-body);
-  font-size: 0.88rem;
-  font-weight: 700;
-  padding: 10px;
-  border-radius: var(--r-md);
-  cursor: pointer;
-  min-height: 44px;
-  transition: background 150ms ease, color 150ms ease;
-`;
-
-const DrawerDonateWrap = styled(DonateWrap)`
-  margin: 8px 12px 0;
-  display: flex;
-
-  span { justify-content: center; width: 100%; }
+  ${Lang} { display: flex; }
 `;
 
 /* ── Component ─────────────────────────────────────────────── */
 
 export const NavBar = () => {
-  const navigate   = useNavigate();
-  const location   = useLocation();
   const { t, i18n } = useTranslation();
-  const [open, setOpen]       = useState(false);
-  const lang = i18n.language;
-  const hamburgerRef = useRef<HTMLButtonElement>(null);
-  const wasOpenRef   = useRef(false);
+  const { pathname } = useLocation();
+  const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const burgerRef = useRef<HTMLButtonElement>(null);
+  const lang = i18n.language.startsWith("en") ? "en" : "fr";
 
   useEffect(() => {
-    if (wasOpenRef.current && !open) {
-      hamburgerRef.current?.focus();
-    }
-    wasOpenRef.current = open;
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => setOpen(false), [pathname]);
+
+  useEffect(() => {
+    if (!open) return;
+    const burger = burgerRef.current;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    document.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+      burger?.focus();
+    };
   }, [open]);
 
-  const go = (path: string) => { navigate(path); setOpen(false); };
-  const active = (path: string) => location.pathname === path;
   const setLang = (l: string) => {
     i18n.changeLanguage(l);
     document.documentElement.lang = l;
   };
 
+  const isActive = (to: string) =>
+    to === "/coeur-festifs" ? pathname === to : pathname.startsWith(to) || (to.endsWith("events") && pathname.includes("/event/"));
+
+  const langSwitch = (
+    <Lang role="group" aria-label="Langue / Language">
+      <LangBtn $on={lang === "fr"} aria-pressed={lang === "fr"} onClick={() => setLang("fr")}>FR</LangBtn>
+      <LangBtn $on={lang === "en"} aria-pressed={lang === "en"} onClick={() => setLang("en")}>EN</LangBtn>
+    </Lang>
+  );
+
   return (
     <>
-      <NavWrap>
-        <NavShell role="navigation" aria-label="Navigation principale">
-          <Brand onClick={() => go("/coeur-festifs")} aria-label="Coeurs Festifs — Accueil">
-            <BrandImg src={logo} alt="" aria-hidden="true" />
-            <BrandName>Coeurs Festifs</BrandName>
+      <Bar $scrolled={scrolled}>
+        <Inner aria-label="Navigation principale">
+          <Brand to="/coeur-festifs" aria-label="Coeurs Festifs, accueil">
+            <img src={logo} alt="" />
+            <span>Cœurs Festifs</span>
           </Brand>
 
-          <DesktopNav>
-            <NavLink $active={active("/coeur-festifs")} onClick={() => go("/coeur-festifs")}>
-              {t("navBar.home")}
-            </NavLink>
-            <NavLink $active={active("/coeur-festifs/about")} onClick={() => go("/coeur-festifs/about")}>
-              {t("navBar.about")}
-            </NavLink>
-            <NavLink $active={active("/coeur-festifs/events")} onClick={() => go("/coeur-festifs/events")}>
-              {t("navBar.events")}
-            </NavLink>
+          <Links>
+            {LINKS.map((l) => (
+              <li key={l.to}>
+                <NavItem to={l.to} aria-current={isActive(l.to) ? "page" : undefined}>
+                  {t(l.key)}
+                </NavItem>
+              </li>
+            ))}
+          </Links>
 
-            <LangToggle aria-label="Langue">
-              <LangBtn $active={lang === "fr"} onClick={() => setLang("fr")}>FR</LangBtn>
-              <LangBtn $active={lang === "en"} onClick={() => setLang("en")}>EN</LangBtn>
-            </LangToggle>
-
-            <DonateWrap href="mailto:coeurs.festifs@gmail.com?subject=Faire%20un%20don">
+          <Right>
+            {langSwitch}
+            <Donate href={DONATE_HREF}>
+              <PiHeartFill aria-hidden="true" />
               <span>{t("navBar.donate")}</span>
-            </DonateWrap>
-          </DesktopNav>
-
-          <MobileRight>
-            <HamburgerBtn
-              ref={hamburgerRef}
-              onClick={() => setOpen((v) => !v)}
-              aria-label={open ? "Fermer le menu" : "Ouvrir le menu"}
+            </Donate>
+            <Burger
+              ref={burgerRef}
+              onClick={() => setOpen(true)}
+              aria-label={t("ui.nav.menu")}
               aria-expanded={open}
-              aria-controls="mobile-drawer"
+              aria-controls="mobile-menu"
             >
-              {open ? <FaTimes /> : <FaBars />}
-            </HamburgerBtn>
-          </MobileRight>
-        </NavShell>
-      </NavWrap>
+              <PiListBold aria-hidden="true" />
+            </Burger>
+          </Right>
+        </Inner>
+      </Bar>
 
-      {/* Mobile drawer */}
-      <Backdrop open={open} onClick={() => setOpen(false)} aria-hidden="true" />
-      <Drawer open={open} id="mobile-drawer" role="dialog" aria-label="Menu" aria-modal="true">
-        <DrawerHeader>
-          <Brand onClick={() => go("/coeur-festifs")} style={{ gap: 8 }}>
-            <BrandImg src={logo} alt="" aria-hidden="true" style={{ width: 40, height: 40 }} />
-            <BrandName style={{ display: "block", fontSize: "1.2rem" }}>Coeurs Festifs</BrandName>
+      <Scrim $open={open} onClick={() => setOpen(false)} aria-hidden="true" />
+      <Sheet $open={open} id="mobile-menu" role="dialog" aria-modal="true" aria-label="Menu">
+        <SheetHead>
+          <Brand to="/coeur-festifs">
+            <img src={logo} alt="" />
+            <span>Cœurs Festifs</span>
           </Brand>
-          <HamburgerBtn onClick={() => setOpen(false)} aria-label="Fermer">
-            <FaTimes />
-          </HamburgerBtn>
-        </DrawerHeader>
-        <DrawerBody>
-          <DrawerLink $active={active("/coeur-festifs")} onClick={() => go("/coeur-festifs")}>
-            {t("navBar.home")}
-          </DrawerLink>
-          <DrawerLink $active={active("/coeur-festifs/about")} onClick={() => go("/coeur-festifs/about")}>
-            {t("navBar.about")}
-          </DrawerLink>
-          <DrawerLink $active={active("/coeur-festifs/events")} onClick={() => go("/coeur-festifs/events")}>
-            {t("navBar.events")}
-          </DrawerLink>
-          <DrawerDivider />
-          <DrawerLangRow>
-            <DrawerLangBtn $active={lang === "fr"} onClick={() => setLang("fr")}>Français</DrawerLangBtn>
-            <DrawerLangBtn $active={lang === "en"} onClick={() => setLang("en")}>English</DrawerLangBtn>
-          </DrawerLangRow>
-          <DrawerDivider />
-          <DrawerDonateWrap href="mailto:coeurs.festifs@gmail.com?subject=Faire%20un%20don">
-            <span>{t("navBar.donate")}</span>
-          </DrawerDonateWrap>
-        </DrawerBody>
-      </Drawer>
+          <Burger onClick={() => setOpen(false)} aria-label={t("ui.nav.close")} style={{ display: "inline-flex" }}>
+            <PiXBold aria-hidden="true" />
+          </Burger>
+        </SheetHead>
+        {LINKS.map((l) => (
+          <SheetLink key={l.to} to={l.to} aria-current={isActive(l.to) ? "page" : undefined}>
+            {t(l.key)}
+          </SheetLink>
+        ))}
+        <SheetFoot>
+          {langSwitch}
+          <Donate href={DONATE_HREF}>
+            <PiHeartFill aria-hidden="true" />
+            {t("navBar.donate")}
+          </Donate>
+        </SheetFoot>
+      </Sheet>
     </>
   );
 };
