@@ -18,5 +18,5 @@ export function downloadIcs(event: Event) {
 
 export const INSTAGRAM_URL = "https://www.instagram.com/coeurs.festifs";
 export const FACEBOOK_URL = "https://www.facebook.com/profile.php?id=61571443886637";
-export const LINKEDIN_URL = "https://www.linkedin.com/in/c%C5%93urs-festifs-39b901360/";
+export const LINKEDIN_URL = "https://www.linkedin.com/company/coeurs-festifs/";
 export const EMAIL = "coeurs.festifs@gmail.com";
