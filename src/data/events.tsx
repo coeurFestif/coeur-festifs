@@ -78,6 +78,7 @@ export const useEventData = (): Event[] => {
     },
     {
       id: "5",
+      startsAt: "2025-11-01",
       title: t("events.events.4.title"),
       date: t("events.events.4.date"),
       location: t("events.events.4.location"),

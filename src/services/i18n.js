@@ -130,7 +130,7 @@ const resources = {
           {
             id: 5,
             title: "Levée de Fonds",
-            date: "",
+            date: "Saturday, November 1, 2025",
             location: "",
             description:
               "💖✨ Thank you all for your incredible generosity! ✨💖\n\n" +
@@ -314,7 +314,7 @@ const resources = {
           {
             id: 5,
             title: "Levée de Fonds",
-            date: "",
+            date: "Samedi 1er novembre 2025",
             location: "",
             description:
               "💖✨ Merci à tous pour votre générosité! ✨💖\n\n" +
