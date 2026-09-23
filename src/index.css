@@ -113,10 +113,6 @@ a { color: inherit; }
   border-radius: 4px;
 }
 
-/* Tab switch cross-fade (View Transitions API, progressive enhancement) */
-::view-transition-old(root),
-::view-transition-new(root) { animation-duration: 260ms; }
-
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after {

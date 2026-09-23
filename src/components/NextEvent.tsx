@@ -33,8 +33,7 @@ const Poster = styled(Link)`
   overflow: hidden;
   background: #f4f4f4;
 
-  img { width: 100%; height: 100%; object-fit: cover; transition: transform 600ms var(--ease-out); }
-  &:hover img { transform: scale(1.03); }
+  img { width: 100%; height: 100%; object-fit: contain; }
 
   @media (max-width: 720px) { max-width: 320px; }
 `;

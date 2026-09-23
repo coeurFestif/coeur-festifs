@@ -36,13 +36,12 @@ const Layout = styled.div`
 const Poster = styled.div`
   position: sticky;
   top: calc(var(--nav-h) + var(--sp-6));
-  aspect-ratio: 3 / 4;
   border-radius: var(--r-card);
   overflow: hidden;
   background: #f4f4f4;
   box-shadow: var(--sh-event);
 
-  img { width: 100%; height: 100%; object-fit: cover; }
+  img { width: 100%; height: auto; max-height: calc(100dvh - var(--nav-h) - var(--sp-12)); object-fit: contain; }
 
   @media (max-width: 860px) { position: static; max-width: 360px; }
 `;
@@ -186,7 +185,7 @@ const NeighborCard = styled(Link)<{ $align: "left" | "right" }>`
   transition: background 200ms ease;
 
   &:hover { background: rgba(0, 0, 0, 0.04); }
-  img { width: 56px; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 6px; box-shadow: var(--sh-card); }
+  img { width: 56px; aspect-ratio: 3 / 4; object-fit: contain; background: #f4f4f4; border-radius: 6px; box-shadow: var(--sh-card); }
   small { display: flex; align-items: center; gap: 6px; justify-content: ${(p) => (p.$align === "right" ? "flex-end" : "flex-start")}; font-size: 0.8rem; color: var(--c-ash); }
   strong { display: block; font-weight: 700; letter-spacing: -0.02em; }
 `;

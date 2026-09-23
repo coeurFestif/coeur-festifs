@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useEventData } from "../data/events";
@@ -8,7 +8,7 @@ import { getStatus, groupByYear } from "../utils/eventDates";
 import { NextEvent, NextEventEmpty } from "../components/NextEvent";
 import { PosterCard } from "../components/PosterCard";
 import { OrgGrid } from "../components/OrgGrid";
-import { Container, Display, Lead, Reveal, Section, SectionTitle, withViewTransition } from "../components/ui";
+import { Container, Display, Lead, Reveal, Section, SectionTitle } from "../components/ui";
 
 type Tab = "upcoming" | "past";
 
@@ -42,7 +42,7 @@ const TabBtn = styled.button<{ $on: boolean }>`
   background: ${(p) => (p.$on ? "var(--c-white)" : "transparent")};
   color: ${(p) => (p.$on ? "var(--c-ink)" : "var(--c-slate)")};
   box-shadow: ${(p) => (p.$on ? "var(--sh-card)" : "none")};
-  transition: background 200ms ease, color 200ms ease, box-shadow 200ms ease;
+  transition: background-color 150ms ease, color 150ms ease;
 
   &:hover { color: var(--c-ink); }
 
@@ -55,6 +55,16 @@ const TabBtn = styled.button<{ $on: boolean }>`
     color: ${(p) => (p.$on ? "var(--c-white)" : "var(--c-slate)")};
     font-variant-numeric: tabular-nums;
   }
+`;
+
+const panelIn = keyframes`
+  from { opacity: 0; }
+  to   { opacity: 1; }
+`;
+
+const Panel = styled.div`
+  padding-bottom: var(--section);
+  animation: ${panelIn} 200ms ease-out;
 `;
 
 const Grid = styled.ul`
@@ -111,7 +121,7 @@ export const Events = () => {
   const fallback: Tab = upcoming.length ? "upcoming" : "past";
   const tab: Tab = params.get("tab") === "upcoming" || params.get("tab") === "past" ? (params.get("tab") as Tab) : fallback;
   const select = (next: Tab) =>
-    withViewTransition(() => setParams(next === fallback ? {} : { tab: next }, { replace: true }));
+    setParams(next === fallback ? {} : { tab: next }, { replace: true });
 
   const [first, ...rest] = upcoming;
 
@@ -140,7 +150,7 @@ export const Events = () => {
           ))}
         </Tabs>
 
-        <div role="tabpanel" id={`panel-${tab}`} aria-labelledby={`tab-${tab}`} style={{ paddingBottom: "var(--section)" }}>
+        <Panel key={tab} role="tabpanel" id={`panel-${tab}`} aria-labelledby={`tab-${tab}`}>
           {tab === "upcoming" ? (
             first ? (
               <>
@@ -183,7 +193,7 @@ export const Events = () => {
               </YearBlock>
             ))
           )}
-        </div>
+        </Panel>
       </Container>
 
       <Section $wash aria-labelledby="orgs-title">

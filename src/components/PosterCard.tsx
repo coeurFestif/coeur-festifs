@@ -18,27 +18,39 @@ const Card = styled(Link)`
   border-radius: var(--r-card);
 `;
 
+// Hover only animates transform/opacity (compositor-friendly); the bigger
+// shadow is pre-rendered on ::after and faded in rather than animated.
 const Frame = styled.div`
   position: relative;
   aspect-ratio: 3 / 4;
   border-radius: var(--r-card);
-  overflow: hidden;
   background: #f4f4f4;
   box-shadow: var(--sh-card);
-  transition: transform 350ms var(--ease-out), box-shadow 350ms var(--ease-out);
+  transition: transform 300ms var(--ease-out);
 
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: var(--sh-float);
+    opacity: 0;
+    transition: opacity 300ms var(--ease-out);
+    pointer-events: none;
+  }
+
+  // contain, not cover: posters carry dates/addresses, so never crop them.
   img {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    transition: transform 600ms var(--ease-out);
+    object-fit: contain;
+    border-radius: inherit;
   }
 
-  ${Card}:hover & {
-    transform: translateY(-4px);
-    box-shadow: var(--sh-float);
-  }
-  ${Card}:hover & img { transform: scale(1.03); }
+  ${Card}:hover & { transform: translateY(-4px); }
+  ${Card}:hover &::after { opacity: 1; }
 `;
 
 const PillSpot = styled.div`

@@ -19,10 +19,9 @@ const Bar = styled.header<{ $scrolled: boolean }>`
   position: sticky;
   top: 0;
   z-index: var(--z-nav);
-  background: rgba(255, 255, 255, ${(p) => (p.$scrolled ? 0.92 : 1)});
-  backdrop-filter: ${(p) => (p.$scrolled ? "saturate(1.4) blur(12px)" : "none")};
+  background: var(--c-white);
   border-bottom: 1px solid ${(p) => (p.$scrolled ? "var(--c-hair)" : "transparent")};
-  transition: border-color 200ms ease, background 200ms ease;
+  transition: border-color 200ms ease;
 `;
 
 const Inner = styled.nav`
@@ -126,11 +125,11 @@ const Donate = styled.a`
   font-size: 0.9rem;
   letter-spacing: -0.02em;
   text-decoration: none;
-  transition: opacity 150ms ease, transform 150ms var(--ease-out);
+  transition: opacity 150ms ease;
 
   svg { color: var(--c-primary); }
   &:hover { opacity: 0.85; }
-  &:active { transform: translateY(1px) scale(0.98); }
+  &:active { transform: translateY(1px); }
 
   @media (max-width: 480px) { span { display: none; } padding: 8px 12px; }
 `;

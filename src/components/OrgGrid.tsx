@@ -20,7 +20,7 @@ const Tile = styled.div`
   border-radius: var(--r-card);
   background: var(--c-white);
   box-shadow: var(--sh-card);
-  transition: transform 250ms var(--ease-out), box-shadow 250ms var(--ease-out);
+  transition: transform 250ms var(--ease-out);
 
   img {
     max-height: 48px;
@@ -31,7 +31,7 @@ const Tile = styled.div`
     transition: filter 250ms ease, opacity 250ms ease;
   }
 
-  &:hover { transform: translateY(-2px); box-shadow: var(--sh-float); }
+  &:hover { transform: translateY(-2px); }
   &:hover img { filter: none; opacity: 1; }
 `;
 

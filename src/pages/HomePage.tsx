@@ -1,8 +1,8 @@
-import React, { useRef } from "react";
+import React from "react";
 import styled, { keyframes } from "styled-components";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { PiArrowRightBold, PiArrowLeftBold } from "react-icons/pi";
+import { PiArrowRightBold } from "react-icons/pi";
 import { useEventData } from "../data/events";
 import { PARTNERS, SPONSORS, VOLUNTEER_COUNT } from "../data/partners";
 import { getStatus } from "../utils/eventDates";
@@ -91,7 +91,7 @@ const Tile = styled.div<{ $rot: number; $x: string; $y: string; $w: string; $del
   animation: ${deal} 700ms var(--ease-out) ${(p) => p.$delay}ms both;
   transition: transform 500ms var(--ease-out);
 
-  img { width: 100%; height: 100%; object-fit: cover; }
+  img { width: 100%; height: 100%; object-fit: contain; }
 
   ${Stage}:hover & { transform: rotate(calc(var(--rot) * 1.4)) translateX(calc(var(--rot) * 1.2px)); }
 `;
@@ -201,48 +201,16 @@ const Head = styled.div`
 
 /* ═══════════════ 3 · Numbers ═══════════════ */
 
-/* ═══════════════ 4 · Past events rail ═══════════════ */
+/* ═══════════════ 4 · Latest past events ═══════════════ */
 
-const RailHead = styled(Head)`
-  margin-bottom: var(--sp-6);
-`;
-
-const RailButtons = styled.div`
-  display: flex;
-  align-items: center;
-  gap: var(--sp-2);
-
-  button {
-    width: 40px;
-    height: 40px;
-    display: inline-grid;
-    place-items: center;
-    border: 1px solid var(--c-silver);
-    border-radius: var(--r-pill);
-    background: var(--c-white);
-    color: var(--c-ink);
-    transition: border-color 150ms ease, background 150ms ease;
-  }
-  button:hover { border-color: var(--c-ink); }
-
-  @media (max-width: 700px) { button { display: none; } }
-`;
-
-// Full-bleed horizontal row with visible overflow, aligned to the page grid.
-const Rail = styled.ul`
+// The 4 most recent events, centered on the page grid; the rest live on /events.
+const PastGrid = styled.ul`
   display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: clamp(200px, 22vw, 250px);
-  gap: var(--sp-5);
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--sp-8) var(--sp-5);
   list-style: none;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scroll-padding-inline: max(var(--gutter), calc((100vw - var(--page-max)) / 2));
-  padding: 8px max(var(--gutter), calc((100vw - var(--page-max)) / 2)) var(--sp-4);
-  scrollbar-width: none;
 
-  &::-webkit-scrollbar { display: none; }
-  li { scroll-snap-align: start; }
+  @media (max-width: 960px) { grid-template-columns: repeat(2, 1fr); }
 `;
 
 /* ═══════════════ 5 · About teaser ═══════════════ */
@@ -282,14 +250,11 @@ export const HomePage = () => {
   const upcoming = events.filter((e) => getStatus(e) === "upcoming");
   const past = events.filter((e) => getStatus(e) === "past");
   const next = upcoming[0];
-  const railRef = useRef<HTMLUListElement>(null);
 
   // Portrait posters read best in the tilted stack (Halloween, PRISMART);
   // fall back to the latest past events if those are ever removed.
   const pick = ["6", "4"].map((id) => events.find((e) => e.id === id)).filter(Boolean) as Event[];
   const posters = (pick.length === 2 ? pick : past.slice(0, 2)).map((e) => e.image);
-  const scrollRail = (dir: 1 | -1) =>
-    railRef.current?.scrollBy({ left: dir * railRef.current.clientWidth * 0.8, behavior: "smooth" });
 
   return (
     <>
@@ -354,34 +319,26 @@ export const HomePage = () => {
         </Container>
       </Section>
 
-      {/* 4 · Past events rail */}
+      {/* 4 · Latest past events */}
       {past.length > 0 && (
-        <Section $wash aria-labelledby="past-title" style={{ paddingInline: 0 }}>
+        <Section $wash aria-labelledby="past-title">
           <Container>
-            <RailHead>
+            <Head>
               <SectionTitle id="past-title">{t("ui.home.pastTitle")}</SectionTitle>
-              <RailButtons>
-                <button type="button" onClick={() => scrollRail(-1)} aria-label={t("ui.events.prev")}>
-                  <PiArrowLeftBold aria-hidden="true" />
-                </button>
-                <button type="button" onClick={() => scrollRail(1)} aria-label={t("ui.events.next")}>
-                  <PiArrowRightBold aria-hidden="true" />
-                </button>
-                <TextLink to="/coeur-festifs/events" style={{ marginLeft: "var(--sp-3)" }}>
-                  {t("ui.home.seeAll")}
-                </TextLink>
-              </RailButtons>
-            </RailHead>
+              <TextLink to="/coeur-festifs/events">
+                {t("ui.home.seeAll")} <PiArrowRightBold aria-hidden="true" />
+              </TextLink>
+            </Head>
+            <PastGrid>
+              {past.slice(0, 4).map((ev, i) => (
+                <li key={ev.id}>
+                  <Reveal delay={i * 70}>
+                    <PosterCard event={ev} />
+                  </Reveal>
+                </li>
+              ))}
+            </PastGrid>
           </Container>
-          <Rail ref={railRef}>
-            {past.map((ev, i) => (
-              <li key={ev.id}>
-                <Reveal delay={Math.min(i, 5) * 70}>
-                  <PosterCard event={ev} />
-                </Reveal>
-              </li>
-            ))}
-          </Rail>
         </Section>
       )}
 

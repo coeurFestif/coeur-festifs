@@ -60,9 +60,9 @@ const buttonBase = css`
   letter-spacing: -0.02em;
   text-decoration: none;
   cursor: pointer;
-  transition: background 180ms ease, color 180ms ease, transform 180ms var(--ease-out), opacity 180ms ease;
+  transition: background-color 150ms ease, color 150ms ease, opacity 150ms ease;
 
-  &:active { transform: translateY(1px) scale(0.98); }
+  &:active { transform: translateY(1px); }
   svg { flex-shrink: 0; }
 `;
 
@@ -136,7 +136,7 @@ export const StatusPill: React.FC<{ status: EventStatus; label: string }> = ({ s
 
 const RevealBox = styled.div<{ $shown: boolean; $delay: number }>`
   opacity: ${(p) => (p.$shown ? 1 : 0)};
-  transform: translateY(${(p) => (p.$shown ? 0 : 8)}px);
+  transform: ${(p) => (p.$shown ? "none" : "translateY(8px)")};
   transition: opacity var(--dur) var(--ease-out) ${(p) => p.$delay}ms,
               transform var(--dur) var(--ease-out) ${(p) => p.$delay}ms;
 `;
@@ -178,10 +178,3 @@ export const Reveal: React.FC<{ children: React.ReactNode; delay?: number; class
     </RevealBox>
   );
 };
-
-/** Wraps a state update in a View Transition when the browser supports it. */
-export function withViewTransition(update: () => void) {
-  const doc = document as Document & { startViewTransition?: (cb: () => void) => unknown };
-  if (doc.startViewTransition && !prefersReducedMotion()) doc.startViewTransition(update);
-  else update();
-}
