@@ -15,18 +15,28 @@ const resources = {
         subtitle: "Discover the latest news and events on our site",
         explore: "Explore",
         partnershipTitle: "Our Partners",
+        stats: {
+          volunteers: "Volunteers",
+          events: "Events",
+          partners: "Partners",
+          founders: "Founders",
+        },
       },
 
       footer: {
         title: "Events",
-        desc: "Discover upcoming events near you.",
+        desc: "Bringing joy and unforgettable memories to children in need, one festive day at a time.",
         contact: "Contact us",
+        nav: "Navigation",
+        rights: "All rights reserved.",
+        madeWith: "Made with ♥ for children",
       },
 
       aboutUs: {
         title: "About us",
         presidentsTitle: "Meet our team",
         presidentsText: "Co-president",
+        teamLabel: "Our team",
         benevoleText:
           "We are proud to have 36 dedicated volunteers who share their time, energy, and passion to brighten the lives of children.",
         missionTitle: "Our Mission",
@@ -56,6 +66,8 @@ const resources = {
       notFound: {
         title: "404",
         subtitle: "Page not found",
+        desc: "The page you're looking for doesn't exist or has been moved.",
+        backHome: "Back to home",
       },
 
       events: {
@@ -63,6 +75,16 @@ const resources = {
         subtitle: "Discover exciting upcoming events on our site",
         noEventsMessage: "No events scheduled at the moment.",
         viewDetails: "View details",
+        upcomingTitle: "Upcoming Events",
+        pastTitle: "Past Events",
+        noUpcomingMessage: "No upcoming events yet — stay tuned!",
+        pastBadge: "Past",
+        filterUpcoming: "Upcoming",
+        filterPast: "Past",
+        notFound: "Event not found",
+        notFoundDesc: "This event does not exist or has been removed.",
+        share: "Share",
+        copied: "Copied!",
         partner: "Partners",
         sponsor: "Sponsors",
         collaboration: " In collaboration with ",
@@ -108,7 +130,7 @@ const resources = {
           {
             id: 5,
             title: "Levée de Fonds",
-            date: "",
+            date: "Saturday, November 1, 2025",
             location: "",
             description:
               "💖✨ Thank you all for your incredible generosity! ✨💖\n\n" +
@@ -158,6 +180,7 @@ const resources = {
         about: "About",
         contact: "Contact",
         events: "Events",
+        donate: "Donate",
       },
     },
   },
@@ -175,12 +198,19 @@ const resources = {
           "Découvrez les dernières actualités et événements sur notre site",
         explore: "Explorer",
         partnershipTitle: "Nos Partenaires",
+        stats: {
+          volunteers: "Bénévoles",
+          events: "Événements",
+          partners: "Partenaires",
+          founders: "Fondatrices",
+        },
       },
 
       aboutUs: {
         title: "À propos de nous",
         presidentsTitle: "Découvrez notre équipe",
         presidentsText: "Co-présidente",
+        teamLabel: "Notre équipe",
         benevoleText:
           "Nous sommes fiers de pouvoir compter sur 36 bénévoles engagés qui partagent leur temps, leur énergie et leur passion pour illuminer la vie des enfants.",
         missionTitle: "Notre Mission",
@@ -194,8 +224,11 @@ const resources = {
 
       footer: {
         title: "Événements",
-        desc: "Découvrez les événements à venir près de chez vous.",
+        desc: "Apporter de la joie et des souvenirs inoubliables aux enfants dans le besoin, une journée festive à la fois.",
         contact: "Contactez-nous",
+        nav: "Navigation",
+        rights: "Tous droits réservés.",
+        madeWith: "Fait avec ♥ pour les enfants",
       },
 
       contactUs: {
@@ -216,6 +249,8 @@ const resources = {
       notFound: {
         title: "404",
         subtitle: "Page non trouvée",
+        desc: "La page que vous cherchez n'existe pas ou a été déplacée.",
+        backHome: "Retour à l'accueil",
       },
 
       events: {
@@ -223,10 +258,20 @@ const resources = {
         subtitle:
           "Découvrez les événements passionnants à venir sur notre site",
         noEventsMessage: "Aucun événement prévu pour le moment.",
+        viewDetails: "Voir les détails",
+        upcomingTitle: "Événements à venir",
+        pastTitle: "Événements passés",
+        noUpcomingMessage: "Aucun événement à venir pour le moment — restez connectés !",
+        pastBadge: "Passé",
+        filterUpcoming: "À venir",
+        filterPast: "Passés",
+        notFound: "Événement introuvable",
+        notFoundDesc: "Cet événement n'existe pas ou a été supprimé.",
+        share: "Partager",
+        copied: "Copié !",
         collaboration: " En collaboration avec ",
         partner: "Partenaires",
         sponsor: "Commanditaires",
-        viewDetails: "Voir les détails",
         Footer: {
           title: "Restez connectés !",
           desc: "De nombreux événements excitants sont en préparation ! Restez connectés et suivez-nous sur nos réseaux sociaux pour ne rien manquer. Nous sommes également ouverts à vos idées et propositions de projets pour de futurs partenariats. N'hésitez pas à nous contacter — nous serions ravis de collaborer avec vous ! 😊",
@@ -269,7 +314,7 @@ const resources = {
           {
             id: 5,
             title: "Levée de Fonds",
-            date: "",
+            date: "Samedi 1er novembre 2025",
             location: "",
             description:
               "💖✨ Merci à tous pour votre générosité! ✨💖\n\n" +
@@ -321,10 +366,130 @@ const resources = {
         about: "À propos",
         contact: "Contact",
         events: "Événements",
+        donate: "Faire un don",
       },
     },
   },
 };
+
+// Strings for the Partiful-anchored redesign (docs/DESIGN.md). Kept in one
+// block so the older keys above stay untouched.
+const ui = {
+  fr: {
+    nav: { menu: "Ouvrir le menu", close: "Fermer le menu", home: "Accueil" },
+    home: {
+      heroTitle: "Des journées de fête pour les enfants qui en ont le plus besoin.",
+      heroLead:
+        "Cœurs Festifs est un organisme montréalais fondé par deux étudiantes en médecine. Avec des organismes communautaires du quartier, on organise des fêtes accessibles pour les enfants en situation de vulnérabilité.",
+      ctaEvents: "Voir les événements",
+      ctaAbout: "Notre histoire",
+      nextLabel: "Prochain événement",
+      statVolunteers: "bénévoles engagés",
+      statEvents: "événements organisés ou soutenus",
+      statPartners: "organismes partenaires",
+      aboutTitle: "Deux étudiantes, une idée simple.",
+      aboutText:
+        "Chaque enfant mérite de sourire et d'être pleinement inclus. On organise des activités accessibles et engageantes, guidées par trois valeurs : la compassion, la communauté et l'inclusion.",
+      pastTitle: "Nos dernières fêtes",
+      seeAll: "Tout voir",
+      worksWith: "Avec qui on travaille",
+    },
+    events: {
+      lead: "Ce qui s'en vient, et tout ce qu'on a déjà célébré ensemble.",
+      emptyTitle: "La prochaine fête se prépare.",
+      emptyText:
+        "Aucune date n'est annoncée pour l'instant. Suivez-nous sur Instagram pour l'apprendre en premier, ou écrivez-nous pour organiser un événement avec votre organisme.",
+      followInstagram: "Suivre sur Instagram",
+      proposePartnership: "Proposer un partenariat",
+      undated: "Date à confirmer",
+      undatedGroup: "Sans date",
+      today: "Aujourd'hui",
+      tomorrow: "Demain",
+      inDays: "Dans {{count}} jours",
+      statusUpcoming: "À venir",
+      statusPast: "Passé",
+      addToCalendar: "Ajouter au calendrier",
+      directions: "Itinéraire",
+      back: "Tous les événements",
+      prev: "Précédent",
+      next: "Suivant",
+      when: "Quand",
+      where: "Où",
+      posterAlt: "Affiche de l'événement : {{title}}",
+    },
+    about: {
+      lead: "Un projet communautaire né à Montréal, porté par deux co-présidentes et des dizaines de bénévoles.",
+      valuesLead: "Ce qui guide chaque fête qu'on organise.",
+      compassion: "Le bien-être et les besoins des enfants passent avant tout, dans chacune de nos actions.",
+      community: "On croit à la force du collectif pour créer des changements durables et positifs.",
+      inclusion: "Chaque enfant mérite d'être pleinement inclus, célébré et soutenu, sans exception.",
+      compassionTitle: "Compassion",
+      communityTitle: "Communauté",
+      inclusionTitle: "Inclusion",
+      joinTitle: "Envie de s'impliquer ?",
+      joinText: "Bénévoles, organismes, commanditaires : écrivez-nous, on vous répond.",
+    },
+    footer: { follow: "Nous suivre", email: "Courriel" },
+  },
+  en: {
+    nav: { menu: "Open menu", close: "Close menu", home: "Home" },
+    home: {
+      heroTitle: "Festive days for the children who need them most.",
+      heroLead:
+        "Coeurs Festifs is a Montréal organization founded by two medical students. Together with local community groups, we host accessible parties for children in vulnerable situations.",
+      ctaEvents: "See events",
+      ctaAbout: "Our story",
+      nextLabel: "Next event",
+      statVolunteers: "dedicated volunteers",
+      statEvents: "events hosted or supported",
+      statPartners: "partner organizations",
+      aboutTitle: "Two students, one simple idea.",
+      aboutText:
+        "Every child deserves to smile and to be fully included. We run accessible, engaging activities guided by three values: compassion, community and inclusion.",
+      pastTitle: "Our latest events",
+      seeAll: "See all",
+      worksWith: "Who we work with",
+    },
+    events: {
+      lead: "What's coming up, and everything we've celebrated together so far.",
+      emptyTitle: "The next party is in the works.",
+      emptyText:
+        "No date has been announced yet. Follow us on Instagram to hear first, or write to us to host an event with your organization.",
+      followInstagram: "Follow on Instagram",
+      proposePartnership: "Propose a partnership",
+      undated: "Date to be confirmed",
+      undatedGroup: "Undated",
+      today: "Today",
+      tomorrow: "Tomorrow",
+      inDays: "In {{count}} days",
+      statusUpcoming: "Upcoming",
+      statusPast: "Past",
+      addToCalendar: "Add to calendar",
+      directions: "Directions",
+      back: "All events",
+      prev: "Previous",
+      next: "Next",
+      when: "When",
+      where: "Where",
+      posterAlt: "Event poster: {{title}}",
+    },
+    about: {
+      lead: "A community project born in Montréal, led by two co-presidents and dozens of volunteers.",
+      valuesLead: "What guides every party we host.",
+      compassion: "Children's well-being and needs come first, in everything we do.",
+      community: "We believe in the power of the collective to create lasting, positive change.",
+      inclusion: "Every child deserves to be fully included, celebrated and supported, without exception.",
+      compassionTitle: "Compassion",
+      communityTitle: "Community",
+      inclusionTitle: "Inclusion",
+      joinTitle: "Want to get involved?",
+      joinText: "Volunteers, organizations, sponsors: write to us and we'll get back to you.",
+    },
+    footer: { follow: "Follow us", email: "Email" },
+  },
+};
+resources.fr.translation.ui = ui.fr;
+resources.en.translation.ui = ui.en;
 
 i18n.use(initReactI18next).init({
   resources,

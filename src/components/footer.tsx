@@ -1,120 +1,134 @@
 import React from "react";
 import styled from "styled-components";
-import {
-  FaInstagram,
-  FaEnvelope,
-  FaLinkedin,
-  FaFacebook,
-} from "react-icons/fa";
+import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { PiInstagramLogoFill, PiFacebookLogoFill, PiLinkedinLogoFill } from "react-icons/pi";
+import { EMAIL, FACEBOOK_URL, INSTAGRAM_URL, LINKEDIN_URL } from "./eventActions";
 
-// Styled components
-const CustomFooter = styled.footer`
+const Shell = styled.footer`
+  margin-top: auto;
+  border-top: 1px solid var(--c-hair);
+  background: var(--c-white);
+`;
+
+const Inner = styled.div`
+  max-width: calc(var(--page-max) + 2 * var(--gutter));
+  margin: 0 auto;
+  padding: var(--sp-16) var(--gutter) var(--sp-8);
+`;
+
+const Top = styled.div`
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: var(--sp-12);
+  align-items: end;
+
+  @media (max-width: 760px) { grid-template-columns: 1fr; gap: var(--sp-8); }
+`;
+
+const Sign = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 40px;
-  background: white;
-  color: black;
-  font-size: 1rem;
-  border-top: 1px solid #e0e0e0;
-  height: 100px;
+  gap: var(--sp-4);
 
-  @media (min-width: 768px) {
-    flex-direction: row;
-    justify-content: space-between;
+  p.big {
+    font-family: var(--f-display);
+    font-weight: 800;
+    font-size: clamp(1.75rem, 3.4vw, 2.5rem);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    max-width: 16em;
   }
 `;
 
-const FooterSection = styled.div`
+const Mail = styled.a`
+  align-self: flex-start;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--c-ink);
+  text-decoration: none;
+  background: linear-gradient(currentColor, currentColor) 0 100% / 100% 1px no-repeat;
+  padding-bottom: 2px;
+  transition: opacity 150ms ease;
+
+  &:hover { opacity: 0.7; }
+`;
+
+const Cols = styled.div`
+  display: flex;
+  gap: var(--sp-12);
+  justify-content: flex-end;
+
+  @media (max-width: 760px) { justify-content: flex-start; }
+`;
+
+const Col = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  margin: 20px 0;
+  gap: var(--sp-2);
 
-  @media (min-width: 768px) {
-    margin: 0;
+  h2 { font-size: 0.85rem; font-weight: 500; color: var(--c-ash); margin-bottom: var(--sp-1); }
+  a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+    color: var(--c-graphite);
+    text-decoration: none;
+    transition: color 150ms ease;
   }
+  a:hover { color: var(--c-ink); }
 `;
 
-const FooterTitle = styled.h3`
-  font-size: 1.25rem;
-  margin-bottom: 10px;
-`;
-
-const FooterText = styled.p`
-  margin: 5px 0;
-  font-size: 0.875rem;
-  text-align: left;
-`;
-
-const SocialIcons = styled.div`
+const Bottom = styled.div`
   display: flex;
-  gap: 15px;
-  margin-top: 10px;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  flex-wrap: wrap;
+  margin-top: var(--sp-12);
+  padding-top: var(--sp-6);
+  border-top: 1px solid var(--c-hair);
+  font-size: 0.85rem;
+  color: var(--c-ash);
 `;
 
-const IconLink = styled.a`
-  font-size: 1.5rem;
-  transition: transform 0.3s ease, color 0.3s ease;
-  color: #db2f2f;
-
-  &:hover {
-    transform: scale(1.1);
-  }
-`;
-
-const Contact = styled.div`
-  display: flex;
-  gap: 10px;
-  align-items: center;
-`;
-
-// Main component
 export const Footer = () => {
   const { t } = useTranslation();
-  return (
-    <CustomFooter>
-      <FooterSection>
-        <FooterTitle>{t("footer.title")}</FooterTitle>
-        <FooterText>{t("footer.desc")}</FooterText>
-        <SocialIcons>
-          <IconLink
-            href="https://www.linkedin.com/in/c%C5%93urs-festifs-39b901360/"
-            target="_blank"
-            aria-label="Linkedin"
-          >
-            <FaLinkedin />
-          </IconLink>
-          <IconLink
-            href="https://www.facebook.com/profile.php?id=61571443886637"
-            target="_blank"
-            aria-label="Facebook"
-          >
-            <FaFacebook />
-          </IconLink>
-          <IconLink
-            href="https://www.instagram.com/coeurs.festifs?igsh=aTc3eDN5a2Q2dXYw"
-            target="_blank"
-            aria-label="Instagram"
-          >
-            <FaInstagram />
-          </IconLink>
-        </SocialIcons>
-      </FooterSection>
 
-      <FooterSection>
-        <FooterTitle>{t("footer.contact")}</FooterTitle>
-        <Contact>
-          <IconLink
-            href="mailto:coeurs.festifs@gmail.com"
-            target="_blank"
-            aria-label="Email"
-          >
-            <FaEnvelope />
-          </IconLink>
-          <FooterText>coeurs.festifs@gmail.com</FooterText>
-        </Contact>
-      </FooterSection>
-    </CustomFooter>
+  return (
+    <Shell>
+      <Inner>
+        <Top>
+          <Sign>
+            <p className="big">{t("footer.desc")}</p>
+            <Mail href={`mailto:${EMAIL}`}>{EMAIL}</Mail>
+          </Sign>
+          <Cols>
+            <Col>
+              <h2>{t("footer.nav")}</h2>
+              <Link to="/coeur-festifs">{t("navBar.home")}</Link>
+              <Link to="/coeur-festifs/events">{t("navBar.events")}</Link>
+              <Link to="/coeur-festifs/about">{t("navBar.about")}</Link>
+            </Col>
+            <Col>
+              <h2>{t("ui.footer.follow")}</h2>
+              <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer">
+                <PiInstagramLogoFill aria-hidden="true" /> Instagram
+              </a>
+              <a href={FACEBOOK_URL} target="_blank" rel="noopener noreferrer">
+                <PiFacebookLogoFill aria-hidden="true" /> Facebook
+              </a>
+              <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer">
+                <PiLinkedinLogoFill aria-hidden="true" /> LinkedIn
+              </a>
+            </Col>
+          </Cols>
+        </Top>
+        <Bottom>
+          <span>© {new Date().getFullYear()} Cœurs Festifs. {t("footer.rights")}</span>
+          <span>Montréal, Québec</span>
+        </Bottom>
+      </Inner>
+    </Shell>
   );
 };

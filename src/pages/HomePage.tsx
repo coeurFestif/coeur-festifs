@@ -1,540 +1,373 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
-import { useNavigate } from "react-router-dom";
-import logo from "../assets/logo.png";
-import backgroundVideo from "../assets/backgroundVideo.mp4";
+import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import carrefour from "../assets/CJE.jpg";
-import repit from "../assets/repitProvidence.png";
-import promis from "../assets/promis.png";
-import maisonCulture from "../assets/maisonCulture.png";
-import fondationDrJulien from "../assets/fondationDrJulien.png";
-import mountainSights from "../assets/mountainSights.png";
-import garageMusique from "../assets/garageMusique.png";
-import minimolars from "../assets/minimolars.png";
+import { PiArrowRightBold } from "react-icons/pi";
+import { useEventData } from "../data/events";
+import { PARTNERS, SPONSORS, VOLUNTEER_COUNT } from "../data/partners";
+import { getStatus } from "../utils/eventDates";
+import { NextEvent } from "../components/NextEvent";
+import { PosterCard } from "../components/PosterCard";
+import { OrgGrid } from "../components/OrgGrid";
+import { Figures, Founders } from "../components/Showcase";
+import {
+  ButtonLink,
+  Container,
+  Display,
+  Lead,
+  Reveal,
+  Section,
+  SectionTitle,
+  TextLink,
+} from "../components/ui";
+import { useEventMeta } from "../components/useEventMeta";
+import { Event } from "../schema/event";
+import commonPic from "../assets/commonPic.jpg";
+import logo from "../assets/logo.png";
 
-// Animations
-const fadeIn = keyframes`
-  from { 
-    opacity: 0; 
-    transform: translateY(30px); 
-  }
-  to { 
-    opacity: 1; 
-    transform: translateY(0); 
-  }
-`;
+/* ═══════════════ 1 · Hero ═══════════════ */
 
-const slideUp = keyframes`
-  from { 
-    opacity: 0; 
-    transform: translateY(40px); 
-  }
-  to { 
-    opacity: 1; 
-    transform: translateY(0); 
-  }
-`;
-
-const float = keyframes`
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-`;
-
-const shimmer = keyframes`
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
-`;
-
-// Full-screen video background
-const VideoBackground = styled.video`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: -2;
-  opacity: 0.85;
-  pointer-events: none;
-`;
-
-// Light overlay for text readability
-const Overlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.7) 0%,
-    rgba(255, 255, 255, 0.3) 100%
-  );
-  backdrop-filter: blur(5px);
-  z-index: -1;
-`;
-
-// Main container for content with section delimitations
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-`;
-
-// Hero Container
-const HeroContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-size: cover;
-  background-position: center;
-  position: relative;
+const Hero = styled.section`
+  padding: var(--sp-12) 0 var(--section);
   overflow: hidden;
-  height: 800px;
-  width: 100%;
 `;
 
-// Hero section content
-const HeroContent = styled.div`
-  max-width: 900px;
-  width: 100%;
-  padding: 20px;
-  height: 100%;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  backdrop-filter: blur(10px);
-  @media (max-width: 768px) {
-    padding: 0 20px;
-  }
-`;
-
-// Logo styling with larger size and soft shadow
-const Logo = styled.img`
-  width: 180px;
-  height: 180px;
-  margin-bottom: 20px;
-  position: relative;
-  border-radius: 50%;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-  @media (min-width: 768px) {
-    width: 300px;
-    height: 300px;
-  }
-`;
-
-// Title with responsive design
-const Title = styled.h1`
-  font-size: 2.8rem;
-  font-weight: bold;
-  margin: 15px 0;
-  color: #ff6347;
-  text-shadow: 2px 4px 6px rgba(0, 0, 0, 0.2);
-  padding-bottom: 30px;
-
-  @media (max-width: 480px) {
-    font-size: 2rem;
-  }
-
-  @media (min-width: 481px) and (max-width: 768px) {
-    font-size: 2.5rem;
-  }
-
-  @media (min-width: 769px) and (max-width: 1024px) {
-    font-size: 2.6rem;
-  }
-`;
-
-// Button with improved styling
-const Button = styled.button`
-  padding: 15px 30px;
-  background: linear-gradient(135deg, #ff9a9e, #fad4c4);
-  color: #fff;
-  border: none;
-  border-radius: 15px;
-  font-size: 1.2rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 8px 15px rgba(255, 145, 145, 0.3);
-
-  &:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 20px rgba(255, 145, 145, 0.4);
-  }
-
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(255, 165, 165, 0.4);
-  }
-
-  @media (max-width: 768px) {
-    font-size: 1rem;
-  }
-`;
-
-// Partnership Section Styles
-const PartnershipSection = styled.section`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 120px 40px;
-  background: white;
-  color: white;
-  width: 100%;
-  min-height: 100vh;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-
-  &::before {
-    content: "";
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(
-        circle at 20% 30%,
-        rgba(255, 255, 255, 0.1) 0%,
-        transparent 60%
-      ),
-      radial-gradient(
-        circle at 80% 70%,
-        rgba(59, 130, 246, 0.08) 0%,
-        transparent 60%
-      );
-    animation: rotate 30s linear infinite;
-    pointer-events: none;
-  }
-
-  @media (max-width: 768px) {
-    padding: 80px 20px;
-  }
-`;
-
-const PartnershipTitle = styled.h2`
-  font-size: 3.5rem;
-  font-weight: 100;
-  color: rgba(0, 0, 0, 0.95);
-  margin-bottom: 50px;
-  letter-spacing: -0.03em;
-  text-transform: uppercase;
-  position: relative;
-  animation: ${fadeIn} 1.2s ease-out 0.2s both;
-
-  &::after {
-    content: "";
-    position: absolute;
-    bottom: -15px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80px;
-    height: 1px;
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      rgba(0, 0, 0, 0.6) 50%,
-      transparent 100%
-    );
-  }
-
-  @media (max-width: 480px) {
-    font-size: 2.2rem;
-  }
-
-  @media (min-width: 481px) and (max-width: 768px) {
-    font-size: 2.8rem;
-  }
-`;
-
-const PartnerGrid = styled.div`
+const HeroGrid = styled(Container)`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 40px;
-  width: 100%;
-  max-width: 1200px;
-  margin-top: 20px;
+  grid-template-columns: 1.05fr 1fr;
+  gap: var(--sp-12);
+  align-items: center;
 
-  @media (max-width: 768px) {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 30px;
-    max-width: 600px;
-  }
-
-  @media (max-width: 480px) {
-    grid-template-columns: 1fr;
-    gap: 25px;
-    max-width: 300px;
-  }
+  @media (max-width: 900px) { grid-template-columns: 1fr; gap: var(--sp-10); }
 `;
 
-const PartnerCard = styled.div`
+const HeroCopy = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: rgba(247, 126, 126, 0.64);
-  padding: 50px 30px;
-  border: 1px solid rgba(218, 149, 149, 0);
-  backdrop-filter: blur(20px);
-  height: 220px;
-  position: relative;
-  overflow: hidden;
-  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-  animation: ${slideUp} 1s ease-out both;
-
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      rgb(255, 255, 255) 50%,
-      transparent 100%
-    );
-    transition: left 0.8s ease;
-  }
-
-  &::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: linear-gradient(
-      90deg,
-      rgba(139, 92, 246, 0.6) 0%,
-      rgba(59, 130, 246, 0.6) 50%,
-      rgba(236, 72, 153, 0.6) 100%
-    );
-    transform: scaleX(0);
-    transition: transform 0.3s ease;
-  }
-
-  &:hover {
-    transform: translateY(-12px);
-    border-color: rgba(255, 255, 255, 0.12);
-    background: rgba(255, 255, 255, 0.04);
-
-    &::before {
-      left: 100%;
-    }
-
-    &::after {
-      transform: scaleX(1);
-    }
-  }
-
-  &:nth-child(1) {
-    animation-delay: 0.1s;
-  }
-  &:nth-child(2) {
-    animation-delay: 0.2s;
-  }
-  &:nth-child(3) {
-    animation-delay: 0.3s;
-  }
-  &:nth-child(4) {
-    animation-delay: 0.4s;
-  }
-  &:nth-child(5) {
-    animation-delay: 0.5s;
-  }
-  &:nth-child(6) {
-    animation-delay: 0.6s;
-  }
+  align-items: flex-start;
+  gap: var(--sp-6);
 `;
 
-const PartnerIcon = styled.div`
-  width: 120px;
-  height: 120px;
-  background: rgb(255, 255, 255);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 50%;
+const HeroActions = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
-  margin-bottom: 25px;
-  transition: all 0.4s ease;
-  font-size: 3rem;
-  animation: ${float} 4s ease-in-out infinite;
+  gap: var(--sp-6);
+  flex-wrap: wrap;
+`;
+
+const deal = keyframes`
+  from { opacity: 0; transform: translate(var(--fx, 0), 24px) rotate(0deg) scale(.96); }
+  to   { opacity: 1; transform: translate(0, 0) rotate(var(--rot)) scale(1); }
+`;
+
+const bob = keyframes`
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+`;
+
+// Partiful's scattered invitation tiles: real posters tilted behind the one
+// real team photo, fanning out a little more on hover.
+const Stage = styled.div`
   position: relative;
+  width: min(100%, 500px);
+  aspect-ratio: 1 / 1.08;
+  justify-self: center;
+
+  @media (max-width: 900px) { width: min(100%, 400px); }
+`;
+
+const Tile = styled.div<{ $rot: number; $x: string; $y: string; $w: string; $delay: number }>`
+  --rot: ${(p) => p.$rot}deg;
+  position: absolute;
+  left: ${(p) => p.$x};
+  top: ${(p) => p.$y};
+  width: ${(p) => p.$w};
+  aspect-ratio: 3 / 4;
+  border-radius: var(--r-card);
   overflow: hidden;
+  background: #f4f4f4;
+  box-shadow: var(--sh-card);
+  transform: rotate(var(--rot));
+  animation: ${deal} 700ms var(--ease-out) ${(p) => p.$delay}ms both;
+  transition: transform 500ms var(--ease-out);
 
-  &::before {
-    content: "";
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: conic-gradient(
-      from 0deg,
-      transparent 0deg,
-      rgba(139, 92, 246, 0.1) 90deg,
-      transparent 180deg
-    );
-    animation: rotate 6s linear infinite;
-    opacity: 0;
-    transition: opacity 0.3s ease;
+  img { width: 100%; height: 100%; object-fit: contain; }
+
+  ${Stage}:hover & { transform: rotate(calc(var(--rot) * 1.4)) translateX(calc(var(--rot) * 1.2px)); }
+`;
+
+const Photo = styled.div`
+  position: absolute;
+  left: 20%;
+  top: 6%;
+  width: 60%;
+  aspect-ratio: 4 / 5;
+  border-radius: var(--r-card);
+  overflow: hidden;
+  box-shadow: var(--sh-float);
+  animation: ${deal} 700ms var(--ease-out) 260ms both;
+  --rot: 0deg;
+
+  img { width: 100%; height: 100%; object-fit: cover; }
+`;
+
+// Partiful's floating "app notification" widget, fed by real event data.
+const Notice = styled(Link)`
+  position: absolute;
+  left: 0;
+  bottom: 4%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: min(290px, 78%);
+  padding: 10px 12px;
+  border-radius: var(--r-modal);
+  background: var(--c-white);
+  box-shadow: var(--sh-float);
+  text-decoration: none;
+  color: inherit;
+  animation: ${deal} 700ms var(--ease-out) 520ms both, ${bob} 5s ease-in-out 1.4s infinite;
+  --rot: 0deg;
+
+  img { width: 36px; height: 36px; border-radius: 8px; flex-shrink: 0; }
+  div { display: flex; flex-direction: column; min-width: 0; }
+  small { font-size: 0.72rem; font-weight: 700; color: var(--c-primary); }
+  strong {
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
-
-  ${PartnerCard}:hover & {
-    background: rgba(255, 255, 255, 0.06);
-    border-color: rgba(255, 255, 255, 0.15);
-    transform: scale(1.1);
-
-    &::before {
-      opacity: 1;
-    }
+  em {
+    margin-left: auto;
+    flex-shrink: 0;
+    padding: 5px 12px;
+    border-radius: 40px;
+    background: var(--c-ink);
+    color: var(--c-white);
+    font-style: normal;
+    font-size: 0.75rem;
+    font-weight: 700;
   }
 `;
 
-const PartnerName = styled.h4`
-  font-size: 0.95rem;
-  font-weight: 300;
-  color: rgba(0, 0, 0, 0.8);
-  text-align: center;
-  line-height: 1.4;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  margin: 0;
-  transition: color 0.3s ease;
-
-  ${PartnerCard}:hover & {
-    color: rgb(0, 0, 0);
-  }
-`;
-
-// HomePage Component
-export const HomePage = () => {
-  const navigate = useNavigate();
+const NoticeShell: React.FC<{ to: string; kicker: string; title: string }> = ({ to, kicker, title }) => {
   const { t } = useTranslation();
+  return (
+    <Notice to={to}>
+      <img src={logo} alt="" />
+      <div>
+        <small>{kicker}</small>
+        <strong>{title}</strong>
+      </div>
+      <em>{t("homepage.explore")}</em>
+    </Notice>
+  );
+};
+
+const NoticeFor: React.FC<{ event: Event }> = ({ event }) => {
+  const { t } = useTranslation();
+  const meta = useEventMeta(event);
+  return (
+    <NoticeShell
+      to={`/coeur-festifs/event/${event.id}`}
+      kicker={meta.relative ?? t("ui.home.nextLabel")}
+      title={event.title}
+    />
+  );
+};
+
+const HeroNotice: React.FC<{ event?: Event }> = ({ event }) => {
+  const { t } = useTranslation();
+  return event ? (
+    <NoticeFor event={event} />
+  ) : (
+    <NoticeShell to="/coeur-festifs/events" kicker={t("ui.home.nextLabel")} title={t("ui.events.emptyTitle")} />
+  );
+};
+
+/* ═══════════════ 2 · Next event ═══════════════ */
+
+const Head = styled.div`
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  flex-wrap: wrap;
+  margin-bottom: var(--sp-8);
+`;
+
+/* ═══════════════ 3 · Numbers ═══════════════ */
+
+/* ═══════════════ 4 · Latest past events ═══════════════ */
+
+// The 4 most recent events, centered on the page grid; the rest live on /events.
+const PastGrid = styled.ul`
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--sp-8) var(--sp-5);
+  list-style: none;
+
+  @media (max-width: 960px) { grid-template-columns: repeat(2, 1fr); }
+`;
+
+/* ═══════════════ 5 · About teaser ═══════════════ */
+
+const Split = styled(Container)`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-16);
+  align-items: center;
+
+  @media (max-width: 860px) { grid-template-columns: 1fr; gap: var(--sp-10); }
+`;
+
+const SplitCopy = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--sp-5);
+`;
+
+/* ═══════════════ 6 · Partners ═══════════════ */
+
+const GroupLabel = styled.h3`
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--c-slate);
+  margin: var(--sp-8) 0 var(--sp-4);
+
+  &:first-of-type { margin-top: 0; }
+`;
+
+/* ═══════════════ Page ═══════════════ */
+
+export const HomePage = () => {
+  const { t } = useTranslation();
+  const events = useEventData();
+  const upcoming = events.filter((e) => getStatus(e) === "upcoming");
+  const past = events.filter((e) => getStatus(e) === "past");
+  const next = upcoming[0];
+
+  // Portrait posters read best in the tilted stack (Halloween, PRISMART);
+  // fall back to the latest past events if those are ever removed.
+  const pick = ["6", "4"].map((id) => events.find((e) => e.id === id)).filter(Boolean) as Event[];
+  const posters = (pick.length === 2 ? pick : past.slice(0, 2)).map((e) => e.image);
 
   return (
-    <Container>
-      {/* Hero Section */}
-      <HeroContainer>
-        {/* Background video */}
-        <VideoBackground autoPlay loop muted playsInline>
-          <source src={backgroundVideo} type="video/mp4" />
-        </VideoBackground>
+    <>
+      {/* 1 · Hero */}
+      <Hero aria-labelledby="hero-title">
+        <HeroGrid>
+          <HeroCopy>
+            <Display id="hero-title">{t("ui.home.heroTitle")}</Display>
+            <Lead>{t("ui.home.heroLead")}</Lead>
+            <HeroActions>
+              <ButtonLink to="/coeur-festifs/events">
+                {t("ui.home.ctaEvents")} <PiArrowRightBold aria-hidden="true" />
+              </ButtonLink>
+              <TextLink to="/coeur-festifs/about">{t("ui.home.ctaAbout")}</TextLink>
+            </HeroActions>
+          </HeroCopy>
 
-        {/* Light overlay */}
-        <Overlay />
+          <Stage aria-hidden="true">
+            {posters[0] && (
+              <Tile $rot={-12} $x="0%" $y="12%" $w="42%" $delay={0} style={{ ["--fx" as string]: "40%" }}>
+                <img src={posters[0]} alt="" />
+              </Tile>
+            )}
+            {posters[1] && (
+              <Tile $rot={10} $x="58%" $y="30%" $w="42%" $delay={120} style={{ ["--fx" as string]: "-40%" }}>
+                <img src={posters[1]} alt="" />
+              </Tile>
+            )}
+            <Photo>
+              <img src={commonPic} alt="" />
+            </Photo>
+            <HeroNotice event={next} />
+          </Stage>
+        </HeroGrid>
+      </Hero>
 
-        {/* Hero content */}
-        <HeroContent>
-          <Logo src={logo} alt="Event Logo" />
-          <Title>{t("homepage.title")}</Title>
-          <Button onClick={() => navigate("/coeur-festifs/events")}>
-            {t("homepage.explore")}
-          </Button>
-        </HeroContent>
-      </HeroContainer>
+      {/* 2 · Next event */}
+      <Section $wash aria-labelledby="next-title">
+        <Container>
+          <Head>
+            <SectionTitle id="next-title">{t("ui.home.nextLabel")}</SectionTitle>
+            <TextLink to="/coeur-festifs/events">
+              {t("ui.home.seeAll")} <PiArrowRightBold aria-hidden="true" />
+            </TextLink>
+          </Head>
+          <Reveal>
+            <NextEvent event={next} />
+          </Reveal>
+        </Container>
+      </Section>
 
-      {/* Partnership Section */}
-      <PartnershipSection>
-        <PartnershipTitle>
-          {t("homepage.partnershipTitle") || "Our Partners"}
-        </PartnershipTitle>
-        <PartnerGrid>
-          <PartnerCard>
-            <PartnerIcon>
-              <img
-                src={carrefour}
-                style={{ width: "100%", height: "100%" }}
-                alt="Carrefour Jeunesse Emploi Côte-des-Neiges"
-              />
-            </PartnerIcon>
-            <PartnerName>
-              Carrefour Jeunesse Emploi Côte-des-Neiges, Outremont et Ville
-              Mont-Royal
-            </PartnerName>
-          </PartnerCard>
-          <PartnerCard>
-            <PartnerIcon>
-              <img
-                src={repit}
-                style={{ width: "100%", height: "70%" }}
-                alt="Répit Providence"
-              />
-            </PartnerIcon>
-            <PartnerName>Répit Providence</PartnerName>
-          </PartnerCard>
-          <PartnerCard>
-            <PartnerIcon>
-              <img
-                src={mountainSights}
-                style={{ width: "100%", height: "100%" }}
-                alt="Centre communautaire Mountain Sights"
-              />
-            </PartnerIcon>
-            <PartnerName>Centre communautaire Mountain Sights</PartnerName>
-          </PartnerCard>
-          <PartnerCard>
-            <PartnerIcon>
-              <img
-                src={promis}
-                style={{ width: "100%", height: "50%" }}
-                alt="PROMIS"
-              />
-            </PartnerIcon>
-            <PartnerName>PROMIS</PartnerName>
-          </PartnerCard>
-          <PartnerCard>
-            <PartnerIcon>
-              <img
-                src={maisonCulture}
-                style={{ width: "100%", height: "60%" }}
-                alt="Maison de la culture de Côte-des-Neiges"
-              />
-            </PartnerIcon>
-            <PartnerName>Maison de la culture de Côte-des-Neiges</PartnerName>
-          </PartnerCard>
-          <PartnerCard>
-            <PartnerIcon>
-              <img
-                src={fondationDrJulien}
-                style={{ width: "100%", height: "40%" }}
-                alt="Fondation du Dr Julien"
-              />
-            </PartnerIcon>
-            <PartnerName>Fondation du Dr Julien</PartnerName>
-          </PartnerCard>
-          <PartnerCard>
-            <PartnerIcon>
-              <img
-                src={garageMusique}
-                style={{ width: "100%", height: "90%" }}
-                alt="Garage à Musique"
-              />
-            </PartnerIcon>
-            <PartnerName>Garage à Musique</PartnerName>
-          </PartnerCard>
-          <PartnerCard>
-            <PartnerIcon>
-              <img
-                src={minimolars}
-                style={{ width: "80%", height: "80%" }}
-                alt="Minimolars"
-              />
-            </PartnerIcon>
-            <PartnerName>Mini Molars Club</PartnerName>
-          </PartnerCard>
-        </PartnerGrid>
-      </PartnershipSection>
-    </Container>
+      {/* 3 · Numbers (real counts only) */}
+      <Section>
+        <Container>
+          <Figures
+            items={[
+              { n: VOLUNTEER_COUNT, label: t("ui.home.statVolunteers") },
+              { n: events.length, label: t("ui.home.statEvents") },
+              { n: PARTNERS.length, label: t("ui.home.statPartners") },
+            ]}
+          />
+        </Container>
+      </Section>
+
+      {/* 4 · Latest past events */}
+      {past.length > 0 && (
+        <Section $wash aria-labelledby="past-title">
+          <Container>
+            <Head>
+              <SectionTitle id="past-title">{t("ui.home.pastTitle")}</SectionTitle>
+              <TextLink to="/coeur-festifs/events">
+                {t("ui.home.seeAll")} <PiArrowRightBold aria-hidden="true" />
+              </TextLink>
+            </Head>
+            <PastGrid>
+              {past.slice(0, 4).map((ev, i) => (
+                <li key={ev.id}>
+                  <Reveal delay={i * 70}>
+                    <PosterCard event={ev} />
+                  </Reveal>
+                </li>
+              ))}
+            </PastGrid>
+          </Container>
+        </Section>
+      )}
+
+      {/* 5 · About teaser */}
+      <Section aria-labelledby="about-title">
+        <Split>
+          <SplitCopy>
+            <SectionTitle id="about-title">{t("ui.home.aboutTitle")}</SectionTitle>
+            <Lead>{t("ui.home.aboutText")}</Lead>
+            <TextLink to="/coeur-festifs/about">
+              {t("ui.home.ctaAbout")} <PiArrowRightBold aria-hidden="true" />
+            </TextLink>
+          </SplitCopy>
+          <Founders />
+        </Split>
+      </Section>
+
+      {/* 6 · Partners & sponsors */}
+      <Section $wash aria-labelledby="orgs-title">
+        <Container>
+          <Head>
+            <SectionTitle id="orgs-title">{t("ui.home.worksWith")}</SectionTitle>
+          </Head>
+          <GroupLabel>{t("events.partner")}</GroupLabel>
+          <OrgGrid orgs={PARTNERS} />
+          <GroupLabel>{t("events.sponsor")}</GroupLabel>
+          <OrgGrid orgs={SPONSORS} />
+        </Container>
+      </Section>
+    </>
   );
 };
