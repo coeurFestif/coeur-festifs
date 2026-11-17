@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cœurs Festifs — La Gazette</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..800;1,6..72,400..600&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+html,body{background:#f4f0e8;margin:0}
+:root{--paper:#f4f0e8;--ink:#1b1a17;--ink-70:rgba(27,26,23,.72);--ink-50:rgba(27,26,23,.5);--rule:rgba(27,26,23,.85);--hair:rgba(27,26,23,.18);--red:#d7263d;
+  --serif:"Newsreader",Georgia,serif;--sans:"Instrument Sans",system-ui,sans-serif;--gut:clamp(16px,3.5vw,48px)}
+*{box-sizing:border-box}
+body{font:400 17px/1.6 var(--serif);color:var(--ink);overflow-x:clip}
+::selection{background:var(--ink);color:var(--paper)}
+a{color:inherit}
+img{display:block;width:100%;height:auto}
+:focus-visible{outline:2px solid var(--red);outline-offset:3px}
+.paper{max-width:1280px;margin:0 auto;padding:0 var(--gut)}
+.kicker{font:600 12px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase}
+.kicker.red{color:var(--red)}
+
+/* masthead */
+.strip{display:flex;justify-content:space-between;gap:16px;padding:14px 0 10px;font:500 13px/1 var(--sans);color:var(--ink-70)}
+.strip nav{display:flex;gap:22px}
+.strip a{text-decoration:none}.strip a:hover{text-decoration:underline}
+.mast{border-top:3px solid var(--rule);border-bottom:1px solid var(--rule);padding:clamp(10px,2vw,20px) 0;text-align:center}
+.mast h1{font:800 clamp(48px,10.5vw,168px)/.86 var(--serif);letter-spacing:-.035em;margin:0;font-variation-settings:"opsz" 72}
+.mast h1 svg{width:.42em;height:.42em;vertical-align:.08em;margin:0 .04em}
+.dateline{display:flex;justify-content:space-between;gap:12px;border-bottom:3px double var(--rule);padding:9px 0;font:500 13px/1 var(--sans);text-transform:uppercase;letter-spacing:.08em}
+
+/* front page */
+.front{display:grid;grid-template-columns:3fr 6fr 3fr;border-bottom:1px solid var(--rule)}
+.front>*{padding:28px 24px}
+.front>*+*{border-left:1px solid var(--hair)}
+.front>:first-child{padding-left:0}.front>:last-child{padding-right:0}
+.lead h2{font:700 clamp(44px,5.6vw,86px)/.95 var(--serif);letter-spacing:-.03em;margin:12px 0 18px;font-variation-settings:"opsz" 72}
+.lead h2 em{font-weight:500;color:var(--red)}
+.stand{font-size:21px;line-height:1.45;font-style:italic;color:var(--ink-70);margin:0 0 18px}
+.by{font:500 13px/1.4 var(--sans);color:var(--ink-50);border-top:1px solid var(--hair);padding-top:12px}
+.lead figure{margin:22px 0 0}
+figcaption{font:400 13px/1.45 var(--sans);color:var(--ink-50);margin-top:8px;padding-left:10px;border-left:2px solid var(--red)}
+.side h3{font:700 22px/1.15 var(--serif);margin:10px 0 10px}
+.side p{font-size:16px;color:var(--ink-70);margin:0 0 14px}
+.side .box{border:1px solid var(--rule);padding:18px;margin-top:22px;background:#fffdf8}
+.side .box h3{font-size:26px}
+.btn{display:inline-block;font:600 14px/1 var(--sans);background:var(--ink);color:var(--paper);padding:12px 16px;text-decoration:none;transition:background .2s}
+.btn:hover{background:var(--red)}
+.figs{list-style:none;margin:0;padding:0}
+.figs li{border-top:1px solid var(--hair);padding:14px 0}
+.figs b{display:block;font:800 64px/.9 var(--serif);letter-spacing:-.04em;font-variation-settings:"opsz" 72}
+.figs span{font:500 13px/1.3 var(--sans);color:var(--ink-70)}
+.index{list-style:none;margin:12px 0 0;padding:0;font-size:16px}
+.index li{display:flex;justify-content:space-between;gap:8px;border-bottom:1px dotted var(--hair);padding:7px 0}
+.index a{text-decoration:none}.index a:hover{color:var(--red)}
+.index span{font:500 12px/1.9 var(--sans);color:var(--ink-50);white-space:nowrap}
+
+/* news grid */
+.sect{display:flex;align-items:baseline;justify-content:space-between;border-bottom:1px solid var(--rule);padding:44px 0 10px}
+.sect h2{font:700 italic 32px/1 var(--serif);margin:0}
+.news{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--rule)}
+.news article{padding:22px 20px 26px;border-left:1px solid var(--hair);border-top:1px solid var(--hair)}
+.news .k{font:600 11px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--red);margin:14px 0 6px}
+.news h3{font:700 21px/1.15 var(--serif);margin:0 0 6px}
+.news p{font-size:14px;color:var(--ink-50);margin:0;font-family:var(--sans)}
+.news img{filter:grayscale(.15) contrast(1.02);transition:filter .3s}
+.news article:hover img{filter:none}
+.news article.wide{grid-column:span 2}
+
+/* portrait */
+.portrait{display:grid;grid-template-columns:5fr 7fr;gap:40px;padding:36px 0 48px;border-bottom:1px solid var(--rule)}
+.portrait h2{font:700 clamp(36px,4vw,58px)/1 var(--serif);letter-spacing:-.025em;margin:10px 0 18px}
+.cols2{columns:2;column-gap:32px;column-rule:1px solid var(--hair)}
+.cols2 p{margin:0 0 14px}
+.cols2 p:first-child::first-letter{float:left;font:800 74px/.8 var(--serif);margin:6px 8px 0 0;color:var(--red)}
+.quote{font:500 italic 26px/1.3 var(--serif);border-top:3px solid var(--ink);border-bottom:1px solid var(--ink);padding:14px 0;margin:18px 0 0;break-inside:avoid}
+
+/* ours */
+.ours{display:grid;grid-template-columns:2fr 5fr;gap:40px;padding:36px 0 40px}
+.ours ul{list-style:none;margin:0;padding:0;columns:3;column-gap:28px;font-size:16px;line-height:1.9}
+.ours h3{font:600 12px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;margin:0 0 10px;color:var(--ink-50)}
+footer{border-top:3px double var(--rule);padding:16px 0 40px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font:500 13px/1 var(--sans);color:var(--ink-50)}
+
+.rv{opacity:0;transform:translateY(14px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1)}
+.rv.in{opacity:1;transform:none}
+@media (max-width:980px){
+  .front{grid-template-columns:1fr 1fr}.front .lead{grid-column:1/-1;order:-1;padding:24px 0;border:0}
+  .front>.side:first-of-type{padding-left:0;border-left:0}
+  .news{grid-template-columns:1fr 1fr}
+  .portrait,.ours{grid-template-columns:1fr}.cols2{columns:1}.ours ul{columns:2}
+  .strip nav{display:none}
+}
+@media (max-width:560px){.front{grid-template-columns:1fr}.front>*{padding:20px 0;border-left:0!important;border-top:1px solid var(--hair)}.dateline span:nth-child(2){display:none}.news article{padding:16px 12px}}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
+</style>
+</head>
+<body>
+<div class="paper">
+  <div class="strip"><span>Montréal, Québec</span><nav aria-label="Principale"><a href="#nouvelles">Les fêtes</a><a href="#portrait">Notre histoire</a><a href="#ours">Partenaires</a><a href="#agenda">Nous écrire</a><a href="#" lang="en">English</a></nav></div>
+  <header class="mast"><h1 aria-label="Cœurs Festifs">C<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#d7263d" d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.1 4.3 2.6.7-1.5 2.2-2.6 4.3-2.6 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z"/></svg>urs Festifs</h1></header>
+  <div class="dateline"><span>N° 9 · Édition 2025</span><span>La gazette des fêtes de quartier</span><span>Montréal</span></div>
+
+  <main>
+  <section class="front">
+    <aside class="side">
+      <span class="kicker">En chiffres</span>
+      <ul class="figs"><li><b>36</b><span>bénévoles engagés</span></li><li><b>9</b><span>fêtes organisées ou soutenues</span></li><li><b>12</b><span>organismes partenaires et commanditaires</span></li></ul>
+    </aside>
+    <article class="lead">
+      <span class="kicker red">À la une</span>
+      <h2>Des moments qui prennent <em>vie.</em></h2>
+      <p class="stand">Deux étudiantes en médecine organisent, avec les organismes du quartier, des fêtes accessibles pour les enfants en situation de vulnérabilité.</p>
+      <p class="by">Par l'équipe de Cœurs Festifs et ses 36 bénévoles · Montréal</p>
+      <figure><img src="../src/assets/halloween.png" alt="Affiche de la fête d'Halloween au Centre communautaire Mountain Sights" width="759" height="1012" fetchpriority="high"><figcaption>Fête d'Halloween, le 31 octobre 2025, au Centre communautaire Mountain Sights.</figcaption></figure>
+    </article>
+    <aside class="side" id="agenda">
+      <span class="kicker">Au sommaire</span>
+      <ol class="index" id="index"></ol>
+      <div class="box">
+        <span class="kicker red">Agenda</span>
+        <h3>La prochaine fête se prépare.</h3>
+        <p>Aucune date n'est annoncée pour l'instant. Suivez-nous pour l'apprendre en premier.</p>
+        <a class="btn" href="#">Suivre sur Instagram</a>
+      </div>
+    </aside>
+  </section>
+
+  <div class="sect" id="nouvelles"><h2>Les nouvelles de 2025</h2><span class="kicker">9 fêtes</span></div>
+  <section class="news" id="news"></section>
+
+  <section class="portrait rv" id="portrait">
+    <figure style="margin:0"><img src="../src/assets/commonPic.jpg" alt="Les deux co-fondatrices de Cœurs Festifs" width="1074" height="1074" loading="lazy"><figcaption>Les deux co-présidentes de Cœurs Festifs.</figcaption></figure>
+    <div>
+      <span class="kicker red">Portrait</span>
+      <h2>Deux étudiantes, une idée simple.</h2>
+      <div class="cols2">
+        <p>Cœurs Festifs est né d'une conviction : chaque enfant mérite de sourire et de vivre un moment de fête, au moins le temps d'une journée. Le projet communautaire a été fondé à Montréal par deux étudiantes en médecine.</p>
+        <p>Avec les organismes du quartier, l'équipe organise des activités accessibles et engageantes, guidées par trois valeurs : la compassion, la communauté et l'inclusion.</p>
+        <p class="quote">« Chaque enfant mérite d'être pleinement inclus, célébré et soutenu, sans exception. »</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="ours rv" id="ours">
+    <div><span class="kicker">L'ours</span><h2 style="font:700 30px/1.1 var(--serif);margin:10px 0 0">Avec la complicité de 12 organismes.</h2></div>
+    <div style="display:grid;gap:24px">
+      <div><h3>Partenaires</h3><ul><li>Fondation du Dr Julien</li><li>Répit Providence</li><li>Centre Mountain Sights</li><li>PROMIS</li><li>Maison de la culture CDN</li><li>Carrefour Jeunesse Emploi</li><li>Garage à Musique</li><li>Mini Molars Club</li></ul></div>
+      <div><h3>Commanditaires</h3><ul><li>Scholastic</li><li>Librairie Gallimard</li><li>Les Débrouillards</li><li>Fondation Réno-Jouets</li></ul></div>
+    </div>
+  </section>
+  </main>
+  <footer><span>© Cœurs Festifs · Montréal</span><span><a href="#">Instagram</a> · <a href="#">LinkedIn</a> · <a href="#">Courriel</a></span></footer>
+</div>
+<script>
+const EV=[
+ {i:"guignole.png",d:"13 déc.",t:"Guignolée du Dr Julien",l:"Avec le Garage à Musique, avenue Bennett."},
+ {i:"noelParty.jpg",d:"13 déc.",t:"Fête de Noël avec Promis",l:"La fête de fin d'année avec l'organisme PROMIS."},
+ {i:"foireMetier.png",d:"22 nov.",t:"Foire aux métiers",l:"Médecine, médecine dentaire, ingénierie, architecture."},
+ {i:"levee.jpg",d:"1er nov.",t:"Levée de fonds",l:"Plus de 25 jouets achetés pour une mission en Côte d'Ivoire."},
+ {i:"halloween.png",d:"31 oct.",t:"Fête d'Halloween",l:"Au Centre communautaire Mountain Sights."},
+ {i:"prismart.png",d:"6 sept.",t:"PRISMART",l:"Au parc Martin-Luther-King."},
+ {i:"30yB.png",d:"23 août",t:"Les 30 ans de Répit Providence",l:"Le pique-nique annuel de l'organisme."},
+ {i:"Gcpp.png",d:"10 avr.",t:"Grands cœurs, petits professeurs",l:""},
+ {i:"choco.jpg",d:"11 janv.",t:"ChocoChaud et boules de neige",l:"Chez Répit Providence, rue Dézéry."}
+];
+document.getElementById('index').innerHTML=EV.map((e,k)=>`<li><a href="#n${k}">${e.t}</a><span>${e.d}</span></li>`).join('');
+document.getElementById('news').innerHTML=EV.map((e,k)=>`<article class="rv" id="n${k}"><img src="../src/assets/${e.i}" alt="Affiche : ${e.t}" loading="lazy" decoding="async"><p class="k">${e.d} 2025</p><h3>${e.t}</h3>${e.l?`<p>${e.l}</p>`:''}</article>`).join('');
+// landscape posters span two columns, like a wide photo in a paper
+document.querySelectorAll('#news img').forEach(im=>{const f=()=>{if(im.naturalWidth>im.naturalHeight*1.3)im.parentElement.classList.add('wide')};im.complete?f():im.addEventListener('load',f)});
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.1});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

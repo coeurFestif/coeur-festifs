@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cœurs Festifs — Abstrait</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&display=swap" rel="stylesheet">
+<style>
+html,body{background:#f6f1e7;margin:0}
+:root{
+  --paper:#f6f1e7; --ink:#14183a; --ink-70:rgba(20,24,58,.72); --ink-50:rgba(20,24,58,.5); --ink-12:rgba(20,24,58,.12);
+  --coral:#ff5a4e; --sun:#ffc23d; --blue:#2f5bea; --pink:#ffb3c7; --green:#2fa36b;
+  --f:"Bricolage Grotesque",system-ui,sans-serif; --ease:cubic-bezier(.22,1,.36,1); --gut:clamp(20px,4vw,56px);
+}
+*{box-sizing:border-box}
+body{font:400 18px/1.55 var(--f);font-optical-sizing:auto;color:var(--ink);overflow-x:clip}
+::selection{background:var(--sun)}
+a{color:inherit}
+img{display:block;max-width:100%;height:auto}
+:focus-visible{outline:3px solid var(--blue);outline-offset:3px;border-radius:4px}
+.wrap{max-width:1300px;margin:0 auto;padding-inline:var(--gut)}
+.k{font-size:14px;font-weight:600;color:var(--ink-50)}
+
+header.top{display:flex;align-items:center;justify-content:space-between;padding:22px var(--gut);position:relative;z-index:5}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px;letter-spacing:-.02em;text-decoration:none}
+.logo svg{width:22px}
+.top nav{display:flex;gap:28px;font-size:15px;font-weight:500}
+.top nav a{text-decoration:none;color:var(--ink-70)}.top nav a:hover{color:var(--ink)}
+.btn{display:inline-flex;align-items:center;gap:10px;background:var(--ink);color:var(--paper);padding:15px 24px;border-radius:999px;font-weight:600;font-size:16px;text-decoration:none;transition:background .2s,transform .2s}
+.btn:hover{background:var(--coral)}.btn:active{transform:scale(.97)}
+.tl{font-weight:600;text-underline-offset:6px;text-decoration-thickness:2px}
+
+/* ---------- hero: text left, living art right ---------- */
+.hero{display:grid;grid-template-columns:6fr 5fr;gap:clamp(24px,4vw,64px);align-items:center;min-height:calc(100svh - 80px);padding-block:8px clamp(48px,7vh,88px)}
+h1{font-weight:750;font-size:clamp(52px,6.3vw,104px);line-height:.92;letter-spacing:-.045em;margin:16px 0 28px}
+h1 span{display:block;animation:rise .9s var(--ease) both}
+h1 span:nth-child(2){animation-delay:.08s}
+h1 span:nth-child(3){animation-delay:.16s}
+h1 em{font-style:normal;color:var(--coral)}
+.lead{font-size:clamp(18px,1.45vw,20px);color:var(--ink-70);max-width:30rem;margin:0 0 32px;animation:rise .9s .25s var(--ease) both}
+.acts{display:flex;flex-wrap:wrap;align-items:center;gap:24px;animation:rise .9s .35s var(--ease) both}
+.stage{position:relative;aspect-ratio:1;width:100%;max-height:calc(100svh - 140px);justify-self:end;border-radius:28px;overflow:hidden}
+.art{position:absolute;inset:0;display:none}
+[data-art="1"] .geo{display:grid}
+[data-art="2"] .conf,[data-art="3"] .mat{display:block}
+
+/* art 1 · géométrie */
+.geo{grid-template-columns:repeat(5,1fr);grid-template-rows:repeat(5,1fr)}
+.t{position:relative;overflow:hidden;background:var(--bg);transition:background .8s var(--ease);animation:pop .7s var(--ease) both;animation-delay:var(--dl)}
+.t i{position:absolute;inset:0;background:var(--fg);transform:rotate(var(--rot));transition:transform .9s var(--ease),background .8s,border-radius .8s var(--ease),inset .8s var(--ease)}
+.t i.c{border-radius:50%;inset:12%}
+.t i.h{border-radius:999px 999px 0 0;inset:50% 0 0 0}
+.t i.q{border-radius:100% 0 0 0;inset:0}
+.t i.r{border-radius:50%;inset:12%;background:transparent;box-shadow:inset 0 0 0 clamp(8px,1.4vw,18px) var(--fg)}
+.t i.s{inset:0 50% 0 0;border-radius:0}
+@keyframes pop{from{transform:scale(.4);opacity:0}}
+
+/* art 2 · confettis */
+.conf{background:var(--blue)}
+.conf canvas{width:100%;height:100%;display:block}
+
+/* art 3 · matisse */
+.mat{background:var(--pink)}
+.mat svg{width:100%;height:100%;display:block}
+.mat .p{mix-blend-mode:multiply;transform-box:fill-box;transform-origin:center;animation:sway var(--t,18s) ease-in-out infinite alternate}
+@keyframes sway{from{transform:translate(0,0) rotate(0)}to{transform:translate(var(--x,14px),var(--y,-18px)) rotate(var(--r,8deg))}}
+.paused .p{animation-play-state:paused}
+
+/* ---------- sentence with numbers in shapes ---------- */
+.says{padding-block:clamp(72px,9vw,128px);border-top:1px solid var(--ink-12)}
+.says p{font-weight:500;font-size:clamp(28px,4vw,58px);line-height:1.25;letter-spacing:-.03em;margin:0;max-width:21em}
+.badge{display:inline-grid;place-items:center;font-weight:800;color:var(--paper);vertical-align:-.12em;margin:0 .06em;width:1.5em;height:1.5em;font-size:.82em;letter-spacing:-.04em}
+.badge.c{background:var(--coral);border-radius:50%}
+.badge.h{background:var(--blue);border-radius:1.5em 1.5em .2em .2em}
+.badge.q{background:var(--green);border-radius:1.5em .2em .2em .2em}
+.says .muted{color:var(--ink-50)}
+
+/* ---------- steps ---------- */
+.how{padding-bottom:clamp(80px,10vw,140px)}
+.how h2,.fetes h2,.us h2{font-weight:750;font-size:clamp(38px,4.8vw,76px);line-height:.95;letter-spacing:-.04em;margin:0 0 44px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,2vw,28px);list-style:none;margin:0;padding:0}
+.steps li{border-radius:24px;padding:30px 28px 34px}
+.steps li:nth-child(1){background:var(--sun)}
+.steps li:nth-child(2){background:var(--pink)}
+.steps li:nth-child(3){background:#bcd0ff}
+.shape{width:64px;height:64px;margin-bottom:26px;background:var(--ink)}
+.shape.c{border-radius:50%}.shape.h{border-radius:64px 64px 0 0;height:32px;margin-top:32px}.shape.q{border-radius:64px 0 0 0}
+.steps h3{font-weight:700;font-size:24px;line-height:1.12;letter-spacing:-.02em;margin:0 0 10px}
+.steps p{margin:0;font-size:16px;color:var(--ink-70)}
+
+/* ---------- fêtes: each poster on its own colour field ---------- */
+.fetes{background:var(--ink);color:var(--paper);padding-block:clamp(72px,9vw,128px)}
+.fetes h2 em{font-style:normal;color:var(--sun)}
+.fhead{display:flex;justify-content:space-between;align-items:end;gap:24px}
+.fhead p{color:rgba(246,241,231,.6);max-width:22rem;margin:0 0 44px}
+.strip{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;padding:0 var(--gut) 16px max(var(--gut),calc((100vw - 1300px)/2 + var(--gut)));scrollbar-width:thin;scrollbar-color:rgba(246,241,231,.3) transparent}
+.card{flex:0 0 clamp(250px,24vw,320px);scroll-snap-align:start;text-decoration:none}
+.field{position:relative;aspect-ratio:4/5;border-radius:20px;overflow:hidden;background:var(--bg);display:grid;place-items:center;padding:14%}
+.field::before{content:"";position:absolute;background:var(--fg);transition:transform .7s var(--ease)}
+.field.c::before{width:90%;aspect-ratio:1;border-radius:50%;left:-20%;bottom:-25%}
+.field.h::before{width:110%;height:55%;border-radius:999px 999px 0 0;left:-5%;bottom:-10%}
+.field.q::before{width:90%;aspect-ratio:1;border-radius:100% 0 0 0;right:-10%;bottom:-10%}
+.card:hover .field::before{transform:rotate(-12deg) scale(1.08)}
+.field img{position:relative;width:100%;max-height:100%;object-fit:contain;border-radius:6px;box-shadow:0 18px 30px -16px rgba(0,0,0,.55);transition:transform .5s var(--ease)}
+.card:hover .field img{transform:translateY(-6px) rotate(-1.5deg)}
+.card h3{font-weight:700;font-size:19px;line-height:1.2;margin:16px 0 4px}
+.card time{font-size:14px;color:rgba(246,241,231,.6)}
+
+/* ---------- founders ---------- */
+.us{display:grid;grid-template-columns:6fr 5fr;gap:clamp(32px,6vw,96px);align-items:center;padding-block:clamp(80px,10vw,140px)}
+.ph{position:relative}
+.ph img{position:relative;z-index:1;border-radius:24px;aspect-ratio:5/4;object-fit:cover;object-position:50% 35%;width:100%}
+.ph::before{content:"";position:absolute;width:42%;aspect-ratio:1;border-radius:50%;background:var(--sun);right:-8%;top:-12%}
+.ph::after{content:"";position:absolute;width:30%;aspect-ratio:1;border-radius:0 0 0 100%;background:var(--coral);left:-6%;bottom:-8%}
+.us h2{margin:14px 0 22px}
+.us p{color:var(--ink-70);margin:0 0 26px;max-width:30rem}
+.vals{display:flex;flex-wrap:wrap;gap:10px;list-style:none;margin:0 0 30px;padding:0}
+.vals li{font-weight:600;padding:9px 16px;border-radius:999px;background:var(--c)}
+
+.credits{border-top:1px solid var(--ink-12);padding-block:clamp(64px,8vw,104px);display:grid;grid-template-columns:4fr 8fr;gap:40px}
+.credits h2{font-weight:750;font-size:clamp(30px,3vw,44px);line-height:1;letter-spacing:-.03em;margin:0}
+.credits ul{list-style:none;margin:0;padding:0;columns:3;column-gap:24px;font-size:17px;line-height:2;font-weight:500}
+.credits .sp{color:var(--ink-50)}
+
+.end{background:var(--coral);padding-block:clamp(80px,11vw,150px);position:relative;overflow:hidden}
+.end h2{font-weight:750;font-size:clamp(44px,7vw,112px);line-height:.92;letter-spacing:-.045em;margin:0 0 24px;max-width:10em;position:relative}
+.end p{max-width:32rem;margin:0 0 32px;position:relative}
+.end .acts{position:relative}
+.end::before{content:"";position:absolute;width:clamp(220px,32vw,460px);aspect-ratio:1;border-radius:50%;background:var(--sun);right:-6%;top:-20%}
+.end::after{content:"";position:absolute;width:clamp(160px,20vw,280px);aspect-ratio:2/1;border-radius:999px 999px 0 0;background:var(--ink);right:12%;bottom:0}
+footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:26px var(--gut);font-size:14px;color:var(--ink-50)}
+
+/* switcher (prototype only) */
+.sw{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:60;display:flex;gap:4px;padding:5px;background:var(--ink);border-radius:999px;box-shadow:0 8px 24px rgba(0,0,0,.25);font:500 13px/1 var(--f)}
+.sw button{all:unset;cursor:pointer;color:rgba(255,255,255,.65);padding:10px 16px;border-radius:999px;white-space:nowrap}
+.sw button[aria-pressed="true"]{background:#fff;color:var(--ink);font-weight:700}
+.sw button:focus-visible{outline:2px solid #fff}
+
+.rv{opacity:0;transform:translateY(22px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.rv.in{opacity:1;transform:none}
+@keyframes rise{from{opacity:0;transform:translateY(24px)}}
+
+@media (max-width:900px){
+  .top nav{display:none}
+  .hero{grid-template-columns:1fr;min-height:auto}
+  .stage{max-height:none;border-radius:20px}
+  .steps,.us,.credits{grid-template-columns:1fr}
+  .fhead{flex-direction:column;align-items:start}
+  .credits ul{columns:2}
+  .sw button{padding:9px 11px;font-size:12px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+</style>
+</head>
+<body data-art="1">
+<header class="top">
+  <a class="logo" href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#ff5a4e" d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.1 4.3 2.6.7-1.5 2.2-2.6 4.3-2.6 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z"/></svg>Cœurs Festifs</a>
+  <nav aria-label="Principale"><a href="#fetes">Les fêtes</a><a href="#comment">Comment ça marche</a><a href="#nous">Notre histoire</a><a href="#ecrire">Nous écrire</a><a href="#" lang="en">EN</a></nav>
+</header>
+
+<main>
+<section class="wrap hero">
+  <div>
+    <span class="k">Cœurs Festifs · Montréal</span>
+    <h1><span>Des moments</span><span>qui prennent</span><span><em>vie.</em></span></h1>
+    <p class="lead">Des fêtes accessibles pour les enfants en situation de vulnérabilité, organisées avec les organismes de leur quartier.</p>
+    <div class="acts"><a class="btn" href="#fetes">Voir les fêtes</a><a class="tl" href="#ecrire">Proposer un partenariat</a></div>
+  </div>
+  <div class="stage" id="stage" aria-hidden="true">
+    <div class="art geo" id="geo"></div>
+    <div class="art conf"><canvas id="cv"></canvas></div>
+    <div class="art mat">
+      <svg viewBox="0 0 600 600" preserveAspectRatio="xMidYMid slice">
+        <circle class="p" cx="420" cy="170" r="120" fill="#ffc23d" style="--t:16s;--x:-18px;--y:14px;--r:0deg"/>
+        <path class="p" d="M250 40c140 70 170 230 60 360-70 80-200 60-220-50-20-120 50-250 160-310z" fill="#ff5a4e" style="--t:20s;--x:16px;--y:-12px;--r:6deg"/>
+        <path class="p" d="M-20 450c70-70 140-70 210 0s140 70 210 0 140-70 220 0v170H-20z" fill="#2f5bea" style="--t:14s;--x:-24px;--y:-8px;--r:-2deg"/>
+        <path class="p" d="M470 300c50 30 70 90 40 140s-90 70-140 40-60-100-20-150 70-60 120-30z" fill="#2fa36b" style="--t:22s;--x:12px;--y:20px;--r:-14deg"/>
+        <path class="p" d="M110 120l22 48 52 6-38 36 10 52-46-26-46 26 10-52-38-36 52-6z" fill="#14183a" style="--t:12s;--x:10px;--y:10px;--r:30deg"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section class="says">
+  <div class="wrap rv">
+    <p>Jusqu'ici, <span class="badge c">36</span> bénévoles ont organisé ou soutenu <span class="badge h">9</span> fêtes, avec <span class="badge q">12</span> organismes <span class="muted">partenaires et commanditaires de Montréal.</span></p>
+  </div>
+</section>
+
+<section class="wrap how" id="comment">
+  <h2 class="rv">Une fête, en trois temps.</h2>
+  <ol class="steps">
+    <li class="rv"><div class="shape q" aria-hidden="true"></div><h3>On s'associe à un organisme du quartier.</h3><p>Répit Providence, PROMIS, Mountain Sights… Ce sont eux qui connaissent les familles et les lieux.</p></li>
+    <li class="rv"><div class="shape c" aria-hidden="true"></div><h3>On prépare tout avec nos bénévoles.</h3><p>Activités, jeux, décor, accueil : 36 bénévoles ont déjà mis la main à la pâte.</p></li>
+    <li class="rv"><div class="shape h" aria-hidden="true"></div><h3>Les enfants vivent leur journée.</h3><p>Une fête accessible, où chaque enfant est accueilli, célébré et pleinement inclus.</p></li>
+  </ol>
+</section>
+
+<section class="fetes" id="fetes">
+  <div class="wrap fhead rv"><h2>2025, <em>neuf fêtes.</em></h2><p>De la bataille de boules de neige de janvier à la guignolée de décembre. Glissez pour tout voir.</p></div>
+  <div class="strip" id="strip"></div>
+</section>
+
+<section class="wrap us" id="nous">
+  <div class="ph rv"><img src="../src/assets/commonPic.jpg" alt="Les deux co-fondatrices de Cœurs Festifs" width="1074" height="1074" loading="lazy" decoding="async"></div>
+  <div class="rv">
+    <span class="k">Notre histoire</span>
+    <h2>Deux étudiantes en médecine, une idée simple.</h2>
+    <p>Chaque enfant mérite sa journée de fête, et d'y être pleinement inclus. C'est ce qui guide tout ce qu'on organise.</p>
+    <ul class="vals"><li style="--c:var(--pink)">Compassion</li><li style="--c:var(--sun)">Communauté</li><li style="--c:#bcd0ff">Inclusion</li></ul>
+    <a class="tl" href="#">Lire notre histoire</a>
+  </div>
+</section>
+
+<section class="wrap credits" id="complices">
+  <h2>Avec la complicité de 12 organismes.</h2>
+  <ul><li>Fondation du Dr Julien</li><li>Répit Providence</li><li>Centre Mountain Sights</li><li>PROMIS</li><li>Maison de la culture CDN</li><li>Carrefour Jeunesse Emploi</li><li>Garage à Musique</li><li>Mini Molars Club</li><li class="sp">Scholastic</li><li class="sp">Librairie Gallimard</li><li class="sp">Les Débrouillards</li><li class="sp">Fondation Réno-Jouets</li></ul>
+</section>
+
+<section class="end" id="ecrire">
+  <div class="wrap">
+    <h2>Le prochain moment se prépare.</h2>
+    <p>Aucune date n'est annoncée pour l'instant. Suivez-nous pour l'apprendre en premier, ou écrivez-nous pour en organiser un avec votre organisme.</p>
+    <div class="acts"><a class="btn" href="#">Suivre sur Instagram</a><a class="tl" href="#">Proposer un partenariat</a></div>
+  </div>
+</section>
+</main>
+<footer><span>© Cœurs Festifs · Montréal</span><span><a href="#">Instagram</a> · <a href="#">LinkedIn</a> · <a href="#">Courriel</a></span></footer>
+
+<div class="sw" role="group" aria-label="Art du héros">
+  <button data-set="1">1 · Géométrie</button><button data-set="2">2 · Confettis</button><button data-set="3">3 · Matisse</button>
+</div>
+
+<script>
+const PAL=["#ff5a4e","#ffc23d","#2f5bea","#ffb3c7","#2fa36b","#14183a","#f6f1e7"];
+const calm=matchMedia('(prefers-reduced-motion:reduce)').matches;
+const rnd=a=>a[Math.floor(Math.random()*a.length)];
+const stage=document.getElementById('stage');let onScreen=true;
+new IntersectionObserver(([e])=>{onScreen=e.isIntersecting;stage.classList.toggle('paused',!onScreen);if(onScreen&&document.body.dataset.art==='2')startConf()}).observe(stage);
+
+/* art 1 · géométrie: 25 tiles assemble, then one tile turns or changes at a time */
+const geo=document.getElementById('geo'),SH=["c","h","q","r","s"];
+function paint(t){let bg=rnd(PAL),fg;do fg=rnd(PAL);while(fg===bg);
+  t.style.setProperty('--bg',bg);const i=t.firstChild;i.className=rnd(SH);i.style.setProperty('--fg',fg);i.style.setProperty('--rot',(Math.floor(Math.random()*4)*90)+'deg')}
+for(let k=0;k<25;k++){const t=document.createElement('div');t.className='t';t.style.setProperty('--dl',(calm?0:(k%5+Math.floor(k/5))*60)+'ms');t.appendChild(document.createElement('i'));paint(t);geo.appendChild(t)}
+setInterval(()=>{if(calm||!onScreen||document.hidden||document.body.dataset.art!=='1')return;
+  const t=geo.children[Math.floor(Math.random()*25)],i=t.firstChild;
+  i.style.setProperty('--rot',(parseInt(i.style.getPropertyValue('--rot'))+90)+'deg');if(Math.random()<.5)paint(t)},1400);
+
+/* art 2 · confettis: flat shapes drifting up, they make room for the cursor */
+const cv=document.getElementById('cv'),cx=cv.getContext('2d');let W=0,H=0,parts=[],mx=-1e3,my=-1e3,raf=0;
+function size(){const r=cv.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,2);W=r.width;H=r.height;cv.width=W*d;cv.height=H*d;cx.setTransform(d,0,0,d,0,0)}
+function seed(){parts=Array.from({length:Math.round(W*H/4200)},()=>({x:Math.random()*W,y:Math.random()*H,s:10+Math.random()*26,a:Math.random()*6.28,va:(Math.random()-.5)*.02,vy:.15+Math.random()*.45,dx:0,dy:0,k:Math.floor(Math.random()*5),c:rnd(["#ff5a4e","#ffc23d","#ffb3c7","#2fa36b","#f6f1e7"])}))}
+function shape(p){cx.save();cx.translate(p.x+p.dx,p.y+p.dy);cx.rotate(p.a);cx.fillStyle=cx.strokeStyle=p.c;cx.lineWidth=p.s*.22;cx.lineCap='round';const s=p.s;
+  if(p.k===0){cx.beginPath();cx.arc(0,0,s/2,0,6.28);cx.fill()}
+  else if(p.k===1){cx.beginPath();cx.arc(0,0,s/2,Math.PI,0);cx.fill()}
+  else if(p.k===2){cx.fillRect(-s/2,-s/5,s,s/2.5)}
+  else if(p.k===3){cx.beginPath();cx.moveTo(0,-s/2);cx.lineTo(s/2,s/2);cx.lineTo(-s/2,s/2);cx.fill()}
+  else{cx.beginPath();for(let i=0;i<=20;i++){const x=-s+i*s/10,y=Math.sin(i/20*6.28)*s/5;i?cx.lineTo(x,y):cx.moveTo(x,y)}cx.stroke()}
+  cx.restore()}
+function frame(){raf=0;if(document.body.dataset.art!=='2'||!onScreen)return;cx.clearRect(0,0,W,H);
+  for(const p of parts){if(!calm){p.y-=p.vy;p.a+=p.va;if(p.y<-40){p.y=H+40;p.x=Math.random()*W}
+    const ddx=p.x-mx,ddy=p.y-my,d=Math.hypot(ddx,ddy)||1,f=d<130?(130-d)*.6/d:0;p.dx+=(ddx*f-p.dx)*.08;p.dy+=(ddy*f-p.dy)*.08}
+    shape(p)}
+  if(!calm)raf=requestAnimationFrame(frame)}
+function startConf(){size();if(!parts.length)seed();if(!raf)raf=requestAnimationFrame(frame)}
+cv.addEventListener('pointermove',e=>{const r=cv.getBoundingClientRect();mx=e.clientX-r.left;my=e.clientY-r.top});
+cv.addEventListener('pointerleave',()=>{mx=my=-1e3});
+addEventListener('resize',()=>{if(document.body.dataset.art==='2'){size();seed();startConf()}});
+
+/* fêtes */
+const EV=[["choco.jpg","11 janv.","ChocoChaud et boules de neige"],["Gcpp.png","10 avr.","Grands cœurs, petits professeurs"],["30yB.png","23 août","Les 30 ans de Répit Providence"],["prismart.png","6 sept.","PRISMART"],["halloween.png","31 oct.","Fête d'Halloween"],["levee.jpg","1er nov.","Levée de fonds"],["foireMetier.png","22 nov.","Foire aux métiers"],["noelParty.jpg","13 déc.","Fête de Noël avec Promis"],["guignole.png","13 déc.","Guignolée du Dr Julien"]];
+const F=[["#ffc23d","#ff5a4e","c"],["#bcd0ff","#2f5bea","h"],["#ffb3c7","#ff5a4e","q"],["#2fa36b","#ffc23d","c"],["#ff5a4e","#ffc23d","h"],["#f6f1e7","#ffb3c7","q"],["#2f5bea","#bcd0ff","c"],["#ffc23d","#2fa36b","h"],["#ffb3c7","#2f5bea","q"]];
+document.getElementById('strip').innerHTML=EV.map(([i,d,t],k)=>`<a class="card" href="#"><div class="field ${F[k][2]}" style="--bg:${F[k][0]};--fg:${F[k][1]}"><img src="../src/assets/${i}" alt="Affiche : ${t}" ${k>4?'loading="lazy"':''} decoding="async"></div><h3>${t}</h3><time>${d} 2025</time></a>`).join('');
+
+/* switcher, remembered in the URL (?art=2) */
+const bs=document.querySelectorAll('.sw button');
+function setArt(v){document.body.dataset.art=v;bs.forEach(b=>b.setAttribute('aria-pressed',b.dataset.set===v));history.replaceState(null,'','?art='+v);if(v==='2')startConf()}
+bs.forEach(b=>b.onclick=()=>setArt(b.dataset.set));
+setArt(new URLSearchParams(location.search).get('art')||'1');
+
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.15});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

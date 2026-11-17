@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cœurs Festifs</title>
+<meta name="description" content="Des fêtes accessibles pour les enfants en situation de vulnérabilité, à Montréal.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Caveat+Brush&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="../src/assets/halloween.png" fetchpriority="high">
+<style>
+html,body{background:#fff5ef;margin:0}
+:root{
+  /* from the logo */
+  --paper:#fff5ef;--blush:#fde4e1;--coral:#f86668;--cherry:#c81e2b;--wine:#5e0b1c;--gold:#f2b92f;--cream:#fffaf5;
+  --ink:#2b1a24;--ink-70:rgba(43,26,36,.74);--ink-50:rgba(43,26,36,.52);--ink-15:rgba(43,26,36,.14);
+  --f:"Bricolage Grotesque",system-ui,sans-serif;--hand:"Caveat Brush","Comic Sans MS",cursive;
+  --ease:cubic-bezier(.22,1,.36,1);--gut:clamp(20px,4vw,56px);
+}
+*{box-sizing:border-box}
+body{font:400 18px/1.55 var(--f);font-optical-sizing:auto;color:var(--ink);overflow-x:clip}
+/* paper grain over everything, static and cheap */
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:50;opacity:.35;mix-blend-mode:multiply;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .55 0 0 0 0 .4 0 0 0 0 .38 0 0 0 .35 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")}
+::selection{background:var(--gold);color:var(--ink)}
+a{color:inherit}
+img{display:block;max-width:100%;height:auto}
+:focus-visible{outline:3px solid var(--cherry);outline-offset:3px;border-radius:4px}
+.wrap{max-width:1280px;margin:0 auto;padding-inline:var(--gut)}
+.hand{font-family:var(--hand);font-weight:400;letter-spacing:.01em;line-height:1.05}
+
+/* ---------- crayon kit ---------- */
+.dd{position:absolute;overflow:visible;pointer-events:none}
+.dd path{fill:none;stroke-linecap:round;stroke-linejoin:round;filter:url(#crayon)}
+.ln path,.fz path{stroke-dasharray:1;stroke-dashoffset:1}
+.fz path{filter:url(#wax)}
+.go .ln path,.go.ln path{animation:draw var(--d,.9s) var(--w,0s) cubic-bezier(.6,0,.3,1) forwards}
+.go .fz path,.go.fz path{animation:draw var(--d,1.6s) var(--w,0s) cubic-bezier(.45,0,.35,1) forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+/* highlighter scribble behind words */
+.hl{position:relative;display:inline-block;white-space:nowrap;z-index:0}
+.hl>svg{position:absolute;left:-5%;width:110%;top:42%;height:62%;z-index:-1}
+
+.btn{display:inline-flex;align-items:center;gap:10px;background:var(--cherry);color:var(--cream);padding:15px 26px;border-radius:14px;font-weight:700;font-size:16px;text-decoration:none;border:2px solid var(--ink);box-shadow:4px 4px 0 var(--ink);transition:transform .2s var(--ease),box-shadow .2s var(--ease),background .2s}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink);background:#a8141f}
+.btn:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
+.btn.lt{background:var(--cream);color:var(--ink)}
+.btn.lt:hover{background:var(--blush)}
+.tl{font-weight:700;text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:7px;text-decoration-color:var(--gold)}
+.tl:hover{text-decoration-color:var(--coral)}
+
+/* ---------- nav ---------- */
+header.top{display:flex;align-items:center;justify-content:space-between;padding:18px var(--gut);position:relative;z-index:5}
+.logo{display:flex;align-items:center;gap:12px;font-weight:800;font-size:20px;letter-spacing:-.02em;text-decoration:none}
+.lm{width:52px;height:52px;border-radius:50%;overflow:hidden;background:var(--blush);border:2px solid var(--ink);flex:none;rotate:-6deg}
+.lm img{width:200%;max-width:none;margin:-44% 0 0 -54%}
+.top nav{display:flex;align-items:center;gap:28px;font-size:15px;font-weight:600}
+.top nav a:not(.btn){position:relative;text-decoration:none;color:var(--ink-70);padding:4px 0}
+.top nav a:not(.btn)::after{content:"";position:absolute;left:-6%;right:-6%;bottom:-4px;height:9px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 9' preserveAspectRatio='none'%3E%3Cpath d='M2 6C25 2 55 8 98 3' fill='none' stroke='%23f86668' stroke-width='3.4' stroke-linecap='round'/%3E%3C/svg%3E") center/100% 100% no-repeat;transform:scaleX(0);transform-origin:left;transition:transform .3s var(--ease)}
+.top nav a:not(.btn):hover{color:var(--ink)}.top nav a:not(.btn):hover::after{transform:scaleX(1)}
+.top nav .btn{padding:10px 18px;font-size:14px;box-shadow:3px 3px 0 var(--ink)}
+
+/* ---------- hero ---------- */
+.hero{display:grid;grid-template-columns:7fr 5fr;gap:clamp(24px,5vw,80px);align-items:center;padding-block:clamp(24px,5vh,60px) clamp(80px,11vh,130px);position:relative}
+.kick{display:inline-flex;align-items:center;gap:8px;font-size:clamp(22px,2vw,28px);color:var(--cherry);rotate:-2deg}
+.kick svg{width:26px;height:26px;position:static}
+h1{font-weight:800;font-size:clamp(52px,7vw,116px);line-height:.9;letter-spacing:-.045em;margin:14px 0 30px;font-variation-settings:"opsz" 96}
+h1 .l{display:block;white-space:nowrap;animation:rise .9s var(--ease) both}
+h1 .l+.l{animation-delay:.1s}
+h1 .l:last-child{animation-delay:.2s}
+.vie{color:var(--cherry);position:relative;display:inline-block;font-style:normal;z-index:0}
+.vie>svg.hlz{position:absolute;left:-3%;width:108%;top:18%;height:78%;z-index:-1}
+.vie .spk1{width:.36em;height:.36em;right:-.46em;top:-.1em}
+.vie .spk2{width:.2em;height:.2em;right:-.62em;top:.32em}
+.lead{font-size:clamp(18px,1.5vw,21px);color:var(--ink-70);max-width:31rem;margin:0 0 36px;animation:rise .9s .3s var(--ease) both}
+.actions{display:flex;flex-wrap:wrap;align-items:center;gap:26px;animation:rise .9s .4s var(--ease) both}
+.conf{position:absolute;pointer-events:none}
+
+/* signature: a heart being coloured in, with the poster pile on top */
+.pile-wrap{justify-self:center;width:min(100%,390px);position:relative}
+.bigheart{position:absolute;left:-30%;top:-14%;width:160%;height:auto;aspect-ratio:1;z-index:0}
+.pile{position:relative;z-index:1;aspect-ratio:3/4;cursor:grab;touch-action:pan-y;-webkit-tap-highlight-color:transparent;user-select:none}
+.pile figure{position:absolute;inset:0;margin:0;border-radius:8px;overflow:hidden;background:#fff;border:6px solid #fff;box-shadow:0 1px 2px rgba(43,26,36,.14),0 16px 30px -12px rgba(94,11,28,.45);transition:transform .6s var(--ease),filter .6s;transform:var(--t)}
+.pile img{width:100%;height:100%;object-fit:cover;pointer-events:none}
+.pile img.wide{object-fit:contain;background:#fff}
+.pile figure[data-p="0"]{--t:rotate(-2.5deg);z-index:5}
+.pile figure[data-p="1"]{--t:translate(16px,8px) rotate(4deg);z-index:4;filter:brightness(.96)}
+.pile figure[data-p="2"]{--t:translate(-18px,14px) rotate(-7deg);z-index:3;filter:brightness(.92)}
+.pile figure[data-p="3"]{--t:translate(10px,22px) rotate(8deg);z-index:2;filter:brightness(.88)}
+.pile figure[data-p="4"]{--t:translate(0,26px) rotate(-1deg);z-index:1;filter:brightness(.85)}
+.pile figure.toss{animation:toss .7s var(--ease)}
+.tape{position:absolute;z-index:6;top:-14px;left:50%;width:100px;height:28px;margin-left:-50px;background:rgba(242,185,47,.72);rotate:-4deg;pointer-events:none;mix-blend-mode:multiply;clip-path:polygon(2% 0,98% 6%,100% 100%,0 94%)}
+.stk{position:absolute;z-index:8;left:-58px;bottom:130px;width:118px;border-radius:50%;overflow:hidden;border:6px solid #fff;box-shadow:0 10px 22px -8px rgba(94,11,28,.5);rotate:-12deg;transition:rotate .4s var(--ease)}
+.stk:hover{rotate:4deg}
+.hint{position:absolute;z-index:7;right:-34px;top:-56px;font-size:26px;color:var(--cherry);rotate:8deg}
+.hint .dd{width:46px;height:52px;left:-30px;top:20px}
+.cap{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:center;gap:16px;margin-top:44px;background:var(--cream);border:2px solid var(--ink);border-radius:14px;padding:12px 14px 12px 18px;box-shadow:4px 4px 0 var(--ink)}
+.cap b{display:block;font-weight:700;font-size:17px;letter-spacing:-.01em;line-height:1.2}
+.cap span{font-size:13px;color:var(--ink-50)}
+.next{all:unset;cursor:pointer;flex:none;display:grid;place-items:center;width:42px;height:42px;border-radius:50%;background:var(--gold);border:2px solid var(--ink);font-size:18px;transition:transform .3s var(--ease)}
+.next:hover{transform:rotate(90deg)}
+.next:focus-visible{outline:3px solid var(--cherry)}
+
+/* ---------- the sentence ---------- */
+.says{padding:clamp(72px,9vw,130px) 0;background:var(--blush);position:relative}
+.says p{font-weight:600;font-size:clamp(32px,4.4vw,66px);line-height:1.14;letter-spacing:-.03em;margin:0;max-width:20em}
+.says .hl{font-weight:800}
+.says .muted{color:var(--ink-50);font-weight:500}
+.edge{display:block;width:100%;height:22px;position:absolute;left:0}
+.edge.t{top:-21px}.edge.b{bottom:-21px;rotate:180deg}
+
+/* ---------- three steps ---------- */
+.how{padding-block:clamp(110px,12vw,160px) clamp(110px,12vw,170px)}
+.how-head{display:flex;justify-content:space-between;align-items:end;gap:24px;margin-bottom:56px}
+h2{font-weight:800;font-size:clamp(40px,4.9vw,78px);line-height:.95;letter-spacing:-.04em;margin:0}
+.how-head .hand{font-size:30px;color:var(--coral);rotate:-3deg;max-width:17rem;text-align:right}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(22px,3vw,40px);list-style:none;margin:0;padding:0}
+.steps li{position:relative;padding:30px 28px 32px;background:var(--cream);border:2px solid var(--ink);border-radius:20px;box-shadow:6px 6px 0 var(--c)}
+.steps li:nth-child(1){rotate:-1.2deg}
+.steps li:nth-child(2){translate:0 26px;rotate:.8deg}
+.steps li:nth-child(3){translate:0 52px;rotate:-.6deg}
+.steps li.rv.go:nth-child(2){translate:0 26px}
+.steps li.rv.go:nth-child(3){translate:0 52px}
+.ico{position:relative;width:96px;height:96px;margin-bottom:20px}
+.ico svg{position:absolute;inset:0;width:100%;height:100%}
+.num{position:absolute;right:24px;top:14px;font-size:56px;color:var(--c);opacity:.9}
+.steps h3{font-weight:700;font-size:24px;line-height:1.15;letter-spacing:-.02em;margin:0 0 10px}
+.steps p{margin:0;color:var(--ink-70);font-size:16px}
+
+/* ---------- the year ---------- */
+.year{background:var(--wine);color:var(--cream);padding:clamp(80px,9vw,130px) 0 clamp(70px,8vw,110px);position:relative}
+.year-head{display:flex;justify-content:space-between;align-items:end;gap:24px;margin-bottom:70px}
+.year-head p{color:rgba(255,250,245,.68);max-width:22rem;margin:0;font-size:16px}
+.months-wrap{position:relative}
+.months-wrap>.dd{left:0;top:0;width:100%;height:14px}
+.busy{position:absolute;right:0;top:-62px;font-size:30px;color:var(--gold);rotate:-3deg}
+.months{display:flex;gap:12px;align-items:stretch;padding-top:22px}
+.m{flex:.72 1 0;min-width:0;display:flex;flex-direction:column}
+.m.has{flex:2.6 1 0}
+.m h3{font:400 20px var(--hand);white-space:nowrap;margin:0 0 14px;color:rgba(255,250,245,.4);display:flex;align-items:center;gap:6px}
+.m.has h3{color:var(--gold)}
+.m.has h3::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--coral)}
+.m .slot{position:relative;aspect-ratio:3/4}
+.m .slot a{position:absolute;inset:0;transition:transform .45s var(--ease)}
+.m .slot a:nth-child(2){transform:translate(16%,14%) rotate(4deg)}
+.m .slot a:hover{transform:translateY(-10px) rotate(-2deg) scale(1.04);z-index:3}
+.m .slot img{width:100%;height:100%;object-fit:cover;border-radius:4px;border:4px solid #fff;box-shadow:0 14px 30px -12px rgba(0,0,0,.6)}
+.m .slot img.wide{height:auto}
+.m ul{list-style:none;margin:0;padding:20px 0 0;font-size:14px;line-height:1.35;color:rgba(255,250,245,.75)}
+.m .slot:has(a:nth-child(2))+ul{padding-top:44px}
+.m li+li{margin-top:10px}
+.m li b{color:var(--cream);font-weight:700;display:block}
+.m.empty .slot{display:flex;justify-content:center}
+.m.empty .slot::before{content:"";width:2px;height:55%;margin-top:10%;background:repeating-linear-gradient(to bottom,rgba(255,250,245,.22) 0 4px,transparent 4px 10px)}
+
+/* ---------- founders ---------- */
+.us{display:grid;grid-template-columns:6fr 5fr;gap:clamp(36px,6vw,100px);align-items:center;padding-block:clamp(110px,12vw,160px) clamp(90px,10vw,140px)}
+.ph{position:relative;rotate:-2deg}
+.ph .frame{background:#fff;padding:14px 14px 64px;box-shadow:0 22px 40px -18px rgba(94,11,28,.45)}
+.ph img{width:100%;aspect-ratio:5/4;object-fit:cover;object-position:50% 35%}
+.ph .cap2{position:absolute;left:0;right:0;bottom:16px;text-align:center;font-size:30px;color:var(--ink)}
+.ph .tape{top:-12px;left:18%;rotate:-8deg}
+.ph .tape+.tape{left:auto;right:4%;rotate:10deg;background:rgba(248,102,104,.6)}
+.ph .note{position:absolute;right:-44px;top:-74px;font-size:34px;color:var(--cherry);rotate:-6deg}
+.ph .arrow{width:90px;height:70px;right:-6px;top:-46px}
+.ph .h1s{width:70px;height:70px;left:-38px;bottom:30px}
+.us .kk{font-size:26px;color:var(--coral);display:inline-block;rotate:-2deg}
+.us h2{margin:8px 0 22px}
+.us p{color:var(--ink-70);margin:0 0 30px;max-width:30rem}
+.vals{display:flex;flex-wrap:wrap;gap:12px;margin:0 0 34px;padding:0;list-style:none}
+.vals li{font-weight:700;font-size:18px;padding:8px 18px;border:2px solid var(--ink);border-radius:999px;background:var(--c);rotate:var(--r)}
+
+/* ---------- credits ---------- */
+.credits{padding:clamp(70px,8vw,120px) 0;text-align:center;background:var(--blush);position:relative}
+.merci{position:relative;display:inline-block;font-size:44px;color:var(--cherry);rotate:-5deg;margin-bottom:6px}
+.merci .dd{width:40px;height:40px;right:-48px;top:0}
+.credits h2{font-size:clamp(30px,3.4vw,46px);margin:0 0 44px}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:28px;max-width:860px;margin:0 auto;text-align:left}
+.cols>div{background:var(--cream);border:2px solid var(--ink);border-radius:20px;padding:26px 28px;box-shadow:5px 5px 0 var(--c)}
+.cols h3{font:400 28px var(--hand);color:var(--cherry);margin:0 0 10px}
+.cols ul{list-style:none;margin:0;padding:0;font-size:18px;line-height:1.95;font-weight:600}
+.cols li{display:flex;align-items:center;gap:10px}
+.cols li::before{content:"";flex:none;width:14px;height:13px;background:var(--c);clip-path:path("M7 13C2 9.5 0 7 0 4.2 0 1.8 1.8 0 3.8 0 5.1 0 6.3.7 7 2 7.7.7 8.9 0 10.2 0 12.2 0 14 1.8 14 4.2 14 7 12 9.5 7 13Z")}
+
+/* ---------- closing ---------- */
+.end{background:var(--gold);padding:clamp(90px,11vw,150px) 0;position:relative;overflow:hidden}
+.end .wrap{position:relative;display:grid;grid-template-columns:7fr 5fr;gap:40px;align-items:center}
+.end h2{font-size:clamp(46px,7vw,112px);line-height:.92;margin:0 0 26px}
+.end p{max-width:32rem;color:var(--ink-70);margin:0 0 34px}
+.endart{position:relative;width:100%;max-width:440px;justify-self:center}
+.endart .heart{width:100%;height:auto;aspect-ratio:1;position:relative}
+.endart .stk{left:auto;right:-10px;bottom:-6px;width:130px;rotate:10deg}
+footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:28px var(--gut);font-size:14px;color:var(--cream);background:var(--wine)}
+footer a{color:var(--cream)}
+
+.rv{opacity:0;translate:0 24px;transition:opacity .8s var(--ease),translate .8s var(--ease)}
+.rv.go{opacity:1;translate:0 0}
+@keyframes rise{from{opacity:0;transform:translateY(24px)}}
+@keyframes toss{0%{transform:rotate(-2.5deg)}45%{transform:translate(-72%,-6%) rotate(-16deg)}100%{transform:var(--t)}}
+@keyframes bob{50%{translate:0 -6px}}
+.conf svg{animation:bob 4s ease-in-out infinite}
+
+@media (max-width:1100px){.hint{display:none}}
+@media (max-width:900px){
+  .top nav a:not(.btn){display:none}
+  .hero,.us,.end .wrap{grid-template-columns:1fr}
+  .pile-wrap{width:min(74%,320px);margin:40px auto 0}
+  .bigheart{left:-15%;width:130%;top:-10%}
+  .stk{left:-36px;width:92px}
+  .how-head,.year-head{flex-direction:column;align-items:start}
+  .how-head .hand{text-align:left}
+  .steps{grid-template-columns:1fr}
+  .steps li:nth-child(n),.steps li.rv.go:nth-child(n){translate:none}
+  .months-wrap{overflow-x:auto;scrollbar-width:none;margin-right:calc(var(--gut) * -1);padding-right:var(--gut)}
+  .months-wrap::-webkit-scrollbar{display:none}
+  .months{width:max-content}
+  .months-wrap>.dd{width:1500px}
+  .m{flex:0 0 40px}.m.has{flex:0 0 170px}
+  .busy{position:static;margin:0 0 14px;font-size:24px;display:block}
+  .ph .note{right:10px}.ph .arrow{right:40px}
+  .cols{grid-template-columns:1fr}
+  .endart{max-width:280px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .ln path,.fz path{stroke-dashoffset:0}
+  .rv{opacity:1;translate:none}
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="crayon" x="-20%" y="-20%" width="140%" height="140%">
+    <feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="4" result="w"/>
+    <feDisplacementMap in="SourceGraphic" in2="w" scale="2.4" result="d"/>
+    <feTurbulence type="fractalNoise" baseFrequency="1.4" numOctaves="1" seed="11" result="g"/>
+    <feColorMatrix in="g" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  3 0 0 0 -.8" result="grain"/>
+    <feComposite in="d" in2="grain" operator="in"/>
+  </filter>
+  <!-- denser wax for coloured-in areas -->
+  <filter id="wax" x="-10%" y="-10%" width="120%" height="120%">
+    <feTurbulence type="fractalNoise" baseFrequency=".7" numOctaves="2" seed="7" result="w"/>
+    <feDisplacementMap in="SourceGraphic" in2="w" scale="3" result="d"/>
+    <feTurbulence type="fractalNoise" baseFrequency="1.2" numOctaves="1" seed="3" result="g"/>
+    <feColorMatrix in="g" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  2.4 0 0 0 -.35" result="grain"/>
+    <feComposite in="d" in2="grain" operator="in"/>
+  </filter>
+</svg>
+
+<header class="top">
+  <a class="logo" href="#"><span class="lm"><img src="../src/assets/logo.png" alt="" width="104" height="104"></span>Cœurs Festifs</a>
+  <nav aria-label="Principale"><a href="#annee">Les fêtes</a><a href="#comment">Comment ça marche</a><a href="#nous">Notre histoire</a><a href="#complices">Partenaires</a><a href="#" lang="en">EN</a><a class="btn" href="#ecrire">Nous écrire</a></nav>
+</header>
+
+<main>
+<section class="wrap hero go">
+  <div class="conf" style="left:44%;top:6%" aria-hidden="true"><svg class="dd ln" style="position:static;width:46px;height:30px;--w:1.4s" viewBox="0 0 46 30"><path pathLength="1" stroke="#f86668" stroke-width="3.4" d="M3 20c6-14 10 8 16-6s10 8 16-6 8 4 8 4"/></svg></div>
+  <div class="conf" style="left:56%;top:74%" aria-hidden="true"><svg class="dd ln" style="position:static;width:34px;height:34px;--w:1.7s" viewBox="0 0 34 34"><path pathLength="1" stroke="#f2b92f" stroke-width="3.4" d="M17 17c0-3 4-3 4 0s-5 6-8 3-1-11 5-11 11 6 9 13-11 9-16 5"/></svg></div>
+  <div>
+    <span class="kick hand"><svg class="dd ln" style="--w:.2s" viewBox="0 0 24 24" aria-hidden="true"><path pathLength="1" stroke="#f2b92f" stroke-width="2.6" d="M12 2C13 9 15 11 22 12 15 13 13 15 12 22 11 15 9 13 2 12 9 11 11 9 12 2Z"/></svg>Des fêtes pour les enfants, à Montréal</span>
+    <h1><span class="l">Des moments</span><span class="l">qui prennent</span><span class="l"><em class="vie">vie.<svg class="hlz dd" data-zz="gold" style="--w:.9s;--d:1s" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"></svg><svg class="dd ln spk1" style="--w:1.8s;--d:.5s" viewBox="0 0 24 24" aria-hidden="true"><path pathLength="1" stroke="#f86668" stroke-width="2.6" d="M12 2C13 9 15 11 22 12 15 13 13 15 12 22 11 15 9 13 2 12 9 11 11 9 12 2Z"/></svg><svg class="dd ln spk2" style="--w:2.1s;--d:.4s" viewBox="0 0 24 24" aria-hidden="true"><path pathLength="1" stroke="#f2b92f" stroke-width="3" d="M12 2C13 9 15 11 22 12 15 13 13 15 12 22 11 15 9 13 2 12 9 11 11 9 12 2Z"/></svg></em></span></h1>
+    <p class="lead">Des fêtes accessibles pour les enfants en situation de vulnérabilité, organisées main dans la main avec les organismes de leur quartier.</p>
+    <div class="actions"><a class="btn" href="#annee">Voir nos fêtes</a><a class="tl" href="#ecrire">Devenir bénévole</a></div>
+  </div>
+
+  <div class="pile-wrap">
+    <svg class="bigheart dd" data-heart="coral" style="--w:.3s;--d:2s" viewBox="0 0 100 100" aria-hidden="true"></svg>
+    <div class="pile" id="pile" role="img" aria-label="Affiches de nos fêtes"><span class="tape" aria-hidden="true"></span></div>
+    <div class="stk"><img src="../src/assets/logo.png" alt="Logo de Cœurs Festifs" width="848" height="848"></div>
+    <div class="cap"><div aria-live="polite"><b id="capT"></b><span id="capD"></span></div><button class="next" id="next" type="button" aria-label="Moment suivant">↻</button></div>
+  </div>
+</section>
+
+<section class="says">
+  <svg class="edge t" viewBox="0 0 1200 22" preserveAspectRatio="none" aria-hidden="true"><path fill="#fde4e1" d="M0 22V12C60 4 120 18 200 10S340 2 420 12 560 20 640 10 780 2 860 12 1000 20 1080 10 1160 6 1200 12V22Z"/></svg>
+  <div class="wrap rv">
+    <p>Jusqu'ici, <span class="hl">36 bénévoles<svg class="dd" data-zz="gold" style="--w:.3s;--d:.7s" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"></svg></span> ont organisé ou soutenu <span class="hl">9 fêtes<svg class="dd" data-zz="coral" style="--w:.8s;--d:.6s" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"></svg></span>, avec <span class="hl">12 organismes<svg class="dd" data-zz="gold" style="--w:1.3s;--d:.7s" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"></svg></span> <span class="muted">partenaires et commanditaires de Montréal.</span></p>
+  </div>
+  <svg class="edge b" viewBox="0 0 1200 22" preserveAspectRatio="none" aria-hidden="true"><path fill="#fde4e1" d="M0 22V12C60 4 120 18 200 10S340 2 420 12 560 20 640 10 780 2 860 12 1000 20 1080 10 1160 6 1200 12V22Z"/></svg>
+</section>
+
+<section class="wrap how" id="comment">
+  <div class="how-head rv"><h2>Une fête, en trois temps.</h2><span class="hand">et beaucoup de bénévoles motivés !</span></div>
+  <ol class="steps">
+    <li class="rv" style="--c:var(--coral)"><div class="ico"><svg class="dd" data-shape="house" data-fill="#f9b6b4" data-line="#c81e2b" viewBox="0 0 100 100" aria-hidden="true"></svg></div><span class="num hand" aria-hidden="true">1</span><h3>On s'associe à un organisme du quartier.</h3><p>Répit Providence, PROMIS, Mountain Sights… Ce sont eux qui connaissent les familles et les lieux.</p></li>
+    <li class="rv" style="--c:var(--gold)"><div class="ico"><svg class="dd" data-shape="heart" data-fill="#f86668" data-line="#c81e2b" viewBox="0 0 100 100" aria-hidden="true"></svg></div><span class="num hand" aria-hidden="true">2</span><h3>On prépare tout avec nos bénévoles.</h3><p>Activités, jeux, décor, accueil : 36 bénévoles ont déjà mis la main à la pâte.</p></li>
+    <li class="rv" style="--c:var(--cherry)"><div class="ico"><svg class="dd" data-shape="star" data-fill="#f2b92f" data-line="#c81e2b" viewBox="0 0 100 100" aria-hidden="true"></svg></div><span class="num hand" aria-hidden="true">3</span><h3>Les enfants vivent leur journée.</h3><p>Une fête accessible, où chaque enfant est accueilli, célébré et pleinement inclus.</p></li>
+  </ol>
+</section>
+
+<section class="year" id="annee">
+  <div class="wrap">
+    <div class="year-head rv"><h2>2025, <span class="hl">mois par mois.<svg class="dd" data-zz="cherry" style="--w:.4s;--d:.8s" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"></svg></span></h2><p>De la bataille de boules de neige de janvier à la guignolée de décembre.</p></div>
+    <div class="months-wrap rv">
+      <span class="busy hand" aria-hidden="true">5 fêtes en 3 mois !</span>
+      <svg class="dd ln" style="--w:.2s;--d:1.8s" viewBox="0 0 1000 14" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" stroke="#f2b92f" stroke-width="2.6" d="M2 7Q60 1 125 7T250 7T375 7T500 7T625 7T750 7T875 7T998 7"/></svg>
+      <div class="months" id="months"></div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap us" id="nous">
+  <div class="ph rv">
+    <span class="tape" aria-hidden="true"></span><span class="tape" aria-hidden="true"></span>
+    <div class="frame"><img src="../src/assets/commonPic.jpg" alt="Les deux co-fondatrices de Cœurs Festifs, souriantes" loading="lazy" decoding="async" width="1074" height="1074"><span class="cap2 hand">les fondatrices</span></div>
+    <span class="note hand" aria-hidden="true">c'est nous !</span>
+    <svg class="dd ln arrow" style="--w:.5s" viewBox="0 0 120 90" aria-hidden="true"><path pathLength="1" stroke="#c81e2b" stroke-width="2.6" d="M110 8C70 2 30 18 24 62M38 52L24 66l-8-18"/></svg>
+    <svg class="dd h1s" data-heart="gold" style="--w:.8s;--d:1.2s" viewBox="0 0 100 100" aria-hidden="true"></svg>
+  </div>
+  <div class="rv">
+    <span class="kk hand">notre histoire</span>
+    <h2>Deux étudiantes en médecine, une idée simple.</h2>
+    <p>Chaque enfant mérite sa journée de fête, et d'y être pleinement inclus. C'est ce qui guide tout ce qu'on organise.</p>
+    <ul class="vals"><li style="--c:var(--coral);--r:-2deg">Compassion</li><li style="--c:var(--gold);--r:1.5deg">Communauté</li><li style="--c:var(--blush);--r:-1deg">Inclusion</li></ul>
+    <a class="tl" href="#">Lire notre histoire</a>
+  </div>
+</section>
+
+<section class="credits" id="complices">
+  <svg class="edge t" viewBox="0 0 1200 22" preserveAspectRatio="none" aria-hidden="true"><path fill="#fde4e1" d="M0 22V12C60 4 120 18 200 10S340 2 420 12 560 20 640 10 780 2 860 12 1000 20 1080 10 1160 6 1200 12V22Z"/></svg>
+  <div class="wrap rv">
+    <span class="merci hand">merci !<svg class="dd ln" style="--w:.5s" viewBox="0 0 80 80" aria-hidden="true"><path pathLength="1" stroke="#c81e2b" stroke-width="4" d="M40 68C14 50 8 32 20 22c10-8 18-2 20 6 2-8 10-14 20-6 12 10 6 28-20 46z"/></svg></span>
+    <h2>Avec la complicité de 12 organismes</h2>
+    <div class="cols">
+      <div style="--c:var(--coral)"><h3>Partenaires</h3><ul><li>Fondation du Dr Julien</li><li>Répit Providence</li><li>Centre Mountain Sights</li><li>PROMIS</li><li>Maison de la culture CDN</li><li>Carrefour Jeunesse Emploi</li><li>Garage à Musique</li><li>Mini Molars Club</li></ul></div>
+      <div style="--c:var(--gold)"><h3>Commanditaires</h3><ul><li>Scholastic</li><li>Librairie Gallimard</li><li>Les Débrouillards</li><li>Fondation Réno-Jouets</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<section class="end" id="ecrire">
+  <div class="wrap">
+    <div class="rv">
+      <h2>La prochaine fête se prépare.</h2>
+      <p>Aucune date n'est annoncée pour l'instant. Suivez-nous pour l'apprendre en premier, ou écrivez-nous pour en organiser une avec votre organisme.</p>
+      <div class="actions"><a class="btn" href="#">Suivre sur Instagram</a><a class="btn lt" href="#">Proposer un partenariat</a></div>
+    </div>
+    <div class="endart rv">
+      <svg class="heart dd" data-heart="cherry" style="position:relative;--w:.4s;--d:2s" viewBox="0 0 100 100" aria-hidden="true"></svg>
+      <div class="stk"><img src="../src/assets/logo.png" alt="" width="848" height="848" loading="lazy"></div>
+    </div>
+  </div>
+</section>
+</main>
+<footer><span>© Cœurs Festifs · Montréal</span><span><a href="#">Instagram</a> · <a href="#">LinkedIn</a> · <a href="#">Courriel</a></span></footer>
+
+<script>
+const EV=[
+  {img:"choco.jpg",d:"11 janv.",m:0,t:"ChocoChaud et boules de neige"},
+  {img:"Gcpp.png",d:"10 avr.",m:3,t:"Grands cœurs, petits professeurs"},
+  {img:"30yB.png",d:"23 août",m:7,t:"Les 30 ans de Répit Providence"},
+  {img:"prismart.png",d:"6 sept.",m:8,t:"PRISMART"},
+  {img:"halloween.png",d:"31 oct.",m:9,t:"Fête d'Halloween"},
+  {img:"levee.jpg",d:"1er nov.",m:10,t:"Levée de fonds"},
+  {img:"foireMetier.png",d:"22 nov.",m:10,t:"Foire aux métiers"},
+  {img:"noelParty.jpg",d:"13 déc.",m:11,t:"Fête de Noël avec PROMIS"},
+  {img:"guignole.png",d:"13 déc.",m:11,t:"Guignolée du Dr Julien"}
+];
+const src=i=>"../src/assets/"+i;
+const calm=matchMedia('(prefers-reduced-motion:reduce)').matches;
+const COL={gold:"#f2b92f",coral:"#f86668",cherry:"#c81e2b",blush:"#fde4e1"};
+
+/* crayon colouring-in: back-and-forth strokes clipped to a shape */
+/* m = side margin: negative overshoots (clipped shapes), positive stays inside (highlights) */
+const zz=(w,h,gap,j=1.4,m=-6,top=-gap,bot=h+gap)=>{let d=`M${m} ${top}`,y=top,r=1;while(y<bot){y+=gap;d+=`L${r?w-m:m} ${Math.min(bot,y+(Math.random()-.5)*j*2).toFixed(1)}`;r^=1}return d};
+const SH={
+  heart:"M50 88C20 68 6 50 8 32 10 16 26 8 38 12c6 2 10 6 12 12 2-6 6-10 12-12 12-4 28 4 30 20 2 18-12 36-42 56Z",
+  house:"M12 50L50 16l38 34M22 42v44h56V42M42 86V64h16v22",
+  houseFill:"M22 44L50 19l28 25v42H22Z",
+  star:"M50 8l11 27 29 2-22 19 7 29-25-16-25 16 7-29-22-19 29-2Z"
+};
+let uid=0;
+function colour(svg,shape,fill,line,gap){
+  const id='c'+(uid++),clip=shape==='house'?SH.houseFill:SH[shape],w=parseFloat(getComputedStyle(svg).getPropertyValue('--w'))||0;
+  svg.innerHTML=`<defs><clipPath id="${id}"><path d="${clip}"/></clipPath></defs>
+  <g class="fz" clip-path="url(#${id})"><path pathLength="1" stroke="${fill}" stroke-width="${gap*1.5}" d="${zz(100,100,gap)}"/></g>
+  <g class="ln" style="--w:${(w+1).toFixed(2)}s;--d:.9s"><path pathLength="1" stroke="${line}" stroke-width="3" d="${SH[shape]}"/></g>`;
+}
+document.querySelectorAll('[data-heart]').forEach(s=>colour(s,'heart',COL[s.dataset.heart],s.dataset.heart==='cherry'?'#5e0b1c':'#c81e2b',4.2));
+document.querySelectorAll('[data-shape]').forEach(s=>colour(s,s.dataset.shape,s.dataset.fill,s.dataset.line,5));
+document.querySelectorAll('[data-zz]').forEach(s=>{s.innerHTML=`<path pathLength="1" stroke="${COL[s.dataset.zz]}" stroke-width="9" d="${zz(100,40,6,1,5,6,34)}"/>`;s.classList.add('fz')});
+
+/* the year */
+const M=["janv.","févr.","mars","avr.","mai","juin","juil.","août","sept.","oct.","nov.","déc."];
+document.getElementById('months').innerHTML=M.map((name,mi)=>{
+  const ev=EV.filter(e=>e.m===mi);
+  if(!ev.length)return `<div class="m empty" aria-hidden="true"><h3>${name}</h3><div class="slot"></div></div>`;
+  return `<div class="m has"><h3>${name}</h3><div class="slot">${ev.map(e=>`<a href="#"><img src="${src(e.img)}" alt="Affiche : ${e.t}" loading="lazy" decoding="async"></a>`).join('')}</div><ul>${ev.map(e=>`<li><b>${e.d}</b>${e.t}</li>`).join('')}</ul></div>`;
+}).join('');
+
+/* the pile */
+const order=[4,5,6,3,8,7,2,1,0];
+const pile=document.getElementById('pile'),capT=document.getElementById('capT'),capD=document.getElementById('capD');
+const figs=order.map((ei,k)=>{const f=document.createElement('figure');f.innerHTML=`<img src="${src(EV[ei].img)}" alt="" ${k<2?'':'loading="lazy"'} decoding="async">`;pile.appendChild(f);return f});
+let cur=0,stop=calm,seen=false,hover=false,sx=null;
+function caption(){const e=EV[order[cur]];capT.textContent=e.t;capD.textContent=e.d+" 2025 · "+(cur+1)+" / "+order.length}
+function layout(){figs.forEach((f,k)=>{const p=(k-cur+figs.length)%figs.length;f.dataset.p=Math.min(p,4);f.style.visibility=p>4?'hidden':''})}
+function next(){const f=figs[cur];f.classList.remove('toss');void f.offsetWidth;if(!calm)f.classList.add('toss');
+  setTimeout(()=>{cur=(cur+1)%figs.length;layout();caption()},calm?0:300)}
+pile.addEventListener('pointerdown',e=>{sx=e.clientX});
+pile.addEventListener('pointerup',()=>{if(sx===null)return;sx=null;stop=true;next()});
+pile.addEventListener('pointercancel',()=>{sx=null});
+document.getElementById('next').addEventListener('click',()=>{stop=true;next()});
+layout();caption();
+pile.addEventListener('pointerenter',()=>hover=true);pile.addEventListener('pointerleave',()=>hover=false);
+new IntersectionObserver(([e])=>seen=e.isIntersecting).observe(pile);
+setInterval(()=>{if(!stop&&seen&&!hover&&!document.hidden)next()},3800);
+document.querySelectorAll('.pile img,.m .slot img').forEach(im=>{const f=()=>im.naturalWidth>im.naturalHeight*1.1&&im.classList.add('wide');im.complete?f():im.addEventListener('load',f)});
+
+/* reveal: sections fade in and their crayon work gets drawn */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('go');io.unobserve(e.target)}}),{threshold:.2});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

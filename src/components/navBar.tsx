@@ -19,8 +19,8 @@ const Bar = styled.header<{ $scrolled: boolean }>`
   position: sticky;
   top: 0;
   z-index: var(--z-nav);
-  background: var(--c-white);
-  border-bottom: 1px solid ${(p) => (p.$scrolled ? "var(--c-hair)" : "transparent")};
+  background: var(--c-paper);
+  border-bottom: 2px solid ${(p) => (p.$scrolled ? "var(--c-ink)" : "transparent")};
   transition: border-color 200ms ease;
 `;
 
@@ -41,12 +41,24 @@ const Brand = styled(Link)`
   text-decoration: none;
   flex-shrink: 0;
 
-  img { width: 36px; height: 36px; border-radius: 10px; object-fit: cover; }
+  .lm {
+    width: 46px;
+    height: 46px;
+    flex: none;
+    border-radius: 50%;
+    overflow: hidden;
+    background: var(--c-blush);
+    border: 2px solid var(--c-ink);
+    rotate: -6deg;
+    transition: rotate 300ms var(--ease-out);
+  }
+  .lm img { width: 200%; max-width: none; margin: -44% 0 0 -54%; }
+  &:hover .lm { rotate: 6deg; }
   span {
     font-family: var(--f-display);
     font-weight: 800;
-    font-size: 1.2rem;
-    letter-spacing: -0.03em;
+    font-size: 1.25rem;
+    letter-spacing: -0.02em;
     color: var(--c-ink);
   }
 `;
@@ -63,7 +75,7 @@ const NavItem = styled(Link)`
   position: relative;
   display: block;
   padding: 8px 12px;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 0.95rem;
   color: var(--c-slate);
   text-decoration: none;
@@ -72,16 +84,19 @@ const NavItem = styled(Link)`
 
   &:hover { color: var(--c-ink); }
   &[aria-current="page"] { color: var(--c-ink); font-weight: 700; }
-  &[aria-current="page"]::after {
+  &::after {
     content: "";
     position: absolute;
-    left: 12px;
-    right: 12px;
-    bottom: 2px;
-    height: 2px;
-    border-radius: 2px;
-    background: var(--c-ink);
+    left: 8px;
+    right: 8px;
+    bottom: -1px;
+    height: 9px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 9' preserveAspectRatio='none'%3E%3Cpath d='M2 6C25 2 55 8 98 3' fill='none' stroke='%23f86668' stroke-width='3.4' stroke-linecap='round'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 300ms var(--ease-out);
   }
+  &:hover::after, &[aria-current="page"]::after { transform: scaleX(1); }
 `;
 
 const Right = styled.div`
@@ -95,7 +110,7 @@ const Lang = styled.div`
   display: flex;
   padding: 3px;
   border-radius: var(--r-pill);
-  background: rgba(0, 0, 0, 0.05);
+  background: var(--c-blush);
 
   @media (max-width: 820px) { display: none; }
 `;
@@ -108,7 +123,7 @@ const LangBtn = styled.button<{ $on: boolean }>`
   font-weight: 700;
   background: ${(p) => (p.$on ? "var(--c-white)" : "transparent")};
   color: ${(p) => (p.$on ? "var(--c-ink)" : "var(--c-slate)")};
-  box-shadow: ${(p) => (p.$on ? "var(--sh-card)" : "none")};
+  box-shadow: ${(p) => (p.$on ? "0 0 0 1.5px var(--c-ink)" : "none")};
   transition: background 150ms ease, color 150ms ease;
 `;
 
@@ -119,17 +134,19 @@ const Donate = styled.a`
   min-height: 40px;
   padding: 8px 18px;
   border-radius: var(--r-btn);
-  background: var(--c-ink);
+  background: var(--c-cherry);
   color: var(--c-white);
+  border: 2px solid var(--c-ink);
+  box-shadow: 3px 3px 0 var(--c-ink);
   font-weight: 700;
   font-size: 0.9rem;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
   text-decoration: none;
-  transition: opacity 150ms ease;
+  transition: transform 200ms var(--ease-out), box-shadow 200ms var(--ease-out), background 150ms ease;
 
-  svg { color: var(--c-primary); }
-  &:hover { opacity: 0.85; }
-  &:active { transform: translateY(1px); }
+  svg { color: var(--c-gold); }
+  &:hover { transform: translate(-2px, -2px); box-shadow: 5px 5px 0 var(--c-ink); background: #a8141f; }
+  &:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--c-ink); }
 
   @media (max-width: 480px) { span { display: none; } padding: 8px 12px; }
 `;
@@ -140,7 +157,7 @@ const Burger = styled.button`
   height: 40px;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--c-hair);
+  border: 2px solid var(--c-ink);
   border-radius: var(--r-btn);
   background: var(--c-white);
   color: var(--c-ink);
@@ -155,7 +172,7 @@ const Scrim = styled.div<{ $open: boolean }>`
   position: fixed;
   inset: 0;
   z-index: var(--z-drawer);
-  background: rgba(20, 20, 20, 0.35);
+  background: rgba(43, 26, 36, 0.4);
   opacity: ${(p) => (p.$open ? 1 : 0)};
   pointer-events: ${(p) => (p.$open ? "auto" : "none")};
   transition: opacity 250ms ease;
@@ -168,7 +185,8 @@ const Sheet = styled.div<{ $open: boolean }>`
   right: 0;
   z-index: calc(var(--z-drawer) + 1);
   padding: var(--sp-4) var(--gutter) var(--sp-8);
-  background: var(--c-white);
+  background: var(--c-paper);
+  border-bottom: 2px solid var(--c-ink);
   border-radius: 0 0 var(--r-modal) var(--r-modal);
   box-shadow: var(--sh-float);
   transform: translateY(${(p) => (p.$open ? "0" : "-105%")});
@@ -260,7 +278,7 @@ export const NavBar = () => {
       <Bar $scrolled={scrolled}>
         <Inner aria-label="Navigation principale">
           <Brand to="/coeur-festifs" aria-label="Coeurs Festifs, accueil">
-            <img src={logo} alt="" />
+            <span className="lm"><img src={logo} alt="" /></span>
             <span>Cœurs Festifs</span>
           </Brand>
 
@@ -297,7 +315,7 @@ export const NavBar = () => {
       <Sheet $open={open} id="mobile-menu" role="dialog" aria-modal="true" aria-label="Menu">
         <SheetHead>
           <Brand to="/coeur-festifs">
-            <img src={logo} alt="" />
+            <span className="lm"><img src={logo} alt="" /></span>
             <span>Cœurs Festifs</span>
           </Brand>
           <Burger onClick={() => setOpen(false)} aria-label={t("ui.nav.close")} style={{ display: "inline-flex" }}>

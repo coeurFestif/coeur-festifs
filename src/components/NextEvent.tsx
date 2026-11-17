@@ -31,7 +31,7 @@ const Poster = styled(Link)`
   aspect-ratio: 3 / 4;
   border-radius: var(--r-card);
   overflow: hidden;
-  background: #f4f4f4;
+  background: #fff;
 
   img { width: 100%; height: 100%; object-fit: contain; }
 

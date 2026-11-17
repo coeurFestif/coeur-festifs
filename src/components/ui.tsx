@@ -60,26 +60,27 @@ const buttonBase = css`
   letter-spacing: -0.02em;
   text-decoration: none;
   cursor: pointer;
-  transition: background-color 150ms ease, color 150ms ease, opacity 150ms ease;
+  border: 2px solid var(--c-ink);
+  box-shadow: 4px 4px 0 var(--c-ink);
+  transition: transform 200ms var(--ease-out), box-shadow 200ms var(--ease-out), background-color 150ms ease, color 150ms ease;
 
-  &:active { transform: translateY(1px); }
+  &:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--c-ink); }
+  &:active { transform: translate(3px, 3px); box-shadow: 1px 1px 0 var(--c-ink); }
   svg { flex-shrink: 0; }
 `;
 
 const filled = css`
   ${buttonBase}
-  background: var(--c-ink);
+  background: var(--c-cherry);
   color: var(--c-white);
-  border: 1px solid var(--c-ink);
-  &:hover { opacity: 0.85; }
+  &:hover { background: #a8141f; }
 `;
 
 const outline = css`
   ${buttonBase}
-  background: transparent;
+  background: var(--c-white);
   color: var(--c-ink);
-  border: 1px solid var(--c-ink);
-  &:hover { background: var(--c-ink); color: var(--c-white); }
+  &:hover { background: var(--c-blush); }
 `;
 
 export const ButtonLink = styled(Link)`${filled}`;
@@ -96,11 +97,13 @@ export const TextLink = styled(Link)`
   font-size: 0.95rem;
   color: var(--c-ink);
   text-decoration: none;
-  background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
-  transition: background-size 250ms var(--ease-out);
-  padding-bottom: 2px;
+  text-decoration: underline;
+  text-decoration-thickness: 3px;
+  text-underline-offset: 6px;
+  text-decoration-color: var(--c-gold);
+  transition: text-decoration-color 200ms ease;
 
-  &:hover { background-size: 100% 1px; }
+  &:hover { text-decoration-color: var(--c-coral); }
   svg { transition: transform 250ms var(--ease-out); }
   &:hover svg { transform: translateX(3px); }
 `;
