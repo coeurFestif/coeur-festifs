@@ -7,8 +7,8 @@ import { EMAIL, FACEBOOK_URL, INSTAGRAM_URL, LINKEDIN_URL } from "./eventActions
 
 const Shell = styled.footer`
   margin-top: auto;
-  border-top: 1px solid var(--c-hair);
-  background: var(--c-white);
+  background: var(--c-wine);
+  color: var(--c-white);
 `;
 
 const Inner = styled.div`
@@ -45,13 +45,13 @@ const Mail = styled.a`
   align-self: flex-start;
   font-weight: 700;
   font-size: 1.1rem;
-  color: var(--c-ink);
-  text-decoration: none;
-  background: linear-gradient(currentColor, currentColor) 0 100% / 100% 1px no-repeat;
-  padding-bottom: 2px;
-  transition: opacity 150ms ease;
+  color: var(--c-white);
+  text-decoration: underline;
+  text-decoration-thickness: 3px;
+  text-underline-offset: 6px;
+  text-decoration-color: var(--c-gold);
 
-  &:hover { opacity: 0.7; }
+  &:hover { text-decoration-color: var(--c-coral); }
 `;
 
 const Cols = styled.div`
@@ -67,17 +67,17 @@ const Col = styled.div`
   flex-direction: column;
   gap: var(--sp-2);
 
-  h2 { font-size: 0.85rem; font-weight: 500; color: var(--c-ash); margin-bottom: var(--sp-1); }
+  h2 { font-family: var(--f-hand); font-size: 1.5rem; font-weight: 400; color: var(--c-gold); margin-bottom: var(--sp-1); }
   a {
     display: inline-flex;
     align-items: center;
     gap: 8px;
     font-weight: 500;
-    color: var(--c-graphite);
+    color: rgba(255, 250, 245, 0.78);
     text-decoration: none;
     transition: color 150ms ease;
   }
-  a:hover { color: var(--c-ink); }
+  a:hover { color: var(--c-white); }
 `;
 
 const Bottom = styled.div`
@@ -87,9 +87,9 @@ const Bottom = styled.div`
   flex-wrap: wrap;
   margin-top: var(--sp-12);
   padding-top: var(--sp-6);
-  border-top: 1px solid var(--c-hair);
+  border-top: 1px solid rgba(255, 250, 245, 0.18);
   font-size: 0.85rem;
-  color: var(--c-ash);
+  color: rgba(255, 250, 245, 0.6);
 `;
 
 export const Footer = () => {

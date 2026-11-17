@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cœurs Festifs · Ruban</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..800;1,6..96,400..700&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+html,body{background:#fde4e1;margin:0}
+:root{--blush:#fde4e1;--cream:#fff8f2;--coral:#f86668;--cherry:#c81e2b;--gold:#e9b730;--ink:#2a1b1f;--ink-2:#6d5458;--serif:"Bodoni Moda",Didot,serif;--sans:"Figtree",system-ui,sans-serif}
+*{box-sizing:border-box}
+body{font:400 17px/1.6 var(--sans);color:var(--ink);overflow-x:hidden}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--cherry);outline-offset:3px}
+.top{display:flex;justify-content:space-between;align-items:center;padding:16px clamp(20px,4vw,48px)}
+.top img{width:72px}
+.top nav{display:flex;gap:28px;font-weight:500;font-size:15px}
+.top nav a{text-decoration:none}
+.top nav a:hover{color:var(--cherry)}
+/* hero: the logo's ribbon carries the tagline */
+.hero{text-align:center;padding:10px 0 90px;position:relative}
+.kick{font:600 13px var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--cherry);margin:0}
+.rib{display:block;width:min(1400px,108vw);margin:10px 50% 0;translate:-50% 0}
+.rib .body{fill:var(--cream);stroke:var(--ink);stroke-width:2.2;stroke-linejoin:round}
+.rib .fold{fill:#ead2cd;stroke:var(--ink);stroke-width:2.2;stroke-linejoin:round}
+.rib .hatch{stroke:var(--ink);stroke-width:1;opacity:.5}
+.rib text{font:500 54px var(--serif);letter-spacing:.06em;fill:var(--ink)}
+.rib text tspan{fill:var(--cherry);font-style:italic}
+.rib .draw{stroke-dasharray:1;stroke-dashoffset:1;animation:dr 1.6s cubic-bezier(.6,0,.2,1) forwards}
+.rib .fill{opacity:0;animation:fi .8s ease .9s forwards}
+@keyframes dr{to{stroke-dashoffset:0}}
+@keyframes fi{to{opacity:1}}
+.heart{width:clamp(120px,14vw,190px);margin:-30px auto 0;position:relative}
+.heart svg{width:100%;fill:var(--coral);animation:beat 2.4s ease-in-out infinite}
+@keyframes beat{0%,40%,100%{scale:1}10%{scale:1.08}20%{scale:1}30%{scale:1.04}}
+.lead{max-width:32em;margin:26px auto 34px;font-size:clamp(17px,1.4vw,20px);color:var(--ink-2);padding-inline:20px}
+.btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;height:54px;padding:0 28px;border-radius:999px;background:var(--cherry);color:var(--cream);font:600 15px var(--sans);text-decoration:none;transition:transform .25s,background .25s}
+.btn:hover{transform:translateY(-2px);background:#a3141f}
+.btn.o{background:var(--cream);color:var(--cherry);box-shadow:inset 0 0 0 1.5px var(--cherry)}
+.spk{position:absolute;fill:var(--gold);animation:tw 3s ease-in-out infinite}
+@keyframes tw{50%{scale:.5;opacity:.5}}
+/* scrolling ribbon band */
+.band{background:var(--cherry);color:var(--cream);rotate:-2deg;margin:0 -20px;padding:18px 0;overflow:hidden;white-space:nowrap;box-shadow:0 14px 30px -14px rgba(200,30,43,.6)}
+.band div{display:inline-flex;gap:40px;animation:mq 40s linear infinite;font:italic 500 clamp(24px,2.6vw,36px) var(--serif)}
+.band span::after{content:"✦";color:var(--gold);margin-left:40px;font-style:normal}
+@keyframes mq{to{translate:-50% 0}}
+/* garland of posters */
+.gar{padding:clamp(100px,12vw,160px) 0 clamp(80px,10vw,130px)}
+.gar h2{font:500 clamp(40px,5vw,72px)/1 var(--serif);text-align:center;margin:0 0 10px}
+.gar h2 em{color:var(--cherry)}
+.gar .s{text-align:center;color:var(--ink-2);margin:0 0 50px}
+.line{position:relative;overflow-x:auto;scrollbar-width:none;padding:10px clamp(20px,4vw,48px) 30px}
+.line::-webkit-scrollbar{display:none}
+.line ul{list-style:none;margin:0;padding:0;display:flex;gap:34px;width:max-content;position:relative}
+.line ul::before{content:"";position:absolute;left:-60px;right:-60px;top:12px;height:30px;border-top:2px solid var(--ink);border-radius:50%}
+.line li{width:230px;flex:none;padding-top:30px;transform-origin:50% 0;animation:sw 4s ease-in-out infinite alternate}
+.line li:nth-child(2n){animation-delay:-2s;margin-top:14px}
+.line li:nth-child(3n){margin-top:6px}
+@keyframes sw{from{rotate:-2deg}to{rotate:2deg}}
+.line li::before{content:"";display:block;width:16px;height:30px;margin:-30px auto 0;background:var(--gold);border-radius:3px;position:relative;z-index:1;translate:0 12px}
+.pc{background:var(--cream);padding:12px 12px 16px;box-shadow:0 18px 30px -16px rgba(42,27,31,.45)}
+.pc .im{aspect-ratio:4/5;display:grid;place-items:center;background:var(--blush)}
+.pc img{max-height:100%;width:auto;object-fit:contain}
+.pc h3{font:500 18px/1.2 var(--serif);margin:12px 0 4px}
+.pc time{font:600 12px var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--cherry)}
+/* end */
+.end{background:var(--coral);text-align:center;padding:clamp(100px,12vw,160px) 20px;color:var(--ink)}
+.end h2{font:500 clamp(46px,6.6vw,104px)/.98 var(--serif);margin:0 0 22px;color:var(--cream)}
+.end h2 em{color:var(--ink)}
+.end p{max-width:30em;margin:0 auto 36px}
+.end .btn{background:var(--ink)}
+footer{background:var(--ink);color:rgba(255,248,242,.7);text-align:center;padding:26px;font-size:14px}
+@media (max-width:700px){.top nav a:not(:last-child){display:none}.rib text{font-size:60px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}.rib .draw{stroke-dashoffset:0}.rib .fill{opacity:1}}
+</style>
+</head>
+<body>
+<header class="top"><a href="#"><img src="../src/assets/logo.png" alt="Cœurs Festifs, accueil" width="848" height="848"></a><nav aria-label="Principale"><a href="#fetes">Les fêtes</a><a href="#">Notre histoire</a><a href="#ecrire">Nous écrire</a></nav></header>
+<main>
+<section class="hero">
+  <svg class="spk" style="width:34px;left:14%;top:30%" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C12.9 7.6 16.4 11.1 24 12 16.4 12.9 12.9 16.4 12 24 11.1 16.4 7.6 12.9 0 12 7.6 11.1 11.1 7.6 12 0Z"/></svg>
+  <svg class="spk" style="width:22px;right:16%;top:22%;animation-delay:1s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C12.9 7.6 16.4 11.1 24 12 16.4 12.9 12.9 16.4 12 24 11.1 16.4 7.6 12.9 0 12 7.6 11.1 11.1 7.6 12 0Z"/></svg>
+  <p class="kick">Cœurs Festifs · Montréal</p>
+  <h1 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Des moments qui prennent vie.</h1>
+  <svg class="rib" viewBox="0 0 1400 330" aria-hidden="true">
+    <path class="fold fill" d="M150 120L20 70 90 175 30 280 210 250Z"/>
+    <path class="fold fill" d="M1250 120L1380 70 1310 175 1370 280 1190 250Z"/>
+    <path class="fold draw" pathLength="1" d="M150 120L20 70 90 175 30 280 210 250Z"/>
+    <path class="fold draw" pathLength="1" d="M1250 120L1380 70 1310 175 1370 280 1190 250Z"/>
+    <path class="body fill" d="M150 90Q700 -10 1250 90L1250 230Q700 130 150 230Z"/>
+    <path class="body draw" pathLength="1" style="fill:none" d="M150 90Q700 -10 1250 90L1250 230Q700 130 150 230Z"/>
+    <path id="arc" d="M200 178Q700 88 1200 178" fill="none"/>
+    <text class="fill" text-anchor="middle"><textPath href="#arc" startOffset="50%">DES MOMENTS QUI PRENNENT <tspan>vie.</tspan></textPath></text>
+  </svg>
+  <div class="heart" aria-hidden="true"><svg viewBox="0 0 1 1"><path d="M.5 .95C.2 .74 0 .55 0 .31 0 .14 .13 .02 .29 .02c.1 0 .17 .05 .21 .13C.54 .07 .61 .02 .71 .02 .87 .02 1 .14 1 .31 1 .55 .8 .74 .5 .95Z"/></svg></div>
+  <p class="lead">Des fêtes accessibles pour les enfants en situation de vulnérabilité, main dans la main avec les organismes de leur quartier.</p>
+  <div class="btns"><a class="btn" href="#fetes">Voir nos fêtes</a><a class="btn o" href="#ecrire">Devenir bénévole</a></div>
+</section>
+<div class="band" aria-hidden="true"><div id="mq"></div></div>
+<section class="gar" id="fetes">
+  <h2>2025, <em>neuf fêtes.</em></h2>
+  <p class="s">Glissez le long de la guirlande.</p>
+  <div class="line"><ul id="gl"></ul></div>
+</section>
+<section class="end" id="ecrire">
+  <h2>La prochaine fête <em>se prépare.</em></h2>
+  <p>Aucune date n'est annoncée pour l'instant. Suivez-nous pour l'apprendre en premier, ou écrivez-nous pour en organiser une avec votre organisme.</p>
+  <div class="btns"><a class="btn" href="#">Suivre sur Instagram</a><a class="btn o" href="#">Proposer un partenariat</a></div>
+</section>
+</main>
+<footer>© Cœurs Festifs · Montréal · 36 bénévoles · 12 organismes complices</footer>
+<script>
+const EV=[["choco.jpg","11 janv.","ChocoChaud et boules de neige"],["Gcpp.png","10 avr.","Grands cœurs, petits professeurs"],["30yB.png","23 août","Les 30 ans de Répit Providence"],["prismart.png","6 sept.","PRISMART"],["halloween.png","31 oct.","Fête d'Halloween"],["levee.jpg","1er nov.","Levée de fonds"],["foireMetier.png","22 nov.","Foire aux métiers"],["noelParty.jpg","13 déc.","Fête de Noël avec PROMIS"],["guignole.png","13 déc.","Guignolée du Dr Julien"]];
+document.getElementById('gl').innerHTML=EV.map(([i,d,t])=>`<li><div class="pc"><div class="im"><img src="../src/assets/${i}" alt="Affiche : ${t}" loading="lazy"></div><h3>${t}</h3><time>${d} 2025</time></div></li>`).join('');
+const s=EV.map(e=>`<span>${e[2]}</span>`).join('');document.getElementById('mq').innerHTML=s+s;
+</script>
+</body>
+</html>

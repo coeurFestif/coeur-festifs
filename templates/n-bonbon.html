@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cœurs Festifs · Bonbon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Figtree:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+html,body{background:#f86668;margin:0}
+:root{--coral:#f86668;--cherry:#c81e2b;--blush:#fde4e1;--cream:#fff8f2;--gold:#f7c934;--ink:#2a1b1f;--ink-2:#6d5458;--disp:"Bagel Fat One",system-ui;--sans:"Figtree",system-ui,sans-serif}
+*{box-sizing:border-box}
+body{font:400 17px/1.6 var(--sans);color:var(--ink);overflow-x:hidden}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.wrap{max-width:1240px;margin:0 auto;padding-inline:clamp(20px,4vw,48px)}
+.top{display:flex;justify-content:space-between;align-items:center;padding-block:20px}
+.pill{display:inline-flex;align-items:center;gap:10px;background:var(--cream);border-radius:999px;padding:6px 18px 6px 6px;text-decoration:none;font-weight:800;box-shadow:0 4px 0 var(--cherry)}
+.pill img{width:40px;border-radius:50%}
+.top nav{display:flex;gap:6px;background:var(--cream);border-radius:999px;padding:6px;box-shadow:0 4px 0 var(--cherry)}
+.top nav a{text-decoration:none;font-weight:700;font-size:15px;padding:8px 16px;border-radius:999px;transition:background .2s}
+.top nav a:hover{background:var(--blush)}
+/* hero */
+.hero{position:relative;padding-block:30px 140px;min-height:min(820px,calc(100svh - 90px));display:grid;align-items:center}
+h1{font:400 clamp(64px,10.5vw,170px)/.86 var(--disp);color:var(--cream);margin:0;letter-spacing:-.01em;position:relative;z-index:2;text-shadow:0 6px 0 var(--cherry)}
+h1 span{display:block}
+h1 .v{color:var(--gold)}
+.lead{position:relative;z-index:2;max-width:26em;font-size:clamp(17px,1.5vw,21px);font-weight:500;color:var(--ink);margin:28px 0 34px}
+.btn{display:inline-flex;align-items:center;height:60px;padding:0 32px;border-radius:999px;background:var(--ink);color:var(--cream);font:800 16px var(--sans);text-decoration:none;box-shadow:0 6px 0 rgba(42,27,31,.35);transition:transform .2s cubic-bezier(.3,1.8,.5,1)}
+.btn:hover{transform:translateY(-3px) rotate(-2deg)}
+.btn.c{background:var(--cream);color:var(--cherry)}
+.acts{display:flex;gap:14px;flex-wrap:wrap;position:relative;z-index:2}
+/* glossy jelly hearts */
+.jh{position:absolute;width:var(--w);aspect-ratio:1;left:var(--x);top:var(--y);rotate:var(--r);animation:bob var(--t,6s) ease-in-out infinite;z-index:1}
+.jh svg{width:100%;height:100%;filter:drop-shadow(0 22px 24px rgba(120,10,20,.35))}
+@keyframes bob{50%{translate:0 -18px;rotate:calc(var(--r) + 5deg)}}
+.stk{position:absolute;right:clamp(10px,6vw,90px);bottom:70px;width:clamp(150px,17vw,230px);rotate:9deg;z-index:3;background:var(--cream);padding:10px;border-radius:50%;box-shadow:0 14px 26px -10px rgba(80,0,10,.45);transition:rotate .4s cubic-bezier(.3,1.8,.5,1)}
+.stk:hover{rotate:-4deg}
+.stk img{border-radius:50%}
+/* numbers as candies */
+.cand{background:var(--cream);border-radius:56px 56px 0 0;padding-block:clamp(90px,10vw,140px)}
+.nums{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-bottom:clamp(90px,10vw,140px)}
+.nums div{border-radius:32px;padding:34px;background:var(--c);rotate:var(--r)}
+.nums b{display:block;font:400 clamp(64px,7vw,104px)/1 var(--disp);color:var(--k,var(--cream))}
+.nums span{font-weight:700;font-size:18px}
+h2{font:400 clamp(44px,6vw,92px)/.95 var(--disp);margin:0 0 14px;color:var(--cherry)}
+.sub{margin:0 0 50px;color:var(--ink-2);font-size:19px}
+.stickers{display:grid;grid-template-columns:repeat(3,1fr);gap:40px 30px}
+.sk{text-decoration:none;display:block;rotate:var(--r);transition:rotate .35s cubic-bezier(.3,1.8,.5,1),translate .35s}
+.sk:hover{rotate:0deg;translate:0 -6px}
+.sk .im{background:var(--bg);border:10px solid #fff;border-radius:26px;aspect-ratio:1;display:grid;place-items:center;padding:16px;box-shadow:0 16px 28px -14px rgba(42,27,31,.4)}
+.sk img{max-height:100%;width:auto;object-fit:contain;border-radius:6px}
+.sk h3{font:800 19px/1.25 var(--sans);margin:16px 6px 4px}
+.sk time{display:inline-block;margin-left:6px;font:800 12px var(--sans);letter-spacing:.08em;text-transform:uppercase;background:var(--gold);padding:4px 10px;border-radius:999px}
+/* end */
+.end{background:var(--cherry);color:var(--cream);text-align:center;padding-block:clamp(100px,12vw,160px);position:relative;overflow:hidden}
+.end h2{color:var(--cream);text-shadow:0 6px 0 #7d0d19;position:relative;z-index:2}
+.end p{max-width:30em;margin:0 auto 36px;position:relative;z-index:2}
+.end .acts{justify-content:center}
+footer{background:var(--ink);color:rgba(255,248,242,.7);text-align:center;padding:26px;font-size:14px}
+@media (max-width:860px){.top nav a:not(:last-child){display:none}.nums,.stickers{grid-template-columns:1fr 1fr}.nums div:last-child{grid-column:1/-1}.stk{bottom:20px}}
+@media (max-width:560px){.stickers{grid-template-columns:1fr}.nums{grid-template-columns:1fr}.jh{opacity:.85}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <radialGradient id="g1" cx=".35" cy=".3" r=".75"><stop offset="0" stop-color="#ff9a96"/><stop offset=".55" stop-color="#e8303a"/><stop offset="1" stop-color="#9d0f1c"/></radialGradient>
+  <radialGradient id="g2" cx=".35" cy=".3" r=".75"><stop offset="0" stop-color="#fff0b0"/><stop offset=".55" stop-color="#f7c934"/><stop offset="1" stop-color="#c78f0c"/></radialGradient>
+  <radialGradient id="g3" cx=".35" cy=".3" r=".75"><stop offset="0" stop-color="#fff"/><stop offset=".55" stop-color="#fcc7cc"/><stop offset="1" stop-color="#e98a95"/></radialGradient>
+  <symbol id="h" viewBox="0 0 1 1"><path d="M.5 .95C.2 .74 0 .55 0 .31 0 .14 .13 .02 .29 .02c.1 0 .17 .05 .21 .13C.54 .07 .61 .02 .71 .02 .87 .02 1 .14 1 .31 1 .55 .8 .74 .5 .95Z"/><ellipse cx=".27" cy=".22" rx=".11" ry=".06" fill="#fff" opacity=".75" transform="rotate(-30 .27 .22)"/></symbol>
+</defs></svg>
+<header class="wrap top"><a class="pill" href="#"><img src="../src/assets/logo.png" alt="" width="848" height="848">Cœurs Festifs</a><nav aria-label="Principale"><a href="#fetes">Les fêtes</a><a href="#">Notre histoire</a><a href="#ecrire">Nous écrire</a></nav></header>
+<main>
+<section class="wrap hero">
+  <div class="jh" style="--w:clamp(160px,22vw,330px);--x:58%;--y:4%;--r:12deg" aria-hidden="true"><svg><use href="#h" fill="url(#g1)"/></svg></div>
+  <div class="jh" style="--w:clamp(90px,11vw,170px);--x:84%;--y:34%;--r:-18deg;--t:7s" aria-hidden="true"><svg><use href="#h" fill="url(#g2)"/></svg></div>
+  <div class="jh" style="--w:clamp(70px,8vw,120px);--x:48%;--y:62%;--r:22deg;--t:5s" aria-hidden="true"><svg><use href="#h" fill="url(#g3)"/></svg></div>
+  <div>
+    <h1><span>Des moments</span><span>qui prennent</span><span class="v">vie !</span></h1>
+    <p class="lead">Des fêtes accessibles pour les enfants en situation de vulnérabilité, à Montréal, avec les organismes de leur quartier.</p>
+    <div class="acts"><a class="btn" href="#fetes">Voir nos fêtes</a><a class="btn c" href="#ecrire">Devenir bénévole</a></div>
+  </div>
+  <a class="stk" href="#"><img src="../src/assets/logo.png" alt="Logo de Cœurs Festifs" width="848" height="848"></a>
+</section>
+<section class="cand" id="fetes">
+  <div class="wrap">
+    <div class="nums">
+      <div style="--c:var(--coral);--r:-1.5deg"><b>36</b><span>bénévoles</span></div>
+      <div style="--c:var(--gold);--k:var(--cherry);--r:1deg"><b>9</b><span>fêtes en 2025</span></div>
+      <div style="--c:var(--cherry);--r:-.5deg;color:var(--cream)"><b>12</b><span>organismes complices</span></div>
+    </div>
+    <h2>Les fêtes de 2025</h2>
+    <p class="sub">De la bataille de boules de neige à la guignolée de décembre.</p>
+    <div class="stickers" id="st"></div>
+  </div>
+</section>
+<section class="end" id="ecrire">
+  <div class="jh" style="--w:clamp(140px,18vw,260px);--x:4%;--y:10%;--r:-14deg" aria-hidden="true"><svg><use href="#h" fill="url(#g3)"/></svg></div>
+  <div class="jh" style="--w:clamp(90px,10vw,150px);--x:84%;--y:56%;--r:16deg;--t:7s" aria-hidden="true"><svg><use href="#h" fill="url(#g2)"/></svg></div>
+  <div class="wrap">
+    <h2>La prochaine fête se prépare !</h2>
+    <p>Aucune date n'est annoncée pour l'instant. Suivez-nous pour l'apprendre en premier, ou écrivez-nous pour en organiser une avec votre organisme.</p>
+    <div class="acts"><a class="btn c" href="#">Suivre sur Instagram</a><a class="btn" href="#">Proposer un partenariat</a></div>
+  </div>
+</section>
+</main>
+<footer>© Cœurs Festifs · Montréal</footer>
+<script>
+const EV=[["choco.jpg","11 janv.","ChocoChaud et boules de neige"],["Gcpp.png","10 avr.","Grands cœurs, petits professeurs"],["30yB.png","23 août","Les 30 ans de Répit Providence"],["prismart.png","6 sept.","PRISMART"],["halloween.png","31 oct.","Fête d'Halloween"],["levee.jpg","1er nov.","Levée de fonds"],["foireMetier.png","22 nov.","Foire aux métiers"],["noelParty.jpg","13 déc.","Fête de Noël avec PROMIS"],["guignole.png","13 déc.","Guignolée du Dr Julien"]];
+const B=["var(--blush)","#ffe9a8","#ffd0cf"],R=[-2.5,1.8,-1,2.4,-1.8,1.2,-2.2,2,-1.4];
+document.getElementById('st').innerHTML=EV.map(([i,d,t],k)=>`<a class="sk" href="#" style="--r:${R[k]}deg;--bg:${B[k%3]}"><div class="im"><img src="../src/assets/${i}" alt="Affiche : ${t}" loading="lazy"></div><h3>${t}</h3><time>${d} 2025</time></a>`).join('');
+</script>
+</body>
+</html>

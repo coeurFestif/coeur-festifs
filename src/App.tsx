@@ -14,6 +14,7 @@ import { NavBar } from "./components/navBar";
 import { Footer } from "./components/footer";
 import { EventDetail } from "./pages/EventDetails";
 import { NotFound } from "./pages/NotFound";
+import { CrayonDefs } from "./components/Crayon";
 import "./services/i18n";
 
 const ScrollToTop = () => {
@@ -31,6 +32,7 @@ function App() {
         <a href="#main-content" className="skip-link">
           Aller au contenu principal
         </a>
+        <CrayonDefs />
         <NavBar />
         <ScrollToTop />
         <main id="main-content">

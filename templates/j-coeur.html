@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cœurs Festifs</title>
+<meta name="description" content="Des fêtes accessibles pour les enfants en situation de vulnérabilité, à Montréal.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+html,body{background:#fde4e1;margin:0}
+:root{
+  /* pulled from the logo */
+  --blush:#fde4e1;--cream:#fff8f2;--coral:#f86668;--cherry:#c81e2b;--wine:#5e0b1c;--gold:#e9b730;--spark:#f7d23e;
+  --ink:#2a1b1f;--ink-2:#6d5458;--line:rgba(42,27,31,.16);
+  --serif:"Bodoni Moda",Didot,Georgia,serif;--sans:"Figtree",system-ui,sans-serif;
+  --g:clamp(20px,4vw,48px);--sec:clamp(96px,12vw,168px);--ease:cubic-bezier(.2,.8,.2,1);
+}
+*{box-sizing:border-box}
+body{font:400 17px/1.6 var(--sans);color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{display:block;max-width:100%}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--cherry);outline-offset:3px;border-radius:4px}
+h1,h2,h3{font-family:var(--serif);font-weight:500;margin:0;letter-spacing:-.02em}
+em{font-style:italic}
+.wrap{max-width:1280px;margin:0 auto;padding-inline:var(--g)}
+
+/* ribbon label, like the FESTIFS banner */
+.rib{display:inline-block;padding:9px 30px 8px;background:var(--cherry);color:var(--cream);font:600 13px/1 var(--serif);letter-spacing:.22em;text-transform:uppercase;clip-path:polygon(0 0,100% 0,calc(100% - 13px) 50%,100% 100%,0 100%,13px 50%)}
+.rib.g{background:var(--gold);color:var(--ink)}
+.rib.c{background:var(--cream);color:var(--cherry)}
+
+.btn{display:inline-flex;align-items:center;gap:10px;height:54px;padding:0 28px;border-radius:999px;background:var(--cherry);color:var(--cream);font:600 15px var(--sans);text-decoration:none;box-shadow:0 10px 24px -12px rgba(200,30,43,.7);transition:transform .3s var(--ease),background .25s,color .25s,box-shadow .3s}
+.btn:hover{transform:translateY(-2px);background:var(--gold);color:var(--ink);box-shadow:0 14px 28px -12px rgba(233,183,48,.9)}
+.btn svg{width:16px;height:16px;transition:transform .3s var(--ease)}
+.btn:hover svg{transform:translateX(3px)}
+.btn.lt{background:var(--cream);color:var(--cherry);box-shadow:none}
+.btn.lt:hover{background:var(--gold);color:var(--ink)}
+.tl{font:600 15px var(--sans);text-decoration:underline;text-decoration-color:var(--coral);text-decoration-thickness:2px;text-underline-offset:6px;transition:text-underline-offset .2s}
+.tl:hover{text-underline-offset:9px}
+.spk{position:absolute;width:var(--s,24px);height:var(--s,24px);fill:var(--spark);pointer-events:none;animation:tw 3.2s ease-in-out var(--d,0s) infinite}
+@keyframes tw{0%,100%{scale:1;opacity:1}50%{scale:.55;opacity:.55}}
+
+/* nav */
+.top{position:sticky;top:0;z-index:20;background:rgba(253,228,225,.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;height:80px}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none;font:600 20px var(--serif);color:var(--cherry);letter-spacing:-.01em}
+.lm{width:48px;height:48px;border-radius:50%;overflow:hidden;background:var(--cream);box-shadow:0 0 0 2px var(--cream),0 0 0 3px rgba(200,30,43,.25)}
+.lm img{width:200%;max-width:none;margin:-44% 0 0 -54%}
+.top nav{display:flex;align-items:center;gap:30px;font-size:15px;font-weight:500}
+.top nav a:not(.btn){text-decoration:none;color:var(--ink-2);transition:color .2s}
+.top nav a:not(.btn):hover{color:var(--cherry)}
+.top nav .btn{height:44px;padding:0 22px;font-size:14px}
+
+/* hero: blush matches the logo's paper, so the logo sits in the page */
+.hero{position:relative;overflow:hidden}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.hero .wrap{position:relative;display:grid;grid-template-columns:repeat(12,1fr);gap:0 24px;align-items:center;min-height:calc(100svh - 80px);padding-block:32px 80px}
+.hero .txt{grid-column:1/8}
+.hero .rib{margin-bottom:30px}
+h1{font-size:clamp(58px,7.8vw,128px);line-height:.92;letter-spacing:-.035em;font-weight:500;color:var(--ink)}
+h1 span{display:block}
+h1 em{color:var(--cherry);font-weight:500;position:relative}
+h1 em .spk{--s:.3em;right:-.42em;top:.42em}
+.lead{max-width:29em;font-size:clamp(17px,1.4vw,20px);color:var(--ink-2);margin:32px 0 40px}
+.acts{display:flex;flex-wrap:wrap;align-items:center;gap:28px}
+.art{grid-column:8/13;position:relative}
+.art img{width:100%;height:auto;max-width:540px;margin-left:auto;animation:float 7s ease-in-out infinite;-webkit-mask-image:radial-gradient(closest-side,#000 80%,transparent);mask-image:radial-gradient(closest-side,#000 80%,transparent)}
+@keyframes float{50%{translate:0 -12px;rotate:-1.5deg}}
+
+/* statement */
+.say{background:var(--cream);padding-block:var(--sec)}
+.say p{font:400 clamp(32px,4.2vw,62px)/1.14 var(--serif);letter-spacing:-.025em;margin:0;max-width:19em}
+.say b{font-weight:500;font-style:italic;color:var(--cherry);white-space:nowrap;position:relative}
+.say b::after{content:"";position:absolute;left:0;right:0;bottom:.02em;height:.12em;background:var(--spark);opacity:.6;z-index:-1;border-radius:2px}
+.say b{z-index:0}
+.say .mute{color:var(--ink-2)}
+
+/* how */
+.how{background:var(--coral);padding-block:var(--sec);position:relative;overflow:hidden}
+.hd{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:end;margin-bottom:clamp(52px,6vw,88px)}
+.hd>div{grid-column:1/8}
+.hd h2{font-size:clamp(42px,5.4vw,84px);line-height:1;margin-top:22px}
+.hd p{grid-column:9/13;margin:0}
+.how .hd h2 em{color:var(--cream)}
+.three{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,2vw,28px)}
+.three li{background:var(--cream);border-radius:20px;padding:clamp(28px,3vw,40px);position:relative}
+.three .n{font:italic 500 64px/1 var(--serif);color:var(--coral);display:block;margin-bottom:28px}
+.three li:nth-child(2) .n{color:var(--gold)}
+.three li:nth-child(3) .n{color:var(--cherry)}
+.three h3{font-size:clamp(25px,2.2vw,32px);line-height:1.1;margin-bottom:14px}
+.three p{margin:0;color:var(--ink-2)}
+.how .spk{opacity:.95}
+
+/* fêtes */
+.fetes{background:var(--wine);color:var(--cream);padding-block:var(--sec);position:relative;overflow:hidden}
+.fetes .hd p{color:rgba(255,248,242,.72)}
+.fetes .hd h2 em{color:var(--spark)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(36px,3.4vw,56px) clamp(20px,2.4vw,36px)}
+.ev{text-decoration:none;display:block}
+.mat{aspect-ratio:4/5;background:var(--m);display:grid;place-items:center;padding:12%;border-radius:18px;overflow:hidden}
+.mat img{max-height:100%;width:auto;max-width:100%;object-fit:contain;border-radius:4px;box-shadow:0 20px 40px -18px rgba(42,10,18,.7);transition:transform .6s var(--ease)}
+.ev:hover .mat img{transform:translateY(-6px) rotate(-1.5deg) scale(1.03)}
+.meta{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding-block:18px;border-bottom:1px solid rgba(255,248,242,.18)}
+.meta h3{font-size:clamp(20px,1.7vw,24px);line-height:1.2;font-weight:500}
+.meta time{font:600 12px var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--spark);white-space:nowrap}
+
+/* us: photo inside the heart */
+.us{padding-block:var(--sec)}
+.us .wrap{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:center}
+.ph{grid-column:1/6;position:relative}
+.ph img{width:100%;height:auto;aspect-ratio:1;object-fit:cover;clip-path:url(#heart)}
+.ph .spk:nth-of-type(1){--s:44px;left:2%;top:6%}
+.ph .spk:nth-of-type(2){--s:26px;right:4%;top:0;--d:.8s}
+.ph .spk:nth-of-type(3){--s:30px;right:0;bottom:22%;--d:1.6s}
+.us .txt{grid-column:7/13}
+.us h2{font-size:clamp(38px,4.4vw,66px);line-height:1.02;margin:24px 0}
+.us h2 em{color:var(--cherry)}
+.us p{color:var(--ink-2);max-width:30em;margin:0 0 28px}
+.vals{display:flex;gap:10px;flex-wrap:wrap;list-style:none;padding:0;margin:0 0 36px}
+.vals li{padding:10px 18px;border-radius:999px;font-size:14px;font-weight:600;background:var(--c);color:var(--t,var(--ink))}
+
+/* credits */
+.cr{background:var(--cream);padding-block:var(--sec)}
+.cr .hd h2{font-size:clamp(34px,3.8vw,56px)}
+.cr .hd>div{grid-column:1/-1}
+.cr .hd h2 em{color:var(--cherry)}
+.cols{display:grid;grid-template-columns:repeat(12,1fr);gap:24px}
+.cols>div{grid-column:span 6}
+.cols h3{font:600 13px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--cherry);padding-bottom:16px;border-bottom:2px solid var(--cherry)}
+.cols ul{list-style:none;margin:0;padding:0;columns:2;column-gap:24px}
+.cols li{break-inside:avoid;display:flex;align-items:center;gap:12px;padding:16px 0;border-bottom:1px solid var(--line);font:500 clamp(18px,1.5vw,21px)/1.3 var(--serif)}
+.cols li::before{content:"";flex:none;width:12px;height:12px;background:var(--gold);clip-path:path("M6 0C6.5 4 8 5.5 12 6C8 6.5 6.5 8 6 12C5.5 8 4 6.5 0 6C4 5.5 5.5 4 6 0Z")}
+
+/* end */
+.end{background:var(--cherry);color:var(--cream);padding-block:var(--sec);overflow:hidden;position:relative}
+.end .wrap{position:relative;z-index:1}
+.end h2{font-size:clamp(50px,7.2vw,116px);line-height:.94;letter-spacing:-.035em;max-width:8.5em}
+.end h2 em{color:var(--spark)}
+.end p{max-width:28em;margin:32px 0 40px;font-size:clamp(17px,1.4vw,20px);color:rgba(255,248,242,.88)}
+.end .tl{text-decoration-color:var(--spark)}
+.big{position:absolute;width:min(56vw,700px);right:-8vw;top:50%;translate:0 -50%;fill:var(--coral);opacity:.55}
+footer{background:var(--wine);color:rgba(255,248,242,.7);font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-block:32px}
+footer a{text-decoration:none;color:var(--cream)}
+
+/* reveal */
+.rv{opacity:0;translate:0 28px;transition:opacity .9s var(--ease),translate .9s var(--ease)}
+.rv.in{opacity:1;translate:0 0}
+.grid .rv:nth-child(3n+2){transition-delay:.08s}.grid .rv:nth-child(3n){transition-delay:.16s}
+.three .rv:nth-child(2){transition-delay:.1s}.three .rv:nth-child(3){transition-delay:.2s}
+
+@media (max-width:900px){
+  .top nav a:not(.btn){display:none}
+  .hero .wrap{grid-template-columns:1fr;min-height:0;padding-block:24px 72px;gap:40px}
+  .hero .txt,.art{grid-column:1/-1}
+  .art img{max-width:400px;margin:0 auto}
+  .hd{grid-template-columns:1fr}
+  .hd>div,.hd p{grid-column:1/-1}
+  .three,.grid{grid-template-columns:1fr 1fr}
+  .us .wrap{grid-template-columns:1fr;gap:48px}
+  .ph,.us .txt{grid-column:1/-1}
+  .ph{max-width:440px;width:90%}
+  .cols>div{grid-column:1/-1}
+  .big{width:100vw;right:-50vw;opacity:.35}
+}
+@media (max-width:600px){
+  .three,.grid{grid-template-columns:1fr}
+  .cols ul{columns:1}
+  .rib{font-size:11px;letter-spacing:.14em;padding-inline:24px;white-space:nowrap}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;translate:none}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <clipPath id="heart" clipPathUnits="objectBoundingBox"><path d="M.5 .95C.2 .74 0 .55 0 .31 0 .14 .13 .02 .29 .02c.1 0 .17 .05 .21 .13C.54 .07 .61 .02 .71 .02 .87 .02 1 .14 1 .31 1 .55 .8 .74 .5 .95Z"/></clipPath>
+    <symbol id="s" viewBox="0 0 24 24"><path d="M12 0C12.9 7.6 16.4 11.1 24 12 16.4 12.9 12.9 16.4 12 24 11.1 16.4 7.6 12.9 0 12 7.6 11.1 11.1 7.6 12 0Z"/></symbol>
+  </defs>
+</svg>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#" aria-label="Cœurs Festifs, accueil"><span class="lm"><img src="../src/assets/logo.png" alt="" width="96" height="96"></span><span>Cœurs Festifs</span></a>
+    <nav aria-label="Principale"><a href="#fetes">Les fêtes</a><a href="#comment">Notre façon</a><a href="#nous">Qui sommes-nous</a><a href="#" lang="en">EN</a><a class="btn" href="#ecrire">Nous écrire</a></nav>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <canvas id="cf" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <div class="txt">
+      <span class="rib">Montréal · Fêtes pour enfants</span>
+      <h1><span>Des moments</span><span>qui prennent</span><span><em>vie.<svg class="spk" aria-hidden="true"><use href="#s"/></svg></em></span></h1>
+      <p class="lead">Nous organisons des fêtes accessibles pour les enfants en situation de vulnérabilité, main dans la main avec les organismes qui les connaissent le mieux.</p>
+      <div class="acts">
+        <a class="btn" href="#fetes">Voir nos fêtes <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4"/></svg></a>
+        <a class="tl" href="#ecrire">Devenir bénévole</a>
+      </div>
+    </div>
+    <div class="art"><img src="../src/assets/logo.png" alt="Logo de Cœurs Festifs : un cœur, deux mains qui se touchent et une banderole" width="848" height="848" fetchpriority="high"></div>
+  </div>
+</section>
+
+<section class="say">
+  <div class="wrap rv">
+    <p>Jusqu'ici, <b>36 bénévoles</b> ont rendu possibles <b>9 fêtes</b> avec <b>12 organismes</b> <span class="mute">partenaires et commanditaires de Montréal.</span></p>
+  </div>
+</section>
+
+<section class="how" id="comment">
+  <svg class="spk" style="--s:40px;right:8%;top:12%" aria-hidden="true"><use href="#s"/></svg>
+  <svg class="spk" style="--s:22px;right:16%;top:22%;--d:1.2s" aria-hidden="true"><use href="#s"/></svg>
+  <div class="wrap">
+    <div class="hd rv"><div><span class="rib c">Notre façon</span><h2>Main dans la main, <em>une fête.</em></h2></div><p>Comme les deux mains de notre logo : chaque fête naît d'une rencontre.</p></div>
+    <ol class="three">
+      <li class="rv"><span class="n">i.</span><h3>L'organisme du quartier</h3><p>Répit Providence, PROMIS, Mountain Sights… Ils connaissent les familles et nous ouvrent leurs portes.</p></li>
+      <li class="rv"><span class="n">ii.</span><h3>Les bénévoles</h3><p>Activités, jeux, décor, accueil : 36 bénévoles préparent chaque détail.</p></li>
+      <li class="rv"><span class="n">iii.</span><h3>Les enfants, au centre</h3><p>Une fête accessible, où chaque enfant est accueilli, célébré et pleinement inclus.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="fetes" id="fetes">
+  <svg class="spk" style="--s:34px;left:6%;top:9%" aria-hidden="true"><use href="#s"/></svg>
+  <svg class="spk" style="--s:18px;left:12%;top:15%;--d:1.4s" aria-hidden="true"><use href="#s"/></svg>
+  <div class="wrap">
+    <div class="hd rv"><div><span class="rib g">Nos fêtes</span><h2>2025, en <em>neuf fêtes.</em></h2></div><p>De la bataille de boules de neige de janvier à la guignolée de décembre.</p></div>
+    <div class="grid" id="grid"></div>
+  </div>
+</section>
+
+<section class="us" id="nous">
+  <div class="wrap">
+    <div class="ph rv">
+      <img src="../src/assets/commonPic.jpg" alt="Les deux co-fondatrices de Cœurs Festifs" width="1074" height="1074" loading="lazy" decoding="async">
+      <svg class="spk" aria-hidden="true"><use href="#s"/></svg><svg class="spk" aria-hidden="true"><use href="#s"/></svg><svg class="spk" aria-hidden="true"><use href="#s"/></svg>
+    </div>
+    <div class="txt rv">
+      <span class="rib">Qui sommes-nous</span>
+      <h2>Deux étudiantes en médecine, <em>une idée simple.</em></h2>
+      <p>Chaque enfant mérite sa journée de fête, et d'y être pleinement inclus. C'est ce qui guide tout ce qu'on organise.</p>
+      <ul class="vals"><li style="--c:var(--coral)">Compassion</li><li style="--c:var(--spark)">Communauté</li><li style="--c:var(--cherry);--t:var(--cream)">Inclusion</li></ul>
+      <a class="tl" href="#">Lire notre histoire</a>
+    </div>
+  </div>
+</section>
+
+<section class="cr" id="complices">
+  <div class="wrap">
+    <div class="hd rv"><div><h2>Avec la complicité de <em>12 organismes.</em></h2></div></div>
+    <div class="cols rv">
+      <div><h3>Partenaires</h3><ul><li>Fondation du Dr Julien</li><li>Répit Providence</li><li>Centre Mountain Sights</li><li>PROMIS</li><li>Maison de la culture CDN</li><li>Carrefour Jeunesse Emploi</li><li>Garage à Musique</li><li>Mini Molars Club</li></ul></div>
+      <div><h3>Commanditaires</h3><ul><li>Scholastic</li><li>Librairie Gallimard</li><li>Les Débrouillards</li><li>Fondation Réno-Jouets</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<section class="end" id="ecrire">
+  <svg class="big" viewBox="0 0 1 1" aria-hidden="true"><path d="M.5 .95C.2 .74 0 .55 0 .31 0 .14 .13 .02 .29 .02c.1 0 .17 .05 .21 .13C.54 .07 .61 .02 .71 .02 .87 .02 1 .14 1 .31 1 .55 .8 .74 .5 .95Z"/></svg>
+  <svg class="spk" style="--s:46px;right:30%;top:16%" aria-hidden="true"><use href="#s"/></svg>
+  <svg class="spk" style="--s:24px;right:24%;top:26%;--d:1s" aria-hidden="true"><use href="#s"/></svg>
+  <div class="wrap rv">
+    <h2>La prochaine fête <em>se prépare.</em></h2>
+    <p>Aucune date n'est annoncée pour l'instant. Suivez-nous pour l'apprendre en premier, ou écrivez-nous pour en organiser une avec votre organisme.</p>
+    <div class="acts"><a class="btn lt" href="#">Suivre sur Instagram</a><a class="tl" href="#">Proposer un partenariat</a></div>
+  </div>
+</section>
+</main>
+<footer><div class="wrap"><span>© Cœurs Festifs · Montréal</span><span><a href="#">Instagram</a> · <a href="#">LinkedIn</a> · <a href="#">Courriel</a></span></div></footer>
+
+<script>
+const EV=[["choco.jpg","11 janv.","ChocoChaud et boules de neige"],["Gcpp.png","10 avr.","Grands cœurs, petits professeurs"],["30yB.png","23 août","Les 30 ans de Répit Providence"],["prismart.png","6 sept.","PRISMART"],["halloween.png","31 oct.","Fête d'Halloween"],["levee.jpg","1er nov.","Levée de fonds"],["foireMetier.png","22 nov.","Foire aux métiers"],["noelParty.jpg","13 déc.","Fête de Noël avec PROMIS"],["guignole.png","13 déc.","Guignolée du Dr Julien"]];
+const M=["var(--blush)","var(--coral)","var(--spark)","var(--cream)","var(--blush)","var(--coral)","var(--spark)","var(--cream)","var(--blush)"];
+document.getElementById('grid').innerHTML=EV.map(([i,d,t],k)=>`<a class="ev rv" href="#"><div class="mat" style="--m:${M[k]}"><img src="../src/assets/${i}" alt="Affiche : ${t}" loading="lazy" decoding="async"></div><div class="meta"><h3>${t}</h3><time>${d} 2025</time></div></a>`).join('');
+
+/* gold confetti drifting down the hero, like the logo's paper */
+const cv=document.getElementById('cf'),cx=cv.getContext('2d');
+if(!matchMedia('(prefers-reduced-motion:reduce)').matches){
+  let W,H,P=[],on=true;
+  const size=()=>{const d=Math.min(devicePixelRatio||1,2),r=cv.getBoundingClientRect();W=r.width;H=r.height;cv.width=W*d;cv.height=H*d;cx.setTransform(d,0,0,d,0,0);
+    P=Array.from({length:Math.round(W*H/26000)},()=>({x:Math.random()*W,y:Math.random()*H,w:5+Math.random()*7,h:3+Math.random()*4,a:Math.random()*6.3,v:.25+Math.random()*.5,s:(Math.random()-.5)*.03,f:Math.random()*6.3,c:Math.random()<.75?'#e2b13a':'#f86668'}))};
+  const tick=()=>{if(on&&!document.hidden){cx.clearRect(0,0,W,H);
+    for(const p of P){p.y+=p.v;p.a+=p.s;p.f+=.05;if(p.y>H+10){p.y=-10;p.x=Math.random()*W}
+      cx.save();cx.translate(p.x+Math.sin(p.f)*6,p.y);cx.rotate(p.a);cx.scale(1,Math.cos(p.f));cx.fillStyle=p.c;cx.globalAlpha=.85;cx.fillRect(-p.w/2,-p.h/2,p.w,p.h);cx.restore()}}
+    requestAnimationFrame(tick)};
+  size();addEventListener('resize',size);tick();
+  new IntersectionObserver(([e])=>on=e.isIntersecting).observe(cv);
+}
+
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

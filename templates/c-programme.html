@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cœurs Festifs — Programme</title>
+<link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@500,800&f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+html,body{background:#0e0c0b;margin:0}
+:root{
+  --bg:#0e0c0b; --card:#f6f1ea; --fg:#f6f1ea; --fg-70:rgba(246,241,234,.7); --fg-45:rgba(246,241,234,.45); --fg-12:rgba(246,241,234,.12);
+  --ink:#141414; --red:#ff4d5a; --ease:cubic-bezier(.22,1,.36,1);
+  --disp:"Cabinet Grotesk",system-ui,sans-serif; --sans:"Satoshi",system-ui,sans-serif; --mono:"JetBrains Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+body{font:400 17px/1.55 var(--sans);color:var(--fg);overflow-x:clip}
+::selection{background:var(--fg);color:var(--bg)}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--fg);outline-offset:3px}
+.wrap{max-width:1240px;margin:0 auto;padding:0 clamp(20px,4vw,48px)}
+.mono{font:500 11px/1.2 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--fg-45)}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.07;z-index:50;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+nav{display:flex;justify-content:space-between;align-items:center;padding:26px 0}
+.mark{display:flex;gap:10px;align-items:center;font:800 18px/1 var(--disp);letter-spacing:-.02em;text-decoration:none}
+.mark svg{width:18px}
+.links{display:flex;gap:28px;font-size:14px;font-weight:500}
+.links a{text-decoration:none;color:var(--fg-70)}.links a:hover{color:var(--fg)}
+.btn{display:inline-flex;align-items:center;gap:10px;background:var(--fg);color:var(--ink);border-radius:999px;padding:12px 22px;text-decoration:none;font-weight:500;font-size:15px;transition:transform .2s}
+.btn:hover{transform:translateY(-2px)}.btn:active{transform:scale(.97)}
+.btn.ghost{background:none;color:var(--fg);box-shadow:inset 0 0 0 1px var(--fg-12)}
+
+/* hero: headline left, invitation ticket right */
+.hero{display:grid;grid-template-columns:1.25fr 1fr;gap:clamp(32px,5vw,80px);align-items:center;min-height:calc(100vh - 90px);min-height:calc(100dvh - 90px);padding-bottom:48px}
+h1{font:800 clamp(44px,5.6vw,92px)/.92 var(--disp);letter-spacing:-.04em;margin:18px 0 28px}
+h1 span{display:block;white-space:nowrap;animation:in 1s var(--ease) both}
+h1 span:nth-child(2){animation-delay:.1s;color:var(--fg-45)}
+h1 span:nth-child(3){animation-delay:.2s}
+.lead{max-width:32rem;color:var(--fg-70);margin:0 0 32px;animation:in 1s .3s var(--ease) both}
+.ctas{display:flex;gap:12px;flex-wrap:wrap;animation:in 1s .4s var(--ease) both}
+
+.ticket{position:relative;background:var(--card);color:var(--ink);border-radius:20px;transform:rotate(2.5deg);animation:tk 1.2s .35s var(--ease) both;box-shadow:0 30px 60px -20px rgba(0,0,0,.6)}
+.ticket .top{padding:28px 28px 22px}
+.ticket .row{display:flex;justify-content:space-between;font:500 11px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:rgba(20,20,20,.5)}
+.ticket .live{color:var(--red);display:flex;gap:8px;align-items:center}
+.ticket .live::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--red)}
+.ticket h2{font:800 clamp(34px,3.4vw,48px)/.95 var(--disp);letter-spacing:-.035em;margin:40px 0 14px}
+.ticket p{margin:0;color:rgba(20,20,20,.65);font-size:15px}
+.perf{position:relative;border-top:2px dashed rgba(20,20,20,.18);margin:0 18px}
+.perf::before,.perf::after{content:"";position:absolute;top:-13px;width:24px;height:24px;border-radius:50%;background:var(--bg)}
+.perf::before{left:-31px}.perf::after{right:-31px}
+.ticket .stub{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px 28px 24px}
+.ticket .stub a{font-weight:700;font-size:15px}
+.barcode{height:34px;width:120px;background:repeating-linear-gradient(90deg,var(--ink) 0 2px,transparent 2px 4px,var(--ink) 4px 5px,transparent 5px 8px,var(--ink) 8px 11px,transparent 11px 13px)}
+
+/* programme: date-led list with cursor poster preview (signature) */
+.prog{padding:clamp(80px,10vw,140px) 0}
+.prog-head{display:flex;justify-content:space-between;align-items:end;margin-bottom:40px;gap:24px}
+.prog h2{font:800 clamp(40px,5vw,72px)/.95 var(--disp);letter-spacing:-.035em;margin:12px 0 0}
+.year{font:800 14px/1 var(--disp);letter-spacing:.02em;color:var(--fg-45);padding:28px 0 12px;border-bottom:1px solid var(--fg-12)}
+.item{display:grid;grid-template-columns:150px 1fr auto;gap:24px;align-items:center;padding:22px 0;border-bottom:1px solid var(--fg-12);text-decoration:none;transition:padding .35s var(--ease),color .2s}
+.item .d{font:800 clamp(28px,3vw,40px)/1 var(--disp);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.item .d small{display:block;font:500 11px/1 var(--mono);letter-spacing:.18em;color:var(--fg-45);margin-top:6px;text-transform:uppercase}
+.item h3{font:500 clamp(20px,2.2vw,30px)/1.15 var(--disp);letter-spacing:-.02em;margin:0}
+.item .tag{font:500 11px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--fg-45);border:1px solid var(--fg-12);border-radius:999px;padding:8px 12px}
+.item .thumb{display:none}
+.list:hover .item{color:var(--fg-45)}
+.list .item:hover{color:var(--fg);padding-left:16px}
+.peek{position:fixed;left:0;top:0;width:240px;aspect-ratio:3/4;border-radius:12px;overflow:hidden;pointer-events:none;z-index:20;opacity:0;transform:translate(-50%,-50%) scale(.85) rotate(-4deg);transition:opacity .25s,transform .35s var(--ease)}
+.peek.on{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(-4deg)}
+.peek img{width:100%;height:100%;object-fit:cover}
+
+/* numbers + founders */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,80px);padding-bottom:clamp(80px,10vw,140px);align-items:center}
+.split img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:20px;filter:saturate(.9)}
+.split h2{font:800 clamp(36px,4.4vw,64px)/.95 var(--disp);letter-spacing:-.035em;margin:14px 0 20px}
+.split p{color:var(--fg-70);max-width:30rem}
+.nums{display:grid;grid-template-columns:repeat(3,1fr);margin-top:40px;border-top:1px solid var(--fg-12)}
+.nums div{padding-top:20px}
+.nums b{display:block;font:800 clamp(56px,6vw,96px)/.9 var(--disp);letter-spacing:-.05em}
+.nums span{font-size:14px;color:var(--fg-45)}
+
+.orgs{border-top:1px solid var(--fg-12);padding:48px 0;display:grid;grid-template-columns:200px 1fr;gap:24px}
+.orgs ul{list-style:none;margin:0;padding:0;columns:3;column-gap:32px;color:var(--fg-70);font-size:15px;line-height:2}
+footer{border-top:1px solid var(--fg-12);padding:32px 0 40px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:14px;color:var(--fg-45)}
+
+@keyframes in{from{opacity:0;transform:translateY(24px)}}
+@keyframes tk{from{opacity:0;transform:translateY(60px) rotate(9deg)}}
+@media (max-width:900px){
+  .links{display:none}
+  .hero,.split{grid-template-columns:1fr}
+  .ticket{transform:none;margin-top:16px}
+  .item{grid-template-columns:72px 1fr}
+  .item .tag{display:none}
+  .item .thumb{display:block;grid-column:1/-1;width:120px;aspect-ratio:3/4;border-radius:8px;object-fit:cover}
+  .orgs{grid-template-columns:1fr}.orgs ul{columns:2}
+  .peek{display:none}
+}
+@media (hover:none){.peek{display:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav aria-label="Principale">
+  <a class="mark" href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#ff4d5a" d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.1 4.3 2.6.7-1.5 2.2-2.6 4.3-2.6 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z"/></svg>Cœurs Festifs</a>
+  <div class="links"><a href="#programme">Programme</a><a href="#nous">Qui on est</a><a href="#orgs">Partenaires</a><a href="#">FR / EN</a></div>
+  <a class="btn ghost" href="#ecrire">Nous écrire</a>
+</nav>
+
+<header class="hero">
+  <div>
+    <span class="mono">Montréal · projet communautaire</span>
+    <h1><span>Des fêtes</span><span>pour les enfants</span><span>qui en ont besoin.</span></h1>
+    <p class="lead">Fondé par deux étudiantes en médecine, Cœurs Festifs organise avec les organismes du quartier des journées accessibles, joyeuses et pleinement inclusives.</p>
+    <div class="ctas"><a class="btn" href="#programme">Voir le programme →</a><a class="btn ghost" href="#nous">Notre histoire</a></div>
+  </div>
+  <aside class="ticket" aria-label="Prochain événement">
+    <div class="top">
+      <div class="row"><span>Invitation</span><span class="live">Prochaine fête</span></div>
+      <h2>La prochaine fête se prépare.</h2>
+      <p>Aucune date annoncée pour l'instant. Suivez-nous pour recevoir l'invitation en premier.</p>
+    </div>
+    <div class="perf"></div>
+    <div class="stub"><a href="https://www.instagram.com/" rel="noopener">Suivre sur Instagram ↗</a><span class="barcode" aria-hidden="true"></span></div>
+  </aside>
+</header>
+
+<section class="prog" id="programme">
+  <div class="prog-head"><div><span class="mono">Le programme</span><h2>Tout ce qu'on a<br>célébré ensemble.</h2></div><span class="mono">09 fêtes</span></div>
+  <div class="year">2025</div>
+  <div class="list" id="list"></div>
+</section>
+
+<section class="split" id="nous">
+  <img src="../src/assets/commonPic.jpg" alt="Les deux co-fondatrices de Cœurs Festifs">
+  <div>
+    <span class="mono">Qui on est</span>
+    <h2>Deux étudiantes,<br>une idée simple.</h2>
+    <p>Chaque enfant mérite de sourire et d'être pleinement inclus. Compassion, communauté, inclusion : c'est ce qui guide chaque fête.</p>
+    <div class="nums"><div><b>36</b><span>bénévoles</span></div><div><b>09</b><span>événements</span></div><div><b>08</b><span>partenaires</span></div></div>
+  </div>
+</section>
+
+<section class="orgs" id="orgs">
+  <span class="mono">Avec qui on travaille</span>
+  <ul><li>Fondation du Dr Julien</li><li>Répit Providence</li><li>Centre Mountain Sights</li><li>PROMIS</li><li>Maison de la culture CDN</li><li>Carrefour Jeunesse Emploi</li><li>Garage à Musique</li><li>Mini Molars Club</li><li>Scholastic</li><li>Librairie Gallimard</li><li>Les Débrouillards</li><li>Fondation Réno-Jouets</li></ul>
+</section>
+
+<footer id="ecrire"><span>© Cœurs Festifs · Montréal</span><span><a href="#">Instagram</a> · <a href="#">LinkedIn</a> · <a href="#">Courriel</a></span></footer>
+</div>
+<div class="peek" id="peek" aria-hidden="true"><img alt=""></div>
+
+<script>
+const EV=[["guignole.png","13","déc.","Guignolée du Dr Julien avec le Garage à Musique","Collecte"],["noelParty.jpg","13","déc.","Fête de Noël avec Promis","Fête"],["foireMetier.png","22","nov.","Foire aux métiers","Atelier"],["levee.jpg","01","nov.","Levée de fonds","Collecte"],["halloween.png","31","oct.","Fête d'Halloween","Fête"],["prismart.png","06","sept.","PRISMART","Festival"],["30yB.png","23","août","Pique-nique des 30 ans de Répit Providence","Fête"],["Gcpp.png","10","avr.","Grands cœurs, petits professeurs","Atelier"],["choco.jpg","11","janv.","ChocoChaud et boules de neige","Fête"]];
+const list=document.getElementById('list');
+list.innerHTML=EV.map(([i,d,m,t,k])=>`<a class="item" href="#" data-img="../src/assets/${i}"><span class="d">${d}<small>${m} 2025</small></span><h3>${t}</h3><span class="tag">${k}</span><img class="thumb" src="../src/assets/${i}" alt="Affiche : ${t}" loading="lazy"></a>`).join('');
+
+// cursor-following poster preview (pointer devices only)
+const peek=document.getElementById('peek'),pimg=peek.querySelector('img');
+EV.forEach(([i])=>{new Image().src='../src/assets/'+i});
+let x=0,y=0,tx=0,ty=0,on=false;
+list.addEventListener('pointerover',e=>{const it=e.target.closest('.item');if(!it)return;pimg.src=it.dataset.img;peek.classList.add('on');on=true});
+list.addEventListener('pointerleave',()=>{peek.classList.remove('on');on=false});
+addEventListener('pointermove',e=>{tx=e.clientX+150;ty=e.clientY});
+(function loop(){x+=(tx-x)*.18;y+=(ty-y)*.18;peek.style.left=x+'px';peek.style.top=y+'px';requestAnimationFrame(loop)})();
+</script>
+</body>
+</html>

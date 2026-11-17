@@ -24,7 +24,7 @@ const Frame = styled.div`
   position: relative;
   aspect-ratio: 3 / 4;
   border-radius: var(--r-card);
-  background: #f4f4f4;
+  background: #fff;
   box-shadow: var(--sh-card);
   transition: transform 300ms var(--ease-out);
 

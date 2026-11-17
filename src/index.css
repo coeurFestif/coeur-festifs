@@ -1,32 +1,38 @@
-/* Fonts loaded via <link> in index.html (Fontshare) */
+/* Fonts loaded via <link> in public/index.html (Google Fonts) */
 
 /* ─────────────────────────────────────────────
-   Design tokens — see docs/DESIGN.md (Partiful-anchored direction)
+   Design tokens — "Crayon" direction, colours taken from the logo
 ───────────────────────────────────────────── */
 :root {
-  /* Ink & neutrals: black/white is the whole action system */
-  --c-ink:      #141414;
-  --c-graphite: #333333;
-  --c-slate:    #5c5c5c;
-  --c-ash:      #8f8f8f;
-  --c-silver:   #d6d6d6;
-  --c-hair:     #ececec;
-  --c-white:    #ffffff;
+  /* Brand */
+  --c-paper:  #fff5ef;
+  --c-blush:  #fde4e1;
+  --c-coral:  #f86668;
+  --c-cherry: #c81e2b;
+  --c-wine:   #5e0b1c;
+  --c-gold:   #f2b92f;
 
-  /* Brand red: logo heart + "upcoming" status only, never a button fill */
-  --c-primary:  #e63946;
+  /* Ink & neutrals (warm, derived from the wine) */
+  --c-ink:      #2b1a24;
+  --c-graphite: #4a3540;
+  --c-slate:    #6e5a63;
+  --c-ash:      #9a8790;
+  --c-silver:   #e3cfca;
+  --c-hair:     #f0ddd7;
+  --c-white:    #fffaf5;
 
-  /* Section wash (brand coral fading to white) + hero photo tint */
-  --wash-coral: linear-gradient(180deg, #fff1ee 0%, #ffffff 100%);
-  --tint-hero:  linear-gradient(90deg, rgba(20,20,20,.72) 0%, rgba(230,57,70,.28) 60%, rgba(255,154,158,.12) 100%);
+  --c-primary:  var(--c-cherry);
 
-  /* Status semantics (pills only) */
-  --c-status-upcoming: #e63946;
-  --c-status-past:     #8f8f8f;
+  --wash-coral: var(--c-blush);
+  --tint-hero:  linear-gradient(90deg, rgba(94,11,28,.78) 0%, rgba(200,30,43,.3) 60%, rgba(248,102,104,.12) 100%);
+
+  --c-status-upcoming: var(--c-cherry);
+  --c-status-past:     var(--c-ash);
 
   /* Typography */
-  --f-display: 'Cabinet Grotesk', 'Satoshi', system-ui, sans-serif;
-  --f-body:    'Satoshi', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --f-display: 'Bricolage Grotesque', system-ui, sans-serif;
+  --f-body:    'Bricolage Grotesque', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --f-hand:    'Caveat Brush', 'Comic Sans MS', cursive;
 
   /* Spacing */
   --sp-1: 4px;  --sp-2: 8px;   --sp-3: 12px;  --sp-4: 16px;
@@ -38,17 +44,16 @@
   --nav-h: 68px;
 
   /* Radii: per element type */
-  --r-btn:   8px;
-  --r-input: 8px;
-  --r-card:  12px;
-  --r-modal: 16px;
+  --r-btn:   14px;
+  --r-input: 10px;
+  --r-card:  14px;
+  --r-modal: 20px;
   --r-pill:  960px;
 
-  /* Elevation: cards only, never full-width sections */
-  --sh-card:  0 0 6px rgba(0,0,0,.10);
-  --sh-float: 0 0 20px rgba(0,0,0,.10);
-  --sh-event: 0 0.8px 2.4px -0.6px rgba(0,0,0,.05), 0 2.4px 7.2px -1.25px rgba(0,0,0,.05),
-              0 6.4px 19.1px -1.875px rgba(0,0,0,.05), 0 20px 60px -2.5px rgba(0,0,0,.05);
+  /* Elevation: "sticker" look, a 2px ink outline plus an offset shadow */
+  --sh-card:  0 0 0 2px var(--c-ink), 4px 4px 0 var(--c-ink);
+  --sh-float: 0 22px 40px -18px rgba(94,11,28,.45);
+  --sh-event: 0 0 0 2px var(--c-ink), 6px 6px 0 var(--c-coral);
 
   /* Motion */
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
@@ -77,13 +82,43 @@ body {
   line-height: 1.5;
   letter-spacing: -0.01em;
   color: var(--c-ink);
-  background: var(--c-white);
+  background: var(--c-paper);
+  font-optical-sizing: auto;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
 
 h1, h2, h3 { text-wrap: balance; }
+
+/* paper grain over everything, static and cheap */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 400;
+  opacity: .35;
+  mix-blend-mode: multiply;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .55 0 0 0 0 .4 0 0 0 0 .38 0 0 0 .35 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+::selection { background: var(--c-gold); color: var(--c-ink); }
+.hand { font-family: var(--f-hand); font-weight: 400; letter-spacing: .01em; line-height: 1.05; }
+
+/* ─────────────────────────────────────────────
+   Crayon kit (see components/Crayon.tsx)
+───────────────────────────────────────────── */
+.dd { position: absolute; overflow: visible; pointer-events: none; }
+.dd path { fill: none; stroke-linecap: round; stroke-linejoin: round; filter: url(#crayon); }
+.ln path, .fz path { stroke-dasharray: 1; stroke-dashoffset: 1; }
+.fz path { filter: url(#wax); }
+.go .ln path, .go.ln path { animation: cr-draw var(--d, .9s) var(--w, 0s) cubic-bezier(.6,0,.3,1) forwards; }
+.go .fz path, .go.fz path { animation: cr-draw var(--d, 1.6s) var(--w, 0s) cubic-bezier(.45,0,.35,1) forwards; }
+@keyframes cr-draw { to { stroke-dashoffset: 0; } }
+.hl { position: relative; display: inline-block; white-space: nowrap; z-index: 0; }
+.hl > svg { position: absolute; left: -5%; width: 110%; top: 42%; height: 62%; z-index: -1; }
+.rv { opacity: 0; translate: 0 24px; transition: opacity .8s cubic-bezier(.22,1,.36,1), translate .8s cubic-bezier(.22,1,.36,1); }
+.rv.go { opacity: 1; translate: 0 0; }
 p { text-wrap: pretty; }
 
 img, video { max-width: 100%; display: block; }
@@ -108,7 +143,7 @@ button { font-family: var(--f-body); cursor: pointer; }
 a { color: inherit; }
 
 :focus-visible {
-  outline: 2px solid var(--c-ink);
+  outline: 3px solid var(--c-cherry);
   outline-offset: 3px;
   border-radius: 4px;
 }
@@ -119,4 +154,6 @@ a { color: inherit; }
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
+  .ln path, .fz path { stroke-dashoffset: 0; animation: none !important; }
+  .rv { opacity: 1; translate: none; }
 }

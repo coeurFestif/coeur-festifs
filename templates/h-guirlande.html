@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cœurs Festifs — Guirlande</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,400..800,100;1,9..144,400..700,100&family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+html,body{background:#11132b;margin:0}
+:root{--night:#11132b;--night-2:#191c3a;--cream:#f7efe1;--cream-60:rgba(247,239,225,.62);--cream-35:rgba(247,239,225,.35);--hair:rgba(247,239,225,.12);
+  --glow:#ffcf73;--glow-2:#ff8f5a;--rose:#ff6f7d;
+  --serif:"Fraunces",Georgia,serif;--sans:"Geist",system-ui,sans-serif;--ease:cubic-bezier(.22,1,.36,1);--gut:clamp(20px,4vw,56px)}
+*{box-sizing:border-box}
+body{font:400 17px/1.6 var(--sans);color:var(--cream);overflow-x:clip}
+::selection{background:var(--glow);color:var(--night)}
+a{color:inherit}
+img{display:block;width:100%;height:auto}
+:focus-visible{outline:2px solid var(--glow);outline-offset:3px}
+.wrap{max-width:1240px;margin:0 auto;padding:0 var(--gut)}
+.meta{font:500 12px/1.3 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--cream-35)}
+
+header.top{display:flex;justify-content:space-between;align-items:center;padding:22px var(--gut);position:relative;z-index:3;font-size:14px}
+.logo{display:flex;gap:9px;align-items:center;font:600 18px/1 var(--serif);text-decoration:none}
+.logo svg{width:18px}
+.top nav{display:flex;gap:26px}.top nav a{text-decoration:none;color:var(--cream-60)}.top nav a:hover{color:var(--cream)}
+
+/* the string of lights */
+.string{position:relative;height:clamp(120px,16vw,200px);margin-top:-10px}
+.string svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.string path{fill:none;stroke:rgba(247,239,225,.28);stroke-width:1.5;vector-effect:non-scaling-stroke}
+.bulb{position:absolute;width:14px;height:20px;margin:-2px 0 0 -7px;transform-origin:50% 0;transform:rotate(var(--sw,0deg))}
+.bulb::before{content:"";position:absolute;left:4px;top:0;width:6px;height:5px;background:#3a3d5c;border-radius:1px}
+.bulb i{position:absolute;left:0;top:4px;width:14px;height:16px;border-radius:50% 50% 50% 50%/45% 45% 55% 55%;background:#3b3f63;transition:background .4s}
+.bulb i::after{content:"";position:absolute;left:50%;top:50%;width:90px;height:90px;margin:-45px 0 0 -45px;border-radius:50%;background:radial-gradient(closest-side,rgba(255,207,115,.45),rgba(255,207,115,0));opacity:0;transition:opacity .5s;pointer-events:none}
+.on i{background:var(--c,var(--glow))}
+.on i::after{opacity:1}
+
+/* hero */
+.hero{text-align:center;padding:clamp(20px,5vh,56px) 0 clamp(72px,10vh,120px)}
+h1{font:600 clamp(54px,8.6vw,144px)/.92 var(--serif);font-variation-settings:"SOFT" 100,"opsz" 144;letter-spacing:-.035em;margin:0 auto 28px;max-width:11em}
+h1 em{font-style:italic;font-weight:500;color:var(--glow);text-shadow:0 0 .35em rgba(255,207,115,.45);transition:text-shadow .6s}
+.lead{max-width:34rem;margin:0 auto 34px;color:var(--cream-60);font-size:18px}
+.acts{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:10px;background:var(--cream);color:var(--night);padding:14px 24px;border-radius:999px;font-weight:600;font-size:15px;text-decoration:none;transition:background .2s,box-shadow .3s}
+.btn:hover{background:var(--glow);box-shadow:0 0 28px rgba(255,207,115,.45)}
+.tl{font-weight:500;text-underline-offset:5px;color:var(--cream-60)}.tl:hover{color:var(--cream)}
+
+/* timeline: the wire runs down, one bulb per moment, it lights when you reach it */
+.year{padding:clamp(64px,8vw,112px) 0;border-top:1px solid var(--hair)}
+.year-head{text-align:center;margin-bottom:clamp(40px,6vw,80px)}
+.year h2,.us h2,.end h2{font:600 clamp(40px,5vw,76px)/.95 var(--serif);font-variation-settings:"SOFT" 100;letter-spacing:-.03em;margin:12px 0 0}
+.line{position:relative}
+.line::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:1.5px;background:rgba(247,239,225,.2);margin-left:-.75px}
+.ev{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,8vw,120px);align-items:center;padding:clamp(24px,4vw,48px) 0}
+.ev .bulb{left:50%;top:50%;margin:-10px 0 0 -7px}
+.ev figure{margin:0;justify-self:end;width:min(100%,400px);filter:brightness(.38) saturate(.4);transition:filter 1s var(--ease),transform 1s var(--ease);transform:translateY(16px)}
+.ev .txt{justify-self:start;max-width:22rem;opacity:.35;transition:opacity 1s}
+.ev:nth-child(even) figure{order:2;justify-self:start}
+.ev:nth-child(even) .txt{justify-self:end;text-align:right}
+.ev.on figure{filter:none;transform:none}
+.ev.on .txt{opacity:1}
+.ev img{border-radius:6px;box-shadow:0 30px 60px -28px rgba(255,170,90,.55)}
+.ev time{font:500 13px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--glow)}
+.ev h3{font:600 clamp(26px,2.6vw,38px)/1.05 var(--serif);font-variation-settings:"SOFT" 100;margin:12px 0 8px;letter-spacing:-.02em}
+.ev p{color:var(--cream-60);margin:0;font-size:15px}
+
+/* us */
+.us{display:grid;grid-template-columns:5fr 6fr;gap:clamp(32px,6vw,90px);align-items:center;padding:clamp(80px,10vw,140px) 0;border-top:1px solid var(--hair)}
+.us img{border-radius:8px;aspect-ratio:1;object-fit:cover}
+.us p{color:var(--cream-60);max-width:32rem;margin:20px 0 0}
+.nums{display:flex;gap:40px;margin-top:30px;padding-top:22px;border-top:1px solid var(--hair)}
+.nums b{display:block;font:600 60px/.9 var(--serif);font-variation-settings:"SOFT" 100;color:var(--glow)}
+.nums span{font-size:13px;color:var(--cream-60)}
+
+.credits{text-align:center;padding:clamp(64px,8vw,104px) 0;border-top:1px solid var(--hair)}
+.credits p{font:400 italic clamp(22px,2.4vw,32px)/1.6 var(--serif);max-width:44rem;margin:20px auto 0;color:var(--cream-60)}
+.credits p span{color:var(--cream);font-style:normal}
+
+/* end: one bulb, still off — the next moment is being prepared */
+.end{text-align:center;padding:clamp(80px,11vw,150px) 0;border-top:1px solid var(--hair);position:relative}
+.end .wire{width:1.5px;height:90px;background:rgba(247,239,225,.25);margin:0 auto}
+.end .bulb{position:relative;display:block;margin:0 auto 34px;width:28px;height:40px;transform:none}
+.end .bulb::before{left:8px;width:12px;height:10px}
+.end .bulb i{top:8px;width:28px;height:32px}
+.end .bulb i::after{width:220px;height:220px;margin:-110px 0 0 -110px}
+.end p{max-width:32rem;margin:20px auto 32px;color:var(--cream-60)}
+footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:24px var(--gut);font-size:13px;color:var(--cream-35);border-top:1px solid var(--hair)}
+
+@media (max-width:860px){
+  .top nav{display:none}
+  .line::before{left:14px}
+  .ev,.ev:nth-child(even){grid-template-columns:1fr;gap:18px;padding-left:44px}
+  .ev .bulb{left:14px;top:30px}
+  .ev figure,.ev:nth-child(even) figure{order:0;justify-self:start;width:min(100%,320px)}
+  .ev .txt,.ev:nth-child(even) .txt{justify-self:start;text-align:left}
+  .us{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="logo" href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#ff6f7d" d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.1 4.3 2.6.7-1.5 2.2-2.6 4.3-2.6 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z"/></svg>Cœurs Festifs</a>
+  <nav aria-label="Principale"><a href="#annee">Les fêtes</a><a href="#nous">Notre histoire</a><a href="#complices">Partenaires</a><a href="#ecrire">Nous écrire</a><a href="#" lang="en">EN</a></nav>
+</header>
+
+<div class="string" id="string" aria-hidden="true"><svg viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M-2 8Q50 92 102 8"/></svg></div>
+
+<main>
+<section class="wrap hero">
+  <p class="meta">Cœurs Festifs · Montréal</p>
+  <h1>Des moments qui prennent <em>vie.</em></h1>
+  <p class="lead">Des fêtes accessibles pour les enfants en situation de vulnérabilité, organisées avec les organismes de leur quartier par deux étudiantes en médecine et 36 bénévoles.</p>
+  <div class="acts"><a class="btn" href="#annee">Voir les fêtes</a><a class="tl" href="#ecrire">Proposer un partenariat</a></div>
+</section>
+
+<section class="year" id="annee">
+  <div class="wrap">
+    <div class="year-head"><p class="meta">2025</p><h2>Une année, neuf lumières.</h2></div>
+    <div class="line" id="line"></div>
+  </div>
+</section>
+
+<section class="wrap us" id="nous">
+  <img src="../src/assets/commonPic.jpg" alt="Les deux co-fondatrices de Cœurs Festifs" width="1074" height="1074" loading="lazy" decoding="async">
+  <div>
+    <p class="meta">Notre histoire</p>
+    <h2>Deux étudiantes, une idée simple.</h2>
+    <p>Chaque enfant mérite sa journée de fête, et d'y être pleinement inclus. Compassion, communauté, inclusion : c'est ce qui guide tout ce qu'on organise.</p>
+    <div class="nums"><div><b>36</b><span>bénévoles</span></div><div><b>9</b><span>fêtes</span></div><div><b>12</b><span>organismes</span></div></div>
+  </div>
+</section>
+
+<section class="wrap credits" id="complices">
+  <p class="meta" style="font-style:normal">Avec la complicité de</p>
+  <p><span>Fondation du Dr Julien</span>, <span>Répit Providence</span>, <span>Centre Mountain Sights</span>, <span>PROMIS</span>, <span>Maison de la culture CDN</span>, <span>Carrefour Jeunesse Emploi</span>, <span>Garage à Musique</span>, <span>Mini Molars Club</span>, et de nos commanditaires <span>Scholastic</span>, <span>Librairie Gallimard</span>, <span>Les Débrouillards</span> et <span>Fondation Réno-Jouets</span>.</p>
+</section>
+
+<section class="end" id="ecrire">
+  <div class="wire" aria-hidden="true"></div>
+  <span class="bulb" id="lastBulb" aria-hidden="true"><i></i></span>
+  <div class="wrap">
+    <h2>Le prochain moment se prépare.</h2>
+    <p>Aucune date n'est annoncée pour l'instant. Suivez-nous : cette lumière s'allumera avec la prochaine fête.</p>
+    <div class="acts"><a class="btn" href="#">Suivre sur Instagram</a><a class="tl" href="#">Proposer un partenariat</a></div>
+  </div>
+</section>
+</main>
+<footer><span>© Cœurs Festifs · Montréal</span><span><a href="#">Instagram</a> · <a href="#">LinkedIn</a> · <a href="#">Courriel</a></span></footer>
+
+<script>
+const calm=matchMedia('(prefers-reduced-motion:reduce)').matches;
+const C=["#ffcf73","#ff8f5a","#ff6f7d","#9fd3ff","#b6f0a8"];
+
+// hero string: bulbs on the same curve as the wire (quadratic, control point at the middle)
+const s=document.getElementById('string'),N=innerWidth<700?11:21;
+for(let k=0;k<N;k++){const t=(k+.5)/N,x=-2+104*t,y=8+168*t*(1-t);
+  const b=document.createElement('span');b.className='bulb';b.style.left=x+'%';b.style.top=y+'%';
+  b.style.setProperty('--c',C[k%C.length]);b.style.setProperty('--sw',((t-.5)*-28)+'deg');b.innerHTML='<i></i>';s.appendChild(b);
+  setTimeout(()=>b.classList.add('on'),calm?0:300+k*90);}
+
+// the year
+const EV=[
+ {i:"choco.jpg",d:"11 janvier",t:"ChocoChaud et boules de neige",l:"Chez Répit Providence, rue Dézéry."},
+ {i:"Gcpp.png",d:"10 avril",t:"Grands cœurs, petits professeurs",l:""},
+ {i:"30yB.png",d:"23 août",t:"Les 30 ans de Répit Providence",l:"Le pique-nique annuel de l'organisme."},
+ {i:"prismart.png",d:"6 septembre",t:"PRISMART",l:"Au parc Martin-Luther-King."},
+ {i:"halloween.png",d:"31 octobre",t:"Fête d'Halloween",l:"Au Centre communautaire Mountain Sights."},
+ {i:"levee.jpg",d:"1er novembre",t:"Levée de fonds",l:"Plus de 25 jouets achetés pour une mission en Côte d'Ivoire."},
+ {i:"foireMetier.png",d:"22 novembre",t:"Foire aux métiers",l:"Médecine, ingénierie, architecture : on rêve en grand."},
+ {i:"noelParty.jpg",d:"13 décembre",t:"Fête de Noël avec Promis",l:"La fête de fin d'année."},
+ {i:"guignole.png",d:"13 décembre",t:"Guignolée du Dr Julien",l:"Avec le Garage à Musique."}
+];
+document.getElementById('line').innerHTML=EV.map((e,k)=>`<article class="ev"><span class="bulb" style="--c:${C[k%C.length]}" aria-hidden="true"><i></i></span><figure><img src="../src/assets/${e.i}" alt="Affiche : ${e.t}" loading="lazy" decoding="async"></figure><div class="txt"><time>${e.d} 2025</time><h3>${e.t}</h3>${e.l?`<p>${e.l}</p>`:''}</div></article>`).join('');
+const evs=document.querySelectorAll('.ev');
+if(calm)evs.forEach(e=>{e.classList.add('on');e.querySelector('.bulb').classList.add('on')});
+else{const io=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){x.target.classList.add('on');x.target.querySelector('.bulb').classList.add('on');io.unobserve(x.target)}}),{rootMargin:'0px 0px -35% 0px'});evs.forEach(e=>io.observe(e));}
+</script>
+</body>
+</html>
